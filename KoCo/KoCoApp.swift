@@ -11,7 +11,8 @@ import SwiftUI
 struct KoCoApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+//            ContentView()
+            MapView()
         }
     }
 }

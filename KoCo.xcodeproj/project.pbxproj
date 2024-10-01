@@ -11,6 +11,8 @@
 		7D1AEFCC2C9F146000DD05FC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1AEFCB2C9F146000DD05FC /* ContentView.swift */; };
 		7D1AEFCE2C9F146200DD05FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D1AEFCD2C9F146200DD05FC /* Assets.xcassets */; };
 		7D1AEFD12C9F146200DD05FC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D1AEFD02C9F146200DD05FC /* Preview Assets.xcassets */; };
+		7DBBAA922CA2F5E5009171D2 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAA912CA2F5E5009171D2 /* MapView.swift */; };
+		7DBBAA942CAC0FDE009171D2 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAA932CAC0FDE009171D2 /* LocationManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +21,8 @@
 		7D1AEFCB2C9F146000DD05FC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7D1AEFCD2C9F146200DD05FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7D1AEFD02C9F146200DD05FC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		7DBBAA912CA2F5E5009171D2 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		7DBBAA932CAC0FDE009171D2 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +55,7 @@
 		7D1AEFC82C9F146000DD05FC /* KoCo */ = {
 			isa = PBXGroup;
 			children = (
+				7DBBAA8F2CA2F5A6009171D2 /* Presentation */,
 				7D1AEFC92C9F146000DD05FC /* KoCoApp.swift */,
 				7D1AEFCB2C9F146000DD05FC /* ContentView.swift */,
 				7D1AEFCD2C9F146200DD05FC /* Assets.xcassets */,
@@ -65,6 +70,23 @@
 				7D1AEFD02C9F146200DD05FC /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		7DBBAA8F2CA2F5A6009171D2 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				7DBBAA902CA2F5BD009171D2 /* Map */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		7DBBAA902CA2F5BD009171D2 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				7DBBAA912CA2F5E5009171D2 /* MapView.swift */,
+				7DBBAA932CAC0FDE009171D2 /* LocationManager.swift */,
+			);
+			path = Map;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,7 +159,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7DBBAA942CAC0FDE009171D2 /* LocationManager.swift in Sources */,
 				7D1AEFCC2C9F146000DD05FC /* ContentView.swift in Sources */,
+				7DBBAA922CA2F5E5009171D2 /* MapView.swift in Sources */,
 				7D1AEFCA2C9F146000DD05FC /* KoCoApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -275,11 +299,13 @@
 				DEVELOPMENT_TEAM = 5B4DDA3JD6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "주변의 화장품 매장을 찾기 위해 현재 위치에 접근을 허용해주세요.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -304,11 +330,13 @@
 				DEVELOPMENT_TEAM = 5B4DDA3JD6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "주변의 화장품 매장을 찾기 위해 현재 위치에 접근을 허용해주세요.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
