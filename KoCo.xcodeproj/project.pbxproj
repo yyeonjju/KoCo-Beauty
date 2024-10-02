@@ -22,6 +22,14 @@
 		7DBBAAA42CACCA96009171D2 /* APIURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAAA32CACCA96009171D2 /* APIURL.swift */; };
 		7DBBAAA62CACCAB7009171D2 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAAA52CACCAB6009171D2 /* APIKey.swift */; };
 		7DBBAAAA2CAD364B009171D2 /* SearchLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAAA92CAD364B009171D2 /* SearchLocation.swift */; };
+		7DBBAAAD2CAD474C009171D2 /* KakaoMapsSDK-SPM in Frameworks */ = {isa = PBXBuildFile; productRef = 7DBBAAAC2CAD474C009171D2 /* KakaoMapsSDK-SPM */; };
+		7DBBAAB02CAD6047009171D2 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAAAF2CAD6046009171D2 /* ViewModelType.swift */; };
+		7DBBAAB22CAD609D009171D2 /* KakaoMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAAB12CAD609D009171D2 /* KakaoMapView.swift */; };
+		7DBBAAB52CAD6100009171D2 /* NameSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAAB42CAD6100009171D2 /* NameSpace.swift */; };
+		7DBBAAB72CAD6143009171D2 /* KakaoMapCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAAB62CAD6143009171D2 /* KakaoMapCoordinator.swift */; };
+		7DBBAABB2CAD6258009171D2 /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAABA2CAD6258009171D2 /* BottomSheetView.swift */; };
+		7DBBAABE2CAD62BA009171D2 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7DBBAABD2CAD62BA009171D2 /* Colors.xcassets */; };
+		7DBBAAC12CAD63F6009171D2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAAC02CAD63F6009171D2 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +48,13 @@
 		7DBBAAA32CACCA96009171D2 /* APIURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIURL.swift; sourceTree = "<group>"; };
 		7DBBAAA52CACCAB6009171D2 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		7DBBAAA92CAD364B009171D2 /* SearchLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLocation.swift; sourceTree = "<group>"; };
+		7DBBAAAF2CAD6046009171D2 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
+		7DBBAAB12CAD609D009171D2 /* KakaoMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoMapView.swift; sourceTree = "<group>"; };
+		7DBBAAB42CAD6100009171D2 /* NameSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameSpace.swift; sourceTree = "<group>"; };
+		7DBBAAB62CAD6143009171D2 /* KakaoMapCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoMapCoordinator.swift; sourceTree = "<group>"; };
+		7DBBAABA2CAD6258009171D2 /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
+		7DBBAABD2CAD62BA009171D2 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		7DBBAAC02CAD63F6009171D2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +63,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7DBBAA9E2CACC9E2009171D2 /* Alamofire in Frameworks */,
+				7DBBAAAD2CAD474C009171D2 /* KakaoMapsSDK-SPM in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,12 +90,16 @@
 		7D1AEFC82C9F146000DD05FC /* KoCo */ = {
 			isa = PBXGroup;
 			children = (
+				7DBBAABF2CAD63E6009171D2 /* SupportingFiles */,
+				7DBBAABC2CAD6292009171D2 /* Assets */,
+				7DBBAAB82CAD623E009171D2 /* CustomView */,
+				7DBBAAB32CAD60F3009171D2 /* Common */,
+				7DBBAAAE2CAD6036009171D2 /* Protocols */,
 				7DBBAAA72CAD35A8009171D2 /* Models */,
 				7DBBAA972CACC951009171D2 /* Networking */,
 				7DBBAA8F2CA2F5A6009171D2 /* Presentation */,
 				7D1AEFC92C9F146000DD05FC /* KoCoApp.swift */,
 				7D1AEFCB2C9F146000DD05FC /* ContentView.swift */,
-				7D1AEFCD2C9F146200DD05FC /* Assets.xcassets */,
 				7D1AEFCF2C9F146200DD05FC /* Preview Content */,
 			);
 			path = KoCo;
@@ -107,6 +127,8 @@
 				7DBBAA912CA2F5E5009171D2 /* MapView.swift */,
 				7DBBAA932CAC0FDE009171D2 /* LocationManager.swift */,
 				7DBBAA952CAC15A9009171D2 /* MapViewModel.swift */,
+				7DBBAAB12CAD609D009171D2 /* KakaoMapView.swift */,
+				7DBBAAB62CAD6143009171D2 /* KakaoMapCoordinator.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -139,6 +161,55 @@
 			path = Location;
 			sourceTree = "<group>";
 		};
+		7DBBAAAE2CAD6036009171D2 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				7DBBAAAF2CAD6046009171D2 /* ViewModelType.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		7DBBAAB32CAD60F3009171D2 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				7DBBAAB42CAD6100009171D2 /* NameSpace.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		7DBBAAB82CAD623E009171D2 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				7DBBAAB92CAD624C009171D2 /* BottomSheet */,
+			);
+			path = CustomView;
+			sourceTree = "<group>";
+		};
+		7DBBAAB92CAD624C009171D2 /* BottomSheet */ = {
+			isa = PBXGroup;
+			children = (
+				7DBBAABA2CAD6258009171D2 /* BottomSheetView.swift */,
+			);
+			path = BottomSheet;
+			sourceTree = "<group>";
+		};
+		7DBBAABC2CAD6292009171D2 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				7D1AEFCD2C9F146200DD05FC /* Assets.xcassets */,
+				7DBBAABD2CAD62BA009171D2 /* Colors.xcassets */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		7DBBAABF2CAD63E6009171D2 /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				7DBBAAC02CAD63F6009171D2 /* AppDelegate.swift */,
+			);
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -157,6 +228,7 @@
 			name = KoCo;
 			packageProductDependencies = (
 				7DBBAA9D2CACC9E2009171D2 /* Alamofire */,
+				7DBBAAAC2CAD474C009171D2 /* KakaoMapsSDK-SPM */,
 			);
 			productName = KoCo;
 			productReference = 7D1AEFC62C9F146000DD05FC /* KoCo.app */;
@@ -188,6 +260,7 @@
 			mainGroup = 7D1AEFBD2C9F146000DD05FC;
 			packageReferences = (
 				7DBBAA9C2CACC9E2009171D2 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				7DBBAAAB2CAD474C009171D2 /* XCRemoteSwiftPackageReference "KakaoMapsSDK-SPM" */,
 			);
 			productRefGroup = 7D1AEFC72C9F146000DD05FC /* Products */;
 			projectDirPath = "";
@@ -204,6 +277,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7D1AEFD12C9F146200DD05FC /* Preview Assets.xcassets in Resources */,
+				7DBBAABE2CAD62BA009171D2 /* Colors.xcassets in Resources */,
 				7DBBAAA22CACCA79009171D2 /* .gitignore in Resources */,
 				7D1AEFCE2C9F146200DD05FC /* Assets.xcassets in Resources */,
 			);
@@ -216,6 +290,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7DBBAAB22CAD609D009171D2 /* KakaoMapView.swift in Sources */,
 				7DBBAAA02CACCA38009171D2 /* Router.swift in Sources */,
 				7DBBAAA42CACCA96009171D2 /* APIURL.swift in Sources */,
 				7DBBAA992CACC968009171D2 /* NetworkManager.swift in Sources */,
@@ -224,8 +299,13 @@
 				7DBBAAA62CACCAB7009171D2 /* APIKey.swift in Sources */,
 				7DBBAA962CAC15A9009171D2 /* MapViewModel.swift in Sources */,
 				7D1AEFCC2C9F146000DD05FC /* ContentView.swift in Sources */,
+				7DBBAABB2CAD6258009171D2 /* BottomSheetView.swift in Sources */,
+				7DBBAAB72CAD6143009171D2 /* KakaoMapCoordinator.swift in Sources */,
+				7DBBAAB02CAD6047009171D2 /* ViewModelType.swift in Sources */,
 				7DBBAA922CA2F5E5009171D2 /* MapView.swift in Sources */,
+				7DBBAAB52CAD6100009171D2 /* NameSpace.swift in Sources */,
 				7D1AEFCA2C9F146000DD05FC /* KoCoApp.swift in Sources */,
+				7DBBAAC12CAD63F6009171D2 /* AppDelegate.swift in Sources */,
 				7DBBAA9B2CACC9B4009171D2 /* TargetType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -446,6 +526,14 @@
 				minimumVersion = 5.9.1;
 			};
 		};
+		7DBBAAAB2CAD474C009171D2 /* XCRemoteSwiftPackageReference "KakaoMapsSDK-SPM" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao-mapsSDK/KakaoMapsSDK-SPM.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.12.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -453,6 +541,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7DBBAA9C2CACC9E2009171D2 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		7DBBAAAC2CAD474C009171D2 /* KakaoMapsSDK-SPM */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7DBBAAAB2CAD474C009171D2 /* XCRemoteSwiftPackageReference "KakaoMapsSDK-SPM" */;
+			productName = "KakaoMapsSDK-SPM";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

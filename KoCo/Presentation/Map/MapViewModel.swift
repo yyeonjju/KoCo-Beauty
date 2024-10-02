@@ -13,6 +13,10 @@ final class MapViewModel : ObservableObject, ViewModelType {
     var input = Input()
     @Published var output = Output()
     
+    @Published var draw : Bool = false
+    @Published var isBottomSheetOpen : Bool = false
+    @Published var showReloadStoreDataButton : Bool = false
+    
     init() {
         transform()
     }
@@ -73,7 +77,7 @@ extension MapViewModel {
 }
 
 
-// MARK: Action
+// MARK: - Action
 extension MapViewModel{
     enum Action {
         //주변 매장 검색을 위해
@@ -87,21 +91,5 @@ extension MapViewModel{
             input.fetchStoreData.send(location)
         }
     }
-}
-
-
-
-
-
-protocol ViewModelType : AnyObject, ObservableObject {
-    associatedtype Input
-    associatedtype Output
-
-    var cancellables : Set<AnyCancellable> {get set}
-    
-    var input : Input{get set}
-    var output : Output{get set}
-    
-    func transform ()
 }
 
