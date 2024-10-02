@@ -9,10 +9,15 @@ import Foundation
 import CoreLocation
 
 
+struct LocationLonLat : Equatable {
+    let longitude : Double
+    let latitude : Double
+}
+
 final class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
     ///1: CLLocationManagerDelegate 프로토콜 채택
     
-    @Published var lastKnownLocation: CLLocationCoordinate2D?
+    @Published var lastKnownLocation: LocationLonLat?
     
     ///2 : CLLocationManager생성
     private var manager = CLLocationManager()
@@ -65,7 +70,8 @@ final class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObje
         case .denied:
             print("Location denied")
             //임의 지역 띄워주기
-            lastKnownLocation = CLLocationCoordinate2D(latitude: 37.5759, longitude: 126.9769)
+            lastKnownLocation = LocationLonLat(longitude: 126.9769, latitude: 37.5759)
+//            CLLocationCoordinate2D(latitude: 37.5759, longitude: 126.9769)
             
         case .authorizedAlways://This authorization allows you to use all location services and receive location events whether or not your app is in use.
             print("Location authorizedAlways")
@@ -91,12 +97,13 @@ final class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObje
     
     ///4-1  : 사용자 위치를 성공적으로 가지고 온 경우
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        lastKnownLocation = locations.first?.coordinate
+//        lastKnownLocation = locations.first?.coordinate
         
         print("사용자 위치를 성공적으로 가지고 온 경우",#function)
         if let coordinate = locations.last?.coordinate {
             print("🧡coordinate", coordinate)
-            lastKnownLocation = coordinate
+            lastKnownLocation = LocationLonLat(longitude: coordinate.longitude, latitude: coordinate.latitude)
+            
 //            setRegionCoordinator(center: CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude))
         }
     
@@ -108,7 +115,7 @@ final class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObje
         print("사용자의 위치를 가지고 오지 못했을 경우",#function)
 //        view.makeToast("사용자의 위치를 가져올 수 없습니다.")
         //임의 지역 띄워주기
-        lastKnownLocation = CLLocationCoordinate2D(latitude: 37.5759, longitude: 126.9769)
+        lastKnownLocation = LocationLonLat(longitude: 126.9769, latitude: 37.5759)
     }
 }
 

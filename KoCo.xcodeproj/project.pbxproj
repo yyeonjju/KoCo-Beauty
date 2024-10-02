@@ -13,6 +13,15 @@
 		7D1AEFD12C9F146200DD05FC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D1AEFD02C9F146200DD05FC /* Preview Assets.xcassets */; };
 		7DBBAA922CA2F5E5009171D2 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAA912CA2F5E5009171D2 /* MapView.swift */; };
 		7DBBAA942CAC0FDE009171D2 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAA932CAC0FDE009171D2 /* LocationManager.swift */; };
+		7DBBAA962CAC15A9009171D2 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAA952CAC15A9009171D2 /* MapViewModel.swift */; };
+		7DBBAA992CACC968009171D2 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAA982CACC968009171D2 /* NetworkManager.swift */; };
+		7DBBAA9B2CACC9B4009171D2 /* TargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAA9A2CACC9B4009171D2 /* TargetType.swift */; };
+		7DBBAA9E2CACC9E2009171D2 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 7DBBAA9D2CACC9E2009171D2 /* Alamofire */; };
+		7DBBAAA02CACCA38009171D2 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAA9F2CACCA38009171D2 /* Router.swift */; };
+		7DBBAAA22CACCA79009171D2 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 7DBBAAA12CACCA79009171D2 /* .gitignore */; };
+		7DBBAAA42CACCA96009171D2 /* APIURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAAA32CACCA96009171D2 /* APIURL.swift */; };
+		7DBBAAA62CACCAB7009171D2 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAAA52CACCAB6009171D2 /* APIKey.swift */; };
+		7DBBAAAA2CAD364B009171D2 /* SearchLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAAA92CAD364B009171D2 /* SearchLocation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +32,14 @@
 		7D1AEFD02C9F146200DD05FC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7DBBAA912CA2F5E5009171D2 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		7DBBAA932CAC0FDE009171D2 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		7DBBAA952CAC15A9009171D2 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		7DBBAA982CACC968009171D2 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		7DBBAA9A2CACC9B4009171D2 /* TargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetType.swift; sourceTree = "<group>"; };
+		7DBBAA9F2CACCA38009171D2 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		7DBBAAA12CACCA79009171D2 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		7DBBAAA32CACCA96009171D2 /* APIURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIURL.swift; sourceTree = "<group>"; };
+		7DBBAAA52CACCAB6009171D2 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
+		7DBBAAA92CAD364B009171D2 /* SearchLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLocation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -30,6 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7DBBAA9E2CACC9E2009171D2 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -39,6 +57,7 @@
 		7D1AEFBD2C9F146000DD05FC = {
 			isa = PBXGroup;
 			children = (
+				7DBBAAA12CACCA79009171D2 /* .gitignore */,
 				7D1AEFC82C9F146000DD05FC /* KoCo */,
 				7D1AEFC72C9F146000DD05FC /* Products */,
 			);
@@ -55,6 +74,8 @@
 		7D1AEFC82C9F146000DD05FC /* KoCo */ = {
 			isa = PBXGroup;
 			children = (
+				7DBBAAA72CAD35A8009171D2 /* Models */,
+				7DBBAA972CACC951009171D2 /* Networking */,
 				7DBBAA8F2CA2F5A6009171D2 /* Presentation */,
 				7D1AEFC92C9F146000DD05FC /* KoCoApp.swift */,
 				7D1AEFCB2C9F146000DD05FC /* ContentView.swift */,
@@ -85,8 +106,37 @@
 			children = (
 				7DBBAA912CA2F5E5009171D2 /* MapView.swift */,
 				7DBBAA932CAC0FDE009171D2 /* LocationManager.swift */,
+				7DBBAA952CAC15A9009171D2 /* MapViewModel.swift */,
 			);
 			path = Map;
+			sourceTree = "<group>";
+		};
+		7DBBAA972CACC951009171D2 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				7DBBAA982CACC968009171D2 /* NetworkManager.swift */,
+				7DBBAA9A2CACC9B4009171D2 /* TargetType.swift */,
+				7DBBAA9F2CACCA38009171D2 /* Router.swift */,
+				7DBBAAA32CACCA96009171D2 /* APIURL.swift */,
+				7DBBAAA52CACCAB6009171D2 /* APIKey.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		7DBBAAA72CAD35A8009171D2 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				7DBBAAA82CAD35CE009171D2 /* Location */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		7DBBAAA82CAD35CE009171D2 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				7DBBAAA92CAD364B009171D2 /* SearchLocation.swift */,
+			);
+			path = Location;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -105,6 +155,9 @@
 			dependencies = (
 			);
 			name = KoCo;
+			packageProductDependencies = (
+				7DBBAA9D2CACC9E2009171D2 /* Alamofire */,
+			);
 			productName = KoCo;
 			productReference = 7D1AEFC62C9F146000DD05FC /* KoCo.app */;
 			productType = "com.apple.product-type.application";
@@ -133,6 +186,9 @@
 				Base,
 			);
 			mainGroup = 7D1AEFBD2C9F146000DD05FC;
+			packageReferences = (
+				7DBBAA9C2CACC9E2009171D2 /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			productRefGroup = 7D1AEFC72C9F146000DD05FC /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -148,6 +204,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7D1AEFD12C9F146200DD05FC /* Preview Assets.xcassets in Resources */,
+				7DBBAAA22CACCA79009171D2 /* .gitignore in Resources */,
 				7D1AEFCE2C9F146200DD05FC /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -159,10 +216,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7DBBAAA02CACCA38009171D2 /* Router.swift in Sources */,
+				7DBBAAA42CACCA96009171D2 /* APIURL.swift in Sources */,
+				7DBBAA992CACC968009171D2 /* NetworkManager.swift in Sources */,
+				7DBBAAAA2CAD364B009171D2 /* SearchLocation.swift in Sources */,
 				7DBBAA942CAC0FDE009171D2 /* LocationManager.swift in Sources */,
+				7DBBAAA62CACCAB7009171D2 /* APIKey.swift in Sources */,
+				7DBBAA962CAC15A9009171D2 /* MapViewModel.swift in Sources */,
 				7D1AEFCC2C9F146000DD05FC /* ContentView.swift in Sources */,
 				7DBBAA922CA2F5E5009171D2 /* MapView.swift in Sources */,
 				7D1AEFCA2C9F146000DD05FC /* KoCoApp.swift in Sources */,
+				7DBBAA9B2CACC9B4009171D2 /* TargetType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -372,6 +436,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7DBBAA9C2CACC9E2009171D2 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.9.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7DBBAA9D2CACC9E2009171D2 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7DBBAA9C2CACC9E2009171D2 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7D1AEFBE2C9F146000DD05FC /* Project object */;
 }
