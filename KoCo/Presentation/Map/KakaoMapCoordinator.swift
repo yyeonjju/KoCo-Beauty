@@ -11,7 +11,7 @@ import KakaoMapsSDK
 
 final class KakaoMapCoordinator: NSObject, MapControllerDelegate {
     var parent: KakaoMapView
-    var first: Bool // 처음 위치로 카메라 이동시켜주기 위해
+//    var first: Bool // 처음 위치로 카메라 이동시켜주기 위해
     var auth: Bool //카카오 sdk 인증
     
     var controller: KMController?
@@ -20,7 +20,7 @@ final class KakaoMapCoordinator: NSObject, MapControllerDelegate {
     
     init(_ kakaoMapView: KakaoMapView) {
         self.parent = kakaoMapView
-        first = true
+//        first = true
         auth = false
         super.init()
     }
@@ -40,16 +40,14 @@ final class KakaoMapCoordinator: NSObject, MapControllerDelegate {
     let firstPosition = MapPoint(longitude: 126.9769, latitude: 37.5759)//광화문
     
     
-
-
-    
     //KakaoMapView의 makeUIView 시점에
     func createController(_ view: KMViewContainer) {
-        print("🧡🧡🧡createController")
         container = view
         controller = KMController(viewContainer: view)
         controller?.delegate = self
+        print("🧡🧡🧡createController")
     }
+    
     
     //addViewSucceeded ( 뷰가 성공적으로 추가 되었을 때 )
     func viewInit(viewName: String) {
@@ -60,6 +58,23 @@ final class KakaoMapCoordinator: NSObject, MapControllerDelegate {
         createLabelLayer()
         createPoiStyle()
         createPois()
+    }
+    
+    
+    func moveCameraToCurrentLocation(_ mapPoint : MapPoint) {
+        // KakaoMap SDK의 MapPoint로 변환
+        print("❤️현재 위치로 카메라 이동❤️", mapPoint)
+        
+        // KakaoMap뷰를 가져와서 타입 캐스팅으로 KakaoMap 타입으로 변환
+        if let mapView = controller?.getView(MapInfo.viewName) as? KakaoMap {
+            // CameraUpdate를 사용하여 카메라 이동
+            // target: 이동할 위치, zoomLevel: 확대 수준 1~20, 숫자가 클수록 확대됨
+            let cameraUpdate = CameraUpdate.make(target: mapPoint, zoomLevel: 17, mapView: mapView)
+            //카메가 이동 시 애니메이션
+            mapView.animateCamera(cameraUpdate: cameraUpdate, options: CameraAnimationOptions(autoElevation: false, consecutive: true, durationInMillis: 500)) {
+                self.parent.isCameraMoving = false
+            }
+        }
     }
     
     // MARK: - delegate function
@@ -233,6 +248,8 @@ extension KakaoMapCoordinator : KakaoMapEventDelegate{
         let layer = manager.getLabelLayer(layerID: layerID)
         let poi = layer?.getPoi(poiID: poiID)
         
+        
+        //poi 스타일 변경
         if tappedPoi == poi{
             //기존에 선택되어있던게 있으면 basic스타일로 바꾸기
             poi?.changeStyle(styleID:MapInfo.Poi.basicPoiPinStyleID)
@@ -247,6 +264,13 @@ extension KakaoMapCoordinator : KakaoMapEventDelegate{
             parent.isBottomSheetOpen = true
             tappedPoi = poi
         }
+        
+        
+//        //poi를 지도의 중앙으로할 수 있도록 카메라 이동
+//        if let PoiPosition = poi?.position {
+//            moveCameraToCurrentLocation(PoiPosition)
+//        }
+       
 
     }
     
@@ -270,6 +294,7 @@ extension KakaoMapCoordinator : KakaoMapEventDelegate{
     func cameraDidStopped(kakaoMap: KakaoMap, by: MoveBy) {
         print("✅✅✅지도 이동 멈췄음,cameraDidStopped✅✅✅" )
         //그냥 이 위치에서 다시 검색에 대한 버튼 보여주기 showReloadStoreDataButton
+//        if by == .
         parent.showReloadStoreDataButton = true
         
         

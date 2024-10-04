@@ -45,9 +45,9 @@ extension TargetType {
         request.allHTTPHeaderFields = header
         request.httpBody = body
     
-        print("🌸🌸TargetType - request🌸🌸", request)
-        print("🌸🌸TargetType - request🌸🌸", request.url)
-        print("🌸🌸TargetType - request🌸🌸", request.httpMethod)
+//        print("🌸🌸TargetType - request🌸🌸", request)
+//        print("🌸🌸TargetType - request🌸🌸", request.url)
+//        print("🌸🌸TargetType - request🌸🌸", request.httpMethod)
         return request
     }
     

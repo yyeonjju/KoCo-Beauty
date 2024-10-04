@@ -21,20 +21,32 @@ struct KakaoMapView: UIViewRepresentable {
     @Binding var isBottomSheetOpen : Bool
     @Binding var showReloadStoreDataButton : Bool
     
+    @Binding var isCameraMoving : Bool
+    @Binding var cameraMoveTo : LocationLonLat?
+
+
     func makeUIView(context: Self.Context) -> KMViewContainer {
         print("🧡makeUIView")
         let view: KMViewContainer = KMViewContainer()
         view.sizeToFit()
         context.coordinator.createController(view)
-        
+
         return view
     }
+    
 
     func updateUIView(_ uiView: KMViewContainer, context: Self.Context) {
         print("🧡updateUIView")
-        print("🧡updateUIView - isBottomSheetOpen -> ", isBottomSheetOpen)
+        print("🧡updateUIView - isCameraMoving🧡", isCameraMoving)
+        print("🧡updateUIView - cameraMoveTo🧡", cameraMoveTo?.longitude, cameraMoveTo?.latitude)
+        
+        if isCameraMoving, let cameraMoveTo {
+            let mapPoint = MapPoint(longitude: cameraMoveTo.longitude, latitude: cameraMoveTo.latitude)
+            context.coordinator.moveCameraToCurrentLocation(mapPoint)
+        }
+       
         if draw {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            DispatchQueue.main.async {
                 if context.coordinator.controller?.isEnginePrepared == false {
                     context.coordinator.controller?.prepareEngine()
                 }
@@ -59,4 +71,9 @@ struct KakaoMapView: UIViewRepresentable {
         print("🧡dismantleUIView")
         
     }
+    
+    
+    
+    
+    
 }

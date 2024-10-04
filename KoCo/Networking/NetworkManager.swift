@@ -61,13 +61,13 @@ final class NetworkManager {
         print("request💚", request)
         
         return URLSession.shared.dataTaskPublisher(for: request)
-            .print("💚")
+//            .print("💚")
 //            .map{
 //                if $0.response
 //            }
             .map{$0.data}
             .decode(type: model.self, decoder: JSONDecoder())
-            .print("💚💚")
+//            .print("💚💚")
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
     }
