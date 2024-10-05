@@ -11,10 +11,14 @@ enum MapInfo {
     static let viewInfoName = "map"
     
     enum Poi {
-        static let layerId = "defaultPoiLayer"
-        
+        //화장품 매장에 표시에 대한 layer
+        static let storeLayerID = "storeLayer"
         static let basicPoiPinStyleID = "basicPoiPinStyle"
         static let tappedPoiPinStyleID = "tappedPoiPinStyle"
+        
+        //현재 위치 표시에 대한 layer
+        static let currentPointlayerID = "currentPointlayer"
+        static let currentPointPoiPinStyleID = "currentPointPoiPinStyle"
     }
 
 }

@@ -52,7 +52,7 @@ struct KakaoMapView: UIViewRepresentable {
         }
         
         if isPoisAdding{
-            context.coordinator.createPois(locations: LocationsToAddPois)
+            context.coordinator.createPois(currentPoint : cameraMoveTo, locations: LocationsToAddPois)
         }
         
         

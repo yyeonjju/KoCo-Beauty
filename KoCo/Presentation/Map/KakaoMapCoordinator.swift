@@ -156,8 +156,14 @@ extension KakaoMapCoordinator {
         ///competitionUnit - 경쟁하는 단위 결정 ( poi, symbolFirst )
         ///orderType - competitionType이 same일 때( 자신과 같은 우선순위를 가진 poi와 경쟁할 때) 경쟁하는 기준이 된다. ( rank, closedFromLeftBottom )
         ///zOrder - 레이어의 렌더링 우선순위를 정의. 숫자가 높아질 수록 앞에 그려짐
-        let layerOption = LabelLayerOptions(layerID: MapInfo.Poi.layerId, competitionType: .none, competitionUnit: .symbolFirst, orderType: .rank, zOrder: 10001)
+        
+        ///📍 화장품 매장에 대한 layer
+        let layerOption = LabelLayerOptions(layerID: MapInfo.Poi.storeLayerID, competitionType: .none, competitionUnit: .symbolFirst, orderType: .rank, zOrder: 10001)
+        ///📍📍
+        let currentPointLayerOption = LabelLayerOptions(layerID: MapInfo.Poi.currentPointlayerID, competitionType: .none, competitionUnit: .symbolFirst, orderType: .rank, zOrder: 10000)
+        
         let _ = manager.addLabelLayer(option: layerOption)
+        let _ = manager.addLabelLayer(option: currentPointLayerOption)
     }
     
     ///PoiStyle도 manager를 통해 생성할 수 있고, styleID는 중복되면 안된다.
@@ -170,14 +176,16 @@ extension KakaoMapCoordinator {
         let view = controller?.getView(MapInfo.viewName) as! KakaoMap
         let manager = view.getLabelManager()
         
-        ///📍PoiIconStyle - symbol과 badge를 정의
+        
+        //✅ 매장의 PoiStyle
+        ///📍store PoiIconStyle - symbol과 badge를 정의
         let defaultIconStyle = PoiIconStyle(symbol: UIImage(named: "pin")!, anchorPoint: CGPoint(x: 0.0, y: 0.5))
         let tappedIconStyle = PoiIconStyle(symbol: UIImage(named: "pin_activate")!, anchorPoint: CGPoint(x: 0.0, y: 0.5))
+        
         ///📍PoiTextLineStyle - 텍스트가 어떻게 표출될지 정의
         let textLineStyle = PoiTextLineStyle(textStyle: TextStyle(fontSize: 20, fontColor: .blue))
         let textStyle = PoiTextStyle(textLineStyles: [textLineStyle])
         textStyle.textLayouts = [PoiTextLayout.bottom]
-        
         
         ///📍PerLevelPoiStyle - 레벨별로 스타일 지정할 수 있음
         ///level 0만 있으면 모든 레벨에서 해당 스타일이 적용됨
@@ -189,42 +197,48 @@ extension KakaoMapCoordinator {
         //클릭되었을 때 poi 스타일
         let tappedPerLevelStyle = PerLevelPoiStyle(iconStyle: tappedIconStyle, textStyle: textStyle, padding: 20, level: 0)
         let tappedPoiStyle = PoiStyle(styleID: MapInfo.Poi.tappedPoiPinStyleID, styles: [tappedPerLevelStyle])
+
+        
+        //✅ 현재 위치의 PoiStyle
+        ///📍📍currentPoint PoiIconStyle ( with. transition)
+        let currentPointIconStyle = PoiIconStyle(symbol: UIImage(named: "currentPoint")!, anchorPoint: CGPoint(x: 0.0, y: 0.5), transition: PoiTransition(entrance: .scale, exit: .scale), enableEntranceTransition: true, enableExitTransition: true)
+        
+        //현재 위치의 poi 스타일
+        let currentPointPerLevelStyle = PerLevelPoiStyle(iconStyle: currentPointIconStyle, padding: 20, level: 0)
+        let currentPointPoiStyle = PoiStyle(styleID: MapInfo.Poi.currentPointPoiPinStyleID, styles: [currentPointPerLevelStyle])
+        
         
         
         manager.addPoiStyle(basicPoiStyle) //기본 poi 스타일
         manager.addPoiStyle(tappedPoiStyle) //클릭되었을 때 poi 스타일
+        
+        manager.addPoiStyle(currentPointPoiStyle)//현재 위치의 poi 스타일
     }
     
     
     
-    func createPois(locations :  [LocationDocument]) {
+    func createPois(currentPoint : LocationCoordinate?, locations :  [LocationDocument]) {
         print("❤️createPois❤️")
         let view = controller?.getView(MapInfo.viewName) as! KakaoMap
         let manager = view.getLabelManager()
-        let layer = manager.getLabelLayer(layerID: MapInfo.Poi.layerId)
+        let storelayer = manager.getLabelLayer(layerID: MapInfo.Poi.storeLayerID)
+        let currentPointlayer = manager.getLabelLayer(layerID: MapInfo.Poi.currentPointlayerID)
         
-        /*
-        let mapPointList = locations.map {
-            MapPoint(longitude: Double($0.x)!, latitude: Double($0.y)!)
+        
+        //✅ 현재 위치의 Poi
+        let currentPointPoiOption : PoiOptions = PoiOptions(styleID: MapInfo.Poi.currentPointPoiPinStyleID)
+        if let currentPoint {
+            currentPointlayer?.clearAllItems()
+            let _ = currentPointlayer?.addPoi(option: currentPointPoiOption, at: MapPoint(longitude: currentPoint.longitude, latitude: currentPoint.latitude))
+            currentPointlayer?.showAllPois()
         }
         
-        //탭 안 했을 때
-        let basicPoiOption : PoiOptions = PoiOptions(styleID: MapInfo.Poi.basicPoiPinStyleID)
-        //        poiOption.rank = 0
-        basicPoiOption.addText(PoiText(text: "광화문~~", styleIndex: 0))
-        basicPoiOption.clickable = true
         
         
-        let pois = layer?.addPois(option:basicPoiOption, at: mapPointList){[weak self] _ in
-            guard let self else {return}
-            parent.isPoisAdding = false
-        }
-        layer?.showAllPois()
-         
-         */
 
+        //✅ 매장의 poi
         //현재까지의 poi 없애기
-        layer?.clearAllItems()
+        storelayer?.clearAllItems()
         
         //표시하고 싶은 좌표 리스트
         let mapPointList = locations.map {
@@ -241,11 +255,11 @@ extension KakaoMapCoordinator {
         }
 
         //options에 [PoiOptions] 넣을 때는 at과 요소 하나하나 매칭되도록 동일한 length로 구성
-        let _ = layer?.addPois(options:textAddedPoiOptions, at: mapPointList){[weak self] _ in
+        let _ = storelayer?.addPois(options:textAddedPoiOptions, at: mapPointList){[weak self] _ in
             guard let self else {return}
             parent.isPoisAdding = false
         }
-        layer?.showAllPois()
+        storelayer?.showAllPois()
         
     }
 }
