@@ -11,7 +11,7 @@ enum MapInfo {
     static let viewInfoName = "map"
     
     enum Poi {
-        static let layerId = "PoiLayer"
+        static let layerId = "defaultPoiLayer"
         
         static let basicPoiPinStyleID = "basicPoiPinStyle"
         static let tappedPoiPinStyleID = "tappedPoiPinStyle"

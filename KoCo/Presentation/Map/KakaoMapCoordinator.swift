@@ -25,18 +25,6 @@ final class KakaoMapCoordinator: NSObject, MapControllerDelegate {
         super.init()
     }
     
-    let testLocations = [
-        MapPoint(longitude: 126.9769, latitude: 37.5759),//광화문
-        MapPoint(longitude: 126.9882, latitude: 37.5512),//남산타워
-        MapPoint(longitude: 126.9771, latitude: 37.5696), //청계천
-        MapPoint(longitude: 126.9990, latitude: 37.5704), //광장시장
-        MapPoint(longitude: 127.1027, latitude: 37.5130), //롯데타워
-        MapPoint(longitude: 127.0982, latitude: 37.5110), //롯데월드
-        MapPoint(longitude: 127.0384, latitude: 37.4760), //양재천
-        MapPoint(longitude: 126.9326, latitude: 37.5281), //여의도 한강공원
-        MapPoint(longitude: 126.9297, latitude: 37.5262), //여의도 더현대
-    ]
-    
     let firstPosition = MapPoint(longitude: 126.9769, latitude: 37.5759)//광화문
     
     
@@ -57,10 +45,10 @@ final class KakaoMapCoordinator: NSObject, MapControllerDelegate {
         
         createLabelLayer()
         createPoiStyle()
-        createPois()
+//        createPois()
     }
     
-    
+    //현재 위치 감지한 시점에 그 위치로 카메라 이동
     func moveCameraToCurrentLocation(_ mapPoint : MapPoint) {
         // KakaoMap SDK의 MapPoint로 변환
         print("❤️현재 위치로 카메라 이동❤️", mapPoint)
@@ -71,7 +59,8 @@ final class KakaoMapCoordinator: NSObject, MapControllerDelegate {
             // target: 이동할 위치, zoomLevel: 확대 수준 1~20, 숫자가 클수록 확대됨
             let cameraUpdate = CameraUpdate.make(target: mapPoint, zoomLevel: 17, mapView: mapView)
             //카메가 이동 시 애니메이션
-            mapView.animateCamera(cameraUpdate: cameraUpdate, options: CameraAnimationOptions(autoElevation: false, consecutive: true, durationInMillis: 500)) {
+            mapView.animateCamera(cameraUpdate: cameraUpdate, options: CameraAnimationOptions(autoElevation: false, consecutive: true, durationInMillis: 500)) {[weak self] in
+                guard let self else {return}
                 self.parent.isCameraMoving = false
             }
         }
@@ -158,7 +147,7 @@ extension KakaoMapCoordinator {
     
     ///LabelLayer는 manager을 통해 생성하고 manager 안에서 관리할 수 있다.
     ///특정 목적을 가진 Poi 를 묶어서 하나의 LabelLayer에 넣고 한꺼번에 Layer 자체를 표시하거나 숨길 수도 있다.
-    func createLabelLayer() {
+    private func createLabelLayer() {
         let view = controller?.getView(MapInfo.viewName) as! KakaoMap
         let manager = view.getLabelManager()
         
@@ -177,7 +166,7 @@ extension KakaoMapCoordinator {
     ///⭐️⭐️이 떄의 Level 이란? - 지도의 zoom 정도???
     ///PoiStyle은 정해진 개수의 preset을 미리 만들어두고, 상황에 따라 적절한 스타일을 선택하여 사용하는 방식으로 사용된다.
     ///-> 동적으로 계속 추가/삭제하는 형태의 사용은 적절하지 않다.
-    func createPoiStyle() {
+    private func createPoiStyle() {
         let view = controller?.getView(MapInfo.viewName) as! KakaoMap
         let manager = view.getLabelManager()
         
@@ -208,25 +197,54 @@ extension KakaoMapCoordinator {
     
     
     
-    func createPois() {
+    func createPois(locations :  [LocationDocument]) {
+        print("❤️createPois❤️")
         let view = controller?.getView(MapInfo.viewName) as! KakaoMap
         let manager = view.getLabelManager()
         let layer = manager.getLabelLayer(layerID: MapInfo.Poi.layerId)
         
+        /*
+        let mapPointList = locations.map {
+            MapPoint(longitude: Double($0.x)!, latitude: Double($0.y)!)
+        }
+        
         //탭 안 했을 때
         let basicPoiOption : PoiOptions = PoiOptions(styleID: MapInfo.Poi.basicPoiPinStyleID)
-//        poiOption.rank = 0
+        //        poiOption.rank = 0
         basicPoiOption.addText(PoiText(text: "광화문~~", styleIndex: 0))
         basicPoiOption.clickable = true
         
-        //클릭되었을 때 poi 스타일
-        let tappedPoiOption : PoiOptions = PoiOptions(styleID: MapInfo.Poi.tappedPoiPinStyleID)
-        tappedPoiOption.addText(PoiText(text: "광화문~~", styleIndex: 0))
-        tappedPoiOption.clickable = true
         
-        
-        let _ = layer?.addPois(option:basicPoiOption, at: testLocations)
+        let pois = layer?.addPois(option:basicPoiOption, at: mapPointList){[weak self] _ in
+            guard let self else {return}
+            parent.isPoisAdding = false
+        }
         layer?.showAllPois()
+         
+         */
+
+        
+        let mapPointList = locations.map {
+            MapPoint(longitude: Double($0.x)!, latitude: Double($0.y)!)
+        }
+        
+        //poi별로 다른 텍스트를 적용해주기 위해
+        let textAddedPoiOptions = mapPointList.enumerated().map{
+            //탭 안 했을 때의 스타일
+            let basicPoiOption : PoiOptions = PoiOptions(styleID: MapInfo.Poi.basicPoiPinStyleID)
+            basicPoiOption.clickable = true
+            basicPoiOption.addText(PoiText(text: locations[$0.offset].placeName, styleIndex: 0))
+            return basicPoiOption
+        }
+
+        //options에 [PoiOptions] 넣을 때는 at과 요소 하나하나 매칭되도록 동일한 length로 구성
+        let _ = layer?.addPois(options:textAddedPoiOptions, at: mapPointList){[weak self] _ in
+            guard let self else {return}
+            parent.isPoisAdding = false
+        }
+        
+        layer?.showAllPois()
+        
     }
 }
 

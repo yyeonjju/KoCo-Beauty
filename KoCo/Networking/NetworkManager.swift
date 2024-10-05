@@ -75,7 +75,7 @@ final class NetworkManager {
 }
 
 extension NetworkManager {
-    func searchStoreData (query : String, location : LocationLonLat) -> AnyPublisher<SearchLocationReapose, Error> {
+    func searchStoreData (query : String, location : LocationCoordinate) -> AnyPublisher<SearchLocationReapose, Error> {
         let router = Router.searchStore(query: query, longitude : String(location.longitude), latitude : String(location.latitude))
         return fetch(model: SearchLocationReapose.self, fetchRouter: router)
     }

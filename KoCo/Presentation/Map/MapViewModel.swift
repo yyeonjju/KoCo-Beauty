@@ -37,7 +37,7 @@ final class MapViewModel : ObservableObject, ViewModelType {
     
     // "현재 지도에서 다시 검색" 버튼 눌렀을 때
     // & 위치 권한 확인하고 처음 현재 위치 파악했을 때
-    func getStoreData(location : LocationLonLat) {
+    func getStoreData(location : LocationCoordinate) {
         print("⭐️ 스토어 검색해야해", location)
         
         NetworkManager.shared.searchStoreData(query: "화장품", location : location)
@@ -66,7 +66,7 @@ final class MapViewModel : ObservableObject, ViewModelType {
 extension MapViewModel {
     
     struct Input {
-        let fetchStoreData = PassthroughSubject<LocationLonLat, Never>()
+        let fetchStoreData = PassthroughSubject<LocationCoordinate, Never>()
         
         let viewOnTask = PassthroughSubject<Void, Never>()
     }
@@ -82,7 +82,7 @@ extension MapViewModel{
     enum Action {
         //주변 매장 검색을 위해
         //location에서 권한에 따라 불러온 위치 & "현재 지도에서 검색" 버튼 눌렀을 때
-        case fetchStoreData(location : LocationLonLat)
+        case fetchStoreData(location : LocationCoordinate)
     }
     
     func action (_ action:Action) {

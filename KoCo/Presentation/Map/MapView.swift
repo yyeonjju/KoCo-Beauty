@@ -12,11 +12,14 @@ struct MapView: View {
     @StateObject private var vm = MapViewModel()
     
     @State private var isCameraMoving : Bool = false
-    @State private var cameraMoveTo : LocationLonLat?
+    @State private var cameraMoveTo : LocationCoordinate?
+    
+    @State private var isPoisAdding : Bool = false
+    @State private var LocationsToAddPois : [LocationDocument] = []
     
     var body: some View {
         ZStack {
-            KakaoMapView(draw: $vm.draw, isBottomSheetOpen : $vm.isBottomSheetOpen, showReloadStoreDataButton : $vm.showReloadStoreDataButton,isCameraMoving : $isCameraMoving , cameraMoveTo : $cameraMoveTo)
+            KakaoMapView(draw: $vm.draw, isBottomSheetOpen : $vm.isBottomSheetOpen, showReloadStoreDataButton : $vm.showReloadStoreDataButton,isCameraMoving : $isCameraMoving , cameraMoveTo : $cameraMoveTo, isPoisAdding : $isPoisAdding, LocationsToAddPois : $LocationsToAddPois)
                 .onAppear{
                     vm.draw = true
                 }
@@ -77,6 +80,11 @@ struct MapView: View {
             
             //카카오 맵에 locations 핀 띄워야한다
             print("⭐️ 카카오맵에 핀 띄우기 ")
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                isPoisAdding = true
+                LocationsToAddPois = locations
+            }
         }
         
 

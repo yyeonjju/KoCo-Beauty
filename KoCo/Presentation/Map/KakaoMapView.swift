@@ -22,9 +22,13 @@ struct KakaoMapView: UIViewRepresentable {
     @Binding var showReloadStoreDataButton : Bool
     
     @Binding var isCameraMoving : Bool
-    @Binding var cameraMoveTo : LocationLonLat?
+    @Binding var cameraMoveTo : LocationCoordinate?
+    
+    @Binding var isPoisAdding : Bool
+    @Binding var LocationsToAddPois : [LocationDocument]
 
-
+    
+    
     func makeUIView(context: Self.Context) -> KMViewContainer {
         print("🧡makeUIView")
         let view: KMViewContainer = KMViewContainer()
@@ -38,12 +42,18 @@ struct KakaoMapView: UIViewRepresentable {
     func updateUIView(_ uiView: KMViewContainer, context: Self.Context) {
         print("🧡updateUIView")
         print("🧡updateUIView - isCameraMoving🧡", isCameraMoving)
-        print("🧡updateUIView - cameraMoveTo🧡", cameraMoveTo?.longitude, cameraMoveTo?.latitude)
+        print("🧡updateUIView - isPoisAdding🧡", isPoisAdding)
         
         if isCameraMoving, let cameraMoveTo {
             let mapPoint = MapPoint(longitude: cameraMoveTo.longitude, latitude: cameraMoveTo.latitude)
             context.coordinator.moveCameraToCurrentLocation(mapPoint)
         }
+        
+        if isPoisAdding{
+            context.coordinator.createPois(locations: LocationsToAddPois)
+        }
+        
+        
        
         if draw {
             DispatchQueue.main.async {
