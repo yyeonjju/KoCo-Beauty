@@ -11,64 +11,15 @@ struct MapView: View {
     @StateObject private var locationManager = LocationManager()
     @StateObject private var vm = MapViewModel()
     
-    @State private var isCameraMoving : Bool = false
-    @State private var cameraMoveTo : LocationCoordinate?
-    
-    @State private var isPoisAdding : Bool = false
-    @State private var LocationsToAddPois : [LocationDocument] = []
-    
     var body: some View {
         ZStack {
-            KakaoMapView(
-                draw: $vm.draw,
-                isBottomSheetOpen : $vm.isBottomSheetOpen,
-                showReloadStoreDataButton : $vm.showReloadStoreDataButton,
-                isCameraMoving : $isCameraMoving ,
-                cameraMoveTo : $cameraMoveTo,
-                isPoisAdding : $isPoisAdding,
-                LocationsToAddPois : $LocationsToAddPois,
-                currentCameraCenterCoordinate : $vm.currentCameraCenterCoordinate)
-                .onAppear{
-                    vm.draw = true
-                }
-                .onDisappear{
-                    vm.draw = false
-                }
-                .ignoresSafeArea()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-            
+            kakaoMap
             
             if vm.showReloadStoreDataButton {
-                VStack{
-                    Button {
-                        guard let currentCameraCenterCoordinate = vm.currentCameraCenterCoordinate else {return }
-                        vm.action(.fetchStoreData(location: currentCameraCenterCoordinate))
-                    }label : {
-                        HStack{
-                            Image(systemName: "arrow.clockwise")
-                            Text("이 위치에서 검색")
-                        }
-                        .padding(.horizontal)
-                        .padding(.vertical, 8)
-                        .background(.skyblue)
-                        .foregroundStyle(.white)
-                        .font(.system(size: 13))
-                        .cornerRadius(20)
-                        .padding(.top)
-                        
-                    }
-                    
-                    Spacer()
-                }
+                reloadStoreDataButton
             }
            
-            
-            
-            BottomSheetView(isOpen: $vm.isBottomSheetOpen, maxHeight: 300, showIndicator:true,  isIgnoreedSafeArea : true, minHeightRatio : 0) {
-                
-                Text("BottomSheetView")
-            }
-            
+            bottomSheet
         }
         .onChange(of: locationManager.lastKnownLocation) { newValue in
             print("🎀🎀내 위치 감지해서 or 디폴트 위치 설정으로 lastKnownLocation 바뀌었다🎀🎀 -> ", newValue)
@@ -78,8 +29,8 @@ struct MapView: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 guard let newValue else {return }
                 //1 : 카카오 맵의 카메라 위치 이동 ( 현재 나의 위치 or 위치 권한 없다면 임의의 위치로)
-                isCameraMoving = true
-                cameraMoveTo = newValue
+                vm.isCameraMoving = true
+                vm.cameraMoveTo = newValue
                 
                 
                 //2 : 이 위치에 맞는 화장품 가게 검색. 하고 핀 (poi) 꽃기
@@ -90,8 +41,8 @@ struct MapView: View {
             
             //카카오 맵에 locations에 대한 poi 핀 띄우기
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                isPoisAdding = true
-                LocationsToAddPois = locations
+                vm.isPoisAdding = true
+                vm.LocationsToAddPois = locations
             }
         }
         
@@ -99,6 +50,61 @@ struct MapView: View {
 
     }
 }
+
+
+extension MapView {
+    var kakaoMap : some View {
+        KakaoMapView(
+            draw: $vm.draw,
+            isBottomSheetOpen : $vm.isBottomSheetOpen,
+            showReloadStoreDataButton : $vm.showReloadStoreDataButton,
+            isCameraMoving : $vm.isCameraMoving ,
+            cameraMoveTo : $vm.cameraMoveTo,
+            isPoisAdding : $vm.isPoisAdding,
+            LocationsToAddPois : $vm.LocationsToAddPois,
+            currentCameraCenterCoordinate : $vm.currentCameraCenterCoordinate)
+            .onAppear{
+                vm.draw = true
+            }
+            .onDisappear{
+                vm.draw = false
+            }
+            .ignoresSafeArea()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+    
+    var reloadStoreDataButton : some View {
+        VStack{
+            Button {
+                guard let currentCameraCenterCoordinate = vm.currentCameraCenterCoordinate else {return }
+                vm.action(.fetchStoreData(location: currentCameraCenterCoordinate))
+            }label : {
+                HStack{
+                    Image(systemName: "arrow.clockwise")
+                    Text("이 위치에서 검색")
+                }
+                .padding(.horizontal)
+                .padding(.vertical, 8)
+                .background(.skyblue)
+                .foregroundStyle(.white)
+                .font(.system(size: 13))
+                .cornerRadius(20)
+                .padding(.top)
+                
+            }
+            
+            Spacer()
+        }
+    }
+    
+    var bottomSheet : some View {
+        BottomSheetView(isOpen: $vm.isBottomSheetOpen, maxHeight: 300, showIndicator:true,  isIgnoreedSafeArea : true, minHeightRatio : 0) {
+            
+            Text("BottomSheetView")
+        }
+    }
+}
+
 
 #Preview {
     MapView()

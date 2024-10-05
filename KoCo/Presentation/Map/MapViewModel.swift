@@ -17,7 +17,17 @@ final class MapViewModel : ObservableObject, ViewModelType {
     @Published var isBottomSheetOpen : Bool = false
     @Published var showReloadStoreDataButton : Bool = false
     
+    //현재 위치 감지에 따른 카메라 이동
+    @Published var isCameraMoving : Bool = false
+    @Published var cameraMoveTo : LocationCoordinate?
+    
+    //현재위치 기반 화장품 매장 검색 결과에 따른 poi 추가
+    @Published var isPoisAdding : Bool = false
+    @Published var LocationsToAddPois : [LocationDocument] = []
+    
+    //카메라 이동이 멈춘 시점에 업데이트 되는 현재 내 스크린의 중심값에 대한 지도 좌표
     @Published var currentCameraCenterCoordinate : LocationCoordinate? = nil
+    
     
     init() {
         transform()
@@ -32,8 +42,6 @@ final class MapViewModel : ObservableObject, ViewModelType {
             }
             .store(in: &cancellables)
     }
-    
-
     
     
     
