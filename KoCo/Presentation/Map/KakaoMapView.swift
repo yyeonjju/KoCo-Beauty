@@ -26,6 +26,8 @@ struct KakaoMapView: UIViewRepresentable {
     
     @Binding var isPoisAdding : Bool
     @Binding var LocationsToAddPois : [LocationDocument]
+    
+    @Binding var currentCameraCenterCoordinate : LocationCoordinate?
 
     
     

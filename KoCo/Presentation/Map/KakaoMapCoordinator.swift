@@ -223,7 +223,10 @@ extension KakaoMapCoordinator {
          
          */
 
+        //현재까지의 poi 없애기
+        layer?.clearAllItems()
         
+        //표시하고 싶은 좌표 리스트
         let mapPointList = locations.map {
             MapPoint(longitude: Double($0.x)!, latitude: Double($0.y)!)
         }
@@ -242,7 +245,6 @@ extension KakaoMapCoordinator {
             guard let self else {return}
             parent.isPoisAdding = false
         }
-        
         layer?.showAllPois()
         
     }
@@ -311,24 +313,18 @@ extension KakaoMapCoordinator : KakaoMapEventDelegate{
 
     func cameraDidStopped(kakaoMap: KakaoMap, by: MoveBy) {
         print("✅✅✅지도 이동 멈췄음,cameraDidStopped✅✅✅" )
-        //그냥 이 위치에서 다시 검색에 대한 버튼 보여주기 showReloadStoreDataButton
-//        if by == .
+        // '이 위치에서 다시 검색' 버튼 보여주기 showReloadStoreDataButton
         parent.showReloadStoreDataButton = true
         
-        
-//        let mapPoint = kakaoMap.getPosition(CGPoint(x: 100, y: 100))
-//        print("💚mapPoint -> ", mapPoint)
-        
+        // 현재 스크린의 가운데 CGPoint 가져오기 위해 스크린 크기
+        guard let window = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+        let screenSize = window.screen.bounds
 
-//        let view = controller?.getView(MapInfo.viewName) as! KakaoMap
-//        let manager = view.getLabelManager()
-//        let layer = manager.getLabelLayer(layerID: MapInfo.Poi.layerId)
-//
-//
-//        //탭 안 했을 때
-//        let basicPoiOption : PoiOptions = PoiOptions(styleID: MapInfo.Poi.basicPoiPinStyleID)
-////        let _ = layer?.addPois(option:basicPoiOption, at: testLocations)
-//        let _ = layer?.addPoi(option: basicPoiOption, at: mapPoint)
+        // 내 스크린의 중심점 CGPoint에 대한 카카오맵의 좌표 가져오기
+        let cameraCenterMapPoint : MapPoint = kakaoMap.getPosition(CGPoint(x: screenSize.width/2, y: screenSize.height/2))
+        //이동한 카메라 상에서 내 스크린의 중심점 좌표를 저장해두기
+        //( '이 위치에서 검색' 버튼 클릭 시 좌표 활용을 위해 )
+        parent.currentCameraCenterCoordinate =         LocationCoordinate(longitude: cameraCenterMapPoint.wgsCoord.longitude, latitude: cameraCenterMapPoint.wgsCoord.latitude)
 
     }
 }

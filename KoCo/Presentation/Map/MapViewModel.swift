@@ -17,6 +17,8 @@ final class MapViewModel : ObservableObject, ViewModelType {
     @Published var isBottomSheetOpen : Bool = false
     @Published var showReloadStoreDataButton : Bool = false
     
+    @Published var currentCameraCenterCoordinate : LocationCoordinate? = nil
+    
     init() {
         transform()
     }

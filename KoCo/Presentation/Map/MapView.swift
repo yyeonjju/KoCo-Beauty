@@ -19,7 +19,15 @@ struct MapView: View {
     
     var body: some View {
         ZStack {
-            KakaoMapView(draw: $vm.draw, isBottomSheetOpen : $vm.isBottomSheetOpen, showReloadStoreDataButton : $vm.showReloadStoreDataButton,isCameraMoving : $isCameraMoving , cameraMoveTo : $cameraMoveTo, isPoisAdding : $isPoisAdding, LocationsToAddPois : $LocationsToAddPois)
+            KakaoMapView(
+                draw: $vm.draw,
+                isBottomSheetOpen : $vm.isBottomSheetOpen,
+                showReloadStoreDataButton : $vm.showReloadStoreDataButton,
+                isCameraMoving : $isCameraMoving ,
+                cameraMoveTo : $cameraMoveTo,
+                isPoisAdding : $isPoisAdding,
+                LocationsToAddPois : $LocationsToAddPois,
+                currentCameraCenterCoordinate : $vm.currentCameraCenterCoordinate)
                 .onAppear{
                     vm.draw = true
                 }
@@ -33,18 +41,20 @@ struct MapView: View {
             if vm.showReloadStoreDataButton {
                 VStack{
                     Button {
-                        print("이 위치에서 검색 버튼 눌렸다!!")
+                        guard let currentCameraCenterCoordinate = vm.currentCameraCenterCoordinate else {return }
+                        vm.action(.fetchStoreData(location: currentCameraCenterCoordinate))
                     }label : {
                         HStack{
                             Image(systemName: "arrow.clockwise")
                             Text("이 위치에서 검색")
                         }
                         .padding(.horizontal)
-                        .padding(.vertical, 5)
+                        .padding(.vertical, 8)
                         .background(.skyblue)
                         .foregroundStyle(.white)
                         .font(.system(size: 13))
                         .cornerRadius(20)
+                        .padding(.top)
                         
                     }
                     
@@ -78,9 +88,7 @@ struct MapView: View {
         }
         .onChange(of: vm.output.searchLocations) { locations in
             
-            //카카오 맵에 locations 핀 띄워야한다
-            print("⭐️ 카카오맵에 핀 띄우기 ")
-            
+            //카카오 맵에 locations에 대한 poi 핀 띄우기
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 isPoisAdding = true
                 LocationsToAddPois = locations
