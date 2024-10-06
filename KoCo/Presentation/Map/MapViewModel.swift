@@ -28,6 +28,9 @@ final class MapViewModel : ObservableObject, ViewModelType {
     //카메라 이동이 멈춘 시점에 업데이트 되는 현재 내 스크린의 중심값에 대한 지도 좌표
     @Published var currentCameraCenterCoordinate : LocationCoordinate? = nil
     
+    //지도의 poi 탭했을 때 그 매장의 id (==poiID)
+    @Published var lastTappedStoreID : String?
+    
     
     init() {
         transform()
@@ -64,6 +67,11 @@ final class MapViewModel : ObservableObject, ViewModelType {
                 receiveValue: { [weak self] value in
                     guard let self else { return }
                     print("⭐️receiveValue - value", value.documents)
+                    
+                    print("⭐️receiveValue - value")
+                    dump(value.documents)
+                    
+                    
                     self.output.searchLocations = value.documents
 
                 })

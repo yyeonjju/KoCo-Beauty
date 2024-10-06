@@ -157,9 +157,10 @@ extension KakaoMapCoordinator {
         ///orderType - competitionType이 same일 때( 자신과 같은 우선순위를 가진 poi와 경쟁할 때) 경쟁하는 기준이 된다. ( rank, closedFromLeftBottom )
         ///zOrder - 레이어의 렌더링 우선순위를 정의. 숫자가 높아질 수록 앞에 그려짐
         
-        ///📍 화장품 매장에 대한 layer
+        //✅ 화장품 매장에 대한 layer
         let layerOption = LabelLayerOptions(layerID: MapInfo.Poi.storeLayerID, competitionType: .none, competitionUnit: .symbolFirst, orderType: .rank, zOrder: 10001)
-        ///📍📍
+        
+        //✅ 현재 위치에 대한 layer
         let currentPointLayerOption = LabelLayerOptions(layerID: MapInfo.Poi.currentPointlayerID, competitionType: .none, competitionUnit: .symbolFirst, orderType: .rank, zOrder: 10000)
         
         let _ = manager.addLabelLayer(option: layerOption)
@@ -248,7 +249,8 @@ extension KakaoMapCoordinator {
         //poi별로 다른 텍스트를 적용해주기 위해
         let textAddedPoiOptions = mapPointList.enumerated().map{
             //탭 안 했을 때의 스타일
-            let basicPoiOption : PoiOptions = PoiOptions(styleID: MapInfo.Poi.basicPoiPinStyleID)
+            //⭐️ poi 클릭했을 때 poiID에 해당하는 매장 정보를 판단하기 위해 서버에서 받은 매장의 id가 poiID가 되도록 poiID직접 지정
+            let basicPoiOption : PoiOptions = PoiOptions(styleID: MapInfo.Poi.basicPoiPinStyleID ,poiID: locations[$0.offset].id)
             basicPoiOption.clickable = true
             basicPoiOption.addText(PoiText(text: locations[$0.offset].placeName, styleIndex: 0))
             return basicPoiOption
@@ -281,6 +283,10 @@ extension KakaoMapCoordinator : KakaoMapEventDelegate{
         let manager = view.getLabelManager()
         let layer = manager.getLabelLayer(layerID: layerID)
         let poi = layer?.getPoi(poiID: poiID)
+        
+        
+        //PoiOptions 세팅할 때 매장id로 지정해주었던 poiID로 lastTappedStoreID 값 업데이트
+        parent.lastTappedStoreID = poiID
         
         
         //poi 스타일 변경

@@ -45,6 +45,9 @@ struct MapView: View {
                 vm.LocationsToAddPois = locations
             }
         }
+//        .onChange(of: vm.lastTappedStoreID) { newValue in
+//            <#code#>
+//        }
         
 
 
@@ -62,15 +65,17 @@ extension MapView {
             cameraMoveTo : $vm.cameraMoveTo,
             isPoisAdding : $vm.isPoisAdding,
             LocationsToAddPois : $vm.LocationsToAddPois,
-            currentCameraCenterCoordinate : $vm.currentCameraCenterCoordinate)
-            .onAppear{
-                vm.draw = true
-            }
-            .onDisappear{
-                vm.draw = false
-            }
-            .ignoresSafeArea()
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            currentCameraCenterCoordinate : $vm.currentCameraCenterCoordinate,
+            lastTappedStoreID : $vm.lastTappedStoreID
+        )
+        .onAppear{
+            vm.draw = true
+        }
+        .onDisappear{
+            vm.draw = false
+        }
+        .ignoresSafeArea()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     
     var reloadStoreDataButton : some View {
@@ -78,6 +83,9 @@ extension MapView {
             Button {
                 guard let currentCameraCenterCoordinate = vm.currentCameraCenterCoordinate else {return }
                 vm.action(.fetchStoreData(location: currentCameraCenterCoordinate))
+                
+                //BottomSheet 올라와 있으면 내리기
+                vm.isBottomSheetOpen = false
             }label : {
                 HStack{
                     Image(systemName: "arrow.clockwise")
@@ -100,8 +108,67 @@ extension MapView {
     var bottomSheet : some View {
         BottomSheetView(isOpen: $vm.isBottomSheetOpen, maxHeight: 300, showIndicator:true,  isIgnoreedSafeArea : true, minHeightRatio : 0) {
             
-            Text("BottomSheetView")
+            bottomSheetContent
         }
+    }
+    
+    var bottomSheetContent : some View {
+        let tappedStoreData = vm.output.searchLocations.first {
+            $0.id == vm.lastTappedStoreID
+        }
+        let category = tappedStoreData?.categoryName.components(separatedBy: ">") ?? ["화장품"]
+        let categoryText = category[category.count-1]
+        
+        return VStack {
+            if let tappedStoreData {
+                HStack {
+                    //매장이름
+                    Text(tappedStoreData.placeName)
+                        .font(.system(size: 18, weight: .heavy))
+                        .foregroundStyle(.skyblue)
+//                        .padding()
+                    //카테고리 이름
+                    Text(categoryText)
+                        .font(.system(size: 16, weight: .bold))
+                        .foregroundStyle(.gray)
+                    
+                    Spacer()
+                }
+                .padding(.bottom,5)
+                
+                HStack{
+                    Text(tappedStoreData.distance + "m")
+                        .font(.system(size: 14, weight: .bold))
+                    
+                    Text(tappedStoreData.addressName)
+                        .font(.system(size: 14, weight: .bold))
+                        .foregroundStyle(.gray)
+                    
+                    Spacer()
+                }
+                .padding(.bottom,5)
+                
+                HStack {
+                    if !tappedStoreData.phone.isEmpty{
+                        Text(tappedStoreData.phone)
+                            .font(.system(size: 14))
+                        Image(systemName: "phone.fill")
+                        
+                        Spacer()
+                    }
+                }
+                .padding(.bottom,5)
+
+                //placeUrl, roadAddressName
+                
+//                Text("> 자세한 매장 정보 보기")
+                
+            }else {
+                Text("매장을 선택해주세요.")
+            }
+
+        }
+        .padding(.horizontal)
     }
 }
 

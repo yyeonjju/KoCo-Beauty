@@ -43,6 +43,7 @@ extension Router : TargetType {
                 URLQueryItem(name: "query", value: query),
                 URLQueryItem(name: "x", value: longitude),
                 URLQueryItem(name: "y", value: latitude),
+//                URLQueryItem(name: "sort", value: "accuracy"), //distance or accuracy
 //                URLQueryItem(name: "radius", value: "20000")
             ]
 
