@@ -25,7 +25,7 @@ struct BottomSheetView<Content: View>: View {
     let minHeight: CGFloat
     let showIndicator : Bool
     let title : String?
-    let isIgnoreedSafeArea : Bool
+    let isIgnoredSafeArea : Bool
     let allowDragGeture : Bool
     let content: Content
     
@@ -48,13 +48,13 @@ struct BottomSheetView<Content: View>: View {
             }
     }
     
-    init(isOpen: Binding<Bool>, maxHeight: CGFloat, showIndicator : Bool = true, title : String? = nil, isIgnoreedSafeArea : Bool = true, allowDragGeture : Bool = true, minHeightRatio : CGFloat = 0, @ViewBuilder content: () -> Content) {
+    init(isOpen: Binding<Bool>, maxHeight: CGFloat, showIndicator : Bool = true, title : String? = nil, isIgnoredSafeArea : Bool = true, allowDragGeture : Bool = true, minHeightRatio : CGFloat = 0, @ViewBuilder content: () -> Content) {
         self.minHeight = maxHeight * minHeightRatio
         self.maxHeight = maxHeight
         self.content = content()
         self.showIndicator = showIndicator
         self.title = title
-        self.isIgnoreedSafeArea = isIgnoreedSafeArea
+        self.isIgnoredSafeArea = isIgnoredSafeArea
         self.allowDragGeture = allowDragGeture
         self._isOpen = isOpen
     }
@@ -96,7 +96,7 @@ struct BottomSheetView<Content: View>: View {
                 ,including: self.allowDragGeture ? .all : .subviews //subviews : Enable all gestures in the subview hierarchy but disable the added gesture.
             )
         }
-        .edgesIgnoringSafeArea(isIgnoreedSafeArea ? .all : .horizontal)
+        .edgesIgnoringSafeArea(isIgnoredSafeArea ? .all : .horizontal)
     }
     
 }

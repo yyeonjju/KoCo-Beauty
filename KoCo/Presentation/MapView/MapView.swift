@@ -11,6 +11,8 @@ struct MapView: View {
     @StateObject private var locationManager = LocationManager()
     @StateObject private var vm = MapViewModel()
     
+    @State private var isPresented = false
+    
     var body: some View {
         ZStack {
             kakaoMap
@@ -46,7 +48,7 @@ struct MapView: View {
             }
         }
 //        .onChange(of: vm.lastTappedStoreID) { newValue in
-//            <#code#>
+//            //매장 이름을 네이버 이미지 검색 api 로 검색해서 bottomSheet에 이미지 로드
 //        }
         
 
@@ -106,7 +108,7 @@ extension MapView {
     }
     
     var bottomSheet : some View {
-        BottomSheetView(isOpen: $vm.isBottomSheetOpen, maxHeight: 300, showIndicator:true,  isIgnoreedSafeArea : true, minHeightRatio : 0) {
+        BottomSheetView(isOpen: $vm.isBottomSheetOpen, maxHeight: 300, showIndicator:true,  isIgnoredSafeArea : true, minHeightRatio : 0) {
             
             bottomSheetContent
         }
@@ -134,7 +136,7 @@ extension MapView {
                     
                     Spacer()
                 }
-                .padding(.bottom,5)
+                .padding(.bottom,4)
                 
                 HStack{
                     Text(tappedStoreData.distance + "m")
@@ -146,7 +148,7 @@ extension MapView {
                     
                     Spacer()
                 }
-                .padding(.bottom,5)
+                .padding(.bottom,4)
                 
                 HStack {
                     if !tappedStoreData.phone.isEmpty{
@@ -157,11 +159,42 @@ extension MapView {
                         Spacer()
                     }
                 }
-                .padding(.bottom,5)
-
-                //placeUrl, roadAddressName
+                .padding(.bottom,4)
                 
-//                Text("> 자세한 매장 정보 보기")
+                HStack{
+                    ForEach(0..<3) { item in
+                        AsyncImage(url: URL(string: "https://search.pstatic.net/common/?type=b150&src=http://post.phinf.naver.net/MjAyMjA0MTVfMjQ2/MDAxNjUwMDE5NDA4Mjgw.CgQJxztRuJfn4ihLu4eKU7dPasRUnQsy2x5owX4ci-gg.1Snzbi21dWabljj5SyfPUDZI-5NT-U7P32CgewqNSYgg.JPEG/Io7UGYEjtHnI1ViGT2_YIhkgFhWI.jpg")){ image in
+                            image
+                                .resizable()
+
+
+                        } placeholder: {
+                            ProgressView()
+                        }
+                        .frame(width : 100, height : 80)
+                        .scaledToFit()
+                        .padding(2)
+                    }
+                }
+                .padding(.bottom,4)
+
+                
+                HStack{
+                    NavigationLink{
+                        StoreWebView(placeUrl: tappedStoreData.placeUrl)
+                            .navigationTitle(tappedStoreData.placeName)
+                        
+                    }label: {
+                        Text("> 매장 정보 자세히 보기")
+                            .font(.system(size: 14))
+                            .underline()
+                            .foregroundStyle(.black)
+
+                    }
+
+                    Spacer()
+                }
+
                 
             }else {
                 Text("매장을 선택해주세요.")

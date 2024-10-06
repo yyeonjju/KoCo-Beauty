@@ -193,11 +193,13 @@ extension KakaoMapCoordinator {
         ///📍 PoiStyle - PerLevelPoiStyle(레벨별로 스타일)들을 모아서 하나의 Poi 스타일을 생성
 
         //클릭되지 않았을 때 기본 poi 스타일
-        let basicPerLevelStyle = PerLevelPoiStyle(iconStyle: defaultIconStyle, textStyle: textStyle, padding: 20, level: 0)
-        let basicPoiStyle = PoiStyle(styleID: MapInfo.Poi.basicPoiPinStyleID, styles: [basicPerLevelStyle])
+        let basicPerLevelStyle_level0 = PerLevelPoiStyle(iconStyle: defaultIconStyle, level: 0)
+        let basicPerLevelStyle_leve15 = PerLevelPoiStyle(iconStyle: defaultIconStyle, textStyle: textStyle, padding: 20, level: 16)
+        let basicPoiStyle = PoiStyle(styleID: MapInfo.Poi.basicPoiPinStyleID, styles: [basicPerLevelStyle_level0, basicPerLevelStyle_leve15])
         //클릭되었을 때 poi 스타일
-        let tappedPerLevelStyle = PerLevelPoiStyle(iconStyle: tappedIconStyle, textStyle: textStyle, padding: 20, level: 0)
-        let tappedPoiStyle = PoiStyle(styleID: MapInfo.Poi.tappedPoiPinStyleID, styles: [tappedPerLevelStyle])
+        let tappedPerLevelStyle_level0 = PerLevelPoiStyle(iconStyle: tappedIconStyle, level: 0)
+        let tappedPerLevelStyle_leve15 = PerLevelPoiStyle(iconStyle: tappedIconStyle, textStyle: textStyle, padding: 20, level: 16)
+        let tappedPoiStyle = PoiStyle(styleID: MapInfo.Poi.tappedPoiPinStyleID, styles: [tappedPerLevelStyle_level0, tappedPerLevelStyle_leve15])
 
         
         //✅ 현재 위치의 PoiStyle
@@ -332,16 +334,12 @@ extension KakaoMapCoordinator : KakaoMapEventDelegate{
     ///
 
     func cameraDidStopped(kakaoMap: KakaoMap, by: MoveBy) {
-        print("✅✅✅지도 이동 멈췄음,cameraDidStopped✅✅✅" )
+        print("✅✅✅지도 이동 멈췄음,cameraDidStopped✅✅✅", kakaoMap.zoomLevel )
         // '이 위치에서 다시 검색' 버튼 보여주기 showReloadStoreDataButton
         parent.showReloadStoreDataButton = true
-        
-        // 현재 스크린의 가운데 CGPoint 가져오기 위해 스크린 크기
-        guard let window = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
-        let screenSize = window.screen.bounds
 
         // 내 스크린의 중심점 CGPoint에 대한 카카오맵의 좌표 가져오기
-        let cameraCenterMapPoint : MapPoint = kakaoMap.getPosition(CGPoint(x: screenSize.width/2, y: screenSize.height/2))
+        let cameraCenterMapPoint : MapPoint = kakaoMap.getPosition(CGPoint(x: ScreenSize.width/2, y: ScreenSize.height/2))
         //이동한 카메라 상에서 내 스크린의 중심점 좌표를 저장해두기
         //( '이 위치에서 검색' 버튼 클릭 시 좌표 활용을 위해 )
         parent.currentCameraCenterCoordinate =         LocationCoordinate(longitude: cameraCenterMapPoint.wgsCoord.longitude, latitude: cameraCenterMapPoint.wgsCoord.latitude)

@@ -72,7 +72,7 @@ struct KakaoMapView: UIViewRepresentable {
         }
         else {
             context.coordinator.controller?.pauseEngine()
-            context.coordinator.controller?.resetEngine()
+//            context.coordinator.controller?.resetEngine()
         }
     }
     

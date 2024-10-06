@@ -14,7 +14,11 @@ struct KoCoApp: App {
     var body: some Scene {
         WindowGroup {
 //            ContentView()
-            MapView()
+            NavigationView {
+                MapView()
+                    
+            }
+
         }
     }
 }
