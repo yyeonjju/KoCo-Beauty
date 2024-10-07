@@ -11,7 +11,7 @@ struct MapView: View {
     @StateObject private var locationManager = LocationManager()
     @StateObject private var vm = MapViewModel()
     
-    @State private var isPresented = false
+    @State private var reviewWritePageShown = false
     
     var body: some View {
         ZStack {
@@ -22,6 +22,9 @@ struct MapView: View {
             }
            
             bottomSheet
+        }
+        .fullScreenCover(isPresented: $reviewWritePageShown){
+            ReviewWriteView(isPresented: $reviewWritePageShown, storeName: "하하하하", storeId: "3243")
         }
         .onChange(of: locationManager.lastKnownLocation) { newValue in
             print("🎀🎀내 위치 감지해서 or 디폴트 위치 설정으로 lastKnownLocation 바뀌었다🎀🎀 -> ", newValue)
@@ -90,7 +93,7 @@ extension MapView {
                 vm.isBottomSheetOpen = false
             }label : {
                 HStack{
-                    Image(systemName: "arrow.clockwise")
+                    Assets.SystemImage.arrowClockwise
                     Text("이 위치에서 검색")
                 }
                 .padding(.horizontal)
@@ -108,7 +111,7 @@ extension MapView {
     }
     
     var bottomSheet : some View {
-        BottomSheetView(isOpen: $vm.isBottomSheetOpen, maxHeight: 300, showIndicator:true,  isIgnoredSafeArea : true, minHeightRatio : 0) {
+        BottomSheetView(isOpen: $vm.isBottomSheetOpen, maxHeight: 320, showIndicator:true,  isIgnoredSafeArea : true, minHeightRatio : 0) {
             
             bottomSheetContent
         }
@@ -154,7 +157,7 @@ extension MapView {
                     if !tappedStoreData.phone.isEmpty{
                         Text(tappedStoreData.phone)
                             .font(.system(size: 14))
-                        Image(systemName: "phone.fill")
+                        Assets.SystemImage.phoneFill
                         
                         Spacer()
                     }
@@ -163,16 +166,7 @@ extension MapView {
                 
                 HStack{
                     ForEach(0..<3) { item in
-                        AsyncImage(url: URL(string: "https://search.pstatic.net/common/?type=b150&src=http://post.phinf.naver.net/MjAyMjA0MTVfMjQ2/MDAxNjUwMDE5NDA4Mjgw.CgQJxztRuJfn4ihLu4eKU7dPasRUnQsy2x5owX4ci-gg.1Snzbi21dWabljj5SyfPUDZI-5NT-U7P32CgewqNSYgg.JPEG/Io7UGYEjtHnI1ViGT2_YIhkgFhWI.jpg")){ image in
-                            image
-                                .resizable()
-
-
-                        } placeholder: {
-                            ProgressView()
-                        }
-                        .frame(width : 100, height : 80)
-                        .scaledToFit()
+                        BaisicAsyncImage(url: "https://search.pstatic.net/common/?type=b150&src=http://post.phinf.naver.net/MjAyMjA0MTVfMjQ2/MDAxNjUwMDE5NDA4Mjgw.CgQJxztRuJfn4ihLu4eKU7dPasRUnQsy2x5owX4ci-gg.1Snzbi21dWabljj5SyfPUDZI-5NT-U7P32CgewqNSYgg.JPEG/Io7UGYEjtHnI1ViGT2_YIhkgFhWI.jpg", width: 100)
                         .padding(2)
                     }
                 }
@@ -194,6 +188,32 @@ extension MapView {
 
                     Spacer()
                 }
+                .padding(.bottom,4)
+                
+                Divider()
+                    .foregroundColor(.gray)
+                    .padding(.bottom,4)
+                
+                HStack(alignment : .center){
+                    Button {
+                        reviewWritePageShown = true
+                    }label : {
+                        Text("리뷰 기록")
+                            .asNormalOutlineText(isFilled : true)
+                    }
+                    
+                    Spacer()
+                    
+                    Button {
+                        print("플래그 버튼 눌림")
+                    } label : {
+                        Assets.SystemImage.flag
+                            .resizable()
+                            .foregroundColor(.skyblue)
+                            .frame(width: 20, height: 24)
+                    }
+                }
+//                .background(.gray)
 
                 
             }else {

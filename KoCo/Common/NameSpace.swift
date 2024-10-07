@@ -7,6 +7,37 @@
 
 import Foundation
 import UIKit
+import SwiftUI
+
+enum Operation {
+    case create
+    case edit
+}
+
+enum Assets {
+    enum Colors {
+        static let skyblue = Color("skyblue")
+        static let black = Color("black")
+        static let gray1 = Color("gray1")
+        static let gray2 = Color("gray2")
+        static let gray3 = Color("gray3")
+        static let gray4 = Color("gray4")
+        static let gray5 = Color("gray5")
+        static let white = Color("white")
+    }
+    
+    enum SystemImage {
+        static let arrowClockwise = Image(systemName: "arrow.clockwise")
+        static let phoneFill = Image(systemName: "phone.fill")
+        static let flag = Image(systemName: "flag")
+        static let flagFill = Image(systemName: "flag.fill")
+        static let xmark = Image(systemName: "xmark")
+        static let chevronDown = Image(systemName: "chevron.down")
+        static let plusCircleFill = Image(systemName: "plus.circle.fill")
+        
+        
+    }
+}
 
 enum MapInfo {
     static let viewName = "mapview"

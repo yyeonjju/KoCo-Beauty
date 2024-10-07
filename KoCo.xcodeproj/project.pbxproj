@@ -13,6 +13,12 @@
 		7D1AEFD12C9F146200DD05FC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D1AEFD02C9F146200DD05FC /* Preview Assets.xcassets */; };
 		7D50ECCE2CB285B200B34B91 /* StoreWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D50ECCD2CB285B200B34B91 /* StoreWebView.swift */; };
 		7D50ECD22CB28D7500B34B91 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D50ECD12CB28D7500B34B91 /* WebView.swift */; };
+		7D50ECD62CB2BEF200B34B91 /* TextModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D50ECD52CB2BEF200B34B91 /* TextModifier.swift */; };
+		7D50ECD92CB2C19800B34B91 /* View++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D50ECD82CB2C19800B34B91 /* View++.swift */; };
+		7D50ECDC2CB2C92C00B34B91 /* ReviewWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D50ECDB2CB2C92C00B34B91 /* ReviewWriteView.swift */; };
+		7D50ECDE2CB2F02C00B34B91 /* ViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D50ECDD2CB2F02C00B34B91 /* ViewModifier.swift */; };
+		7D50ED072CB3BF0300B34B91 /* ShowDetailToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D50ED062CB3BF0300B34B91 /* ShowDetailToggleButton.swift */; };
+		7D50ED0C2CB3F1C800B34B91 /* BaisicAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D50ED0B2CB3F1C800B34B91 /* BaisicAsyncImage.swift */; };
 		7DBBAA922CA2F5E5009171D2 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAA912CA2F5E5009171D2 /* MapView.swift */; };
 		7DBBAA942CAC0FDE009171D2 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAA932CAC0FDE009171D2 /* LocationManager.swift */; };
 		7DBBAA962CAC15A9009171D2 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAA952CAC15A9009171D2 /* MapViewModel.swift */; };
@@ -43,6 +49,12 @@
 		7D50ECCD2CB285B200B34B91 /* StoreWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreWebView.swift; sourceTree = "<group>"; };
 		7D50ECD12CB28D7500B34B91 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		7D50ECD32CB29B8200B34B91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7D50ECD52CB2BEF200B34B91 /* TextModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextModifier.swift; sourceTree = "<group>"; };
+		7D50ECD82CB2C19800B34B91 /* View++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View++.swift"; sourceTree = "<group>"; };
+		7D50ECDB2CB2C92C00B34B91 /* ReviewWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWriteView.swift; sourceTree = "<group>"; };
+		7D50ECDD2CB2F02C00B34B91 /* ViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifier.swift; sourceTree = "<group>"; };
+		7D50ED062CB3BF0300B34B91 /* ShowDetailToggleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDetailToggleButton.swift; sourceTree = "<group>"; };
+		7D50ED0B2CB3F1C800B34B91 /* BaisicAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaisicAsyncImage.swift; sourceTree = "<group>"; };
 		7DBBAA912CA2F5E5009171D2 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		7DBBAA932CAC0FDE009171D2 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		7DBBAA952CAC15A9009171D2 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
@@ -95,6 +107,8 @@
 		7D1AEFC82C9F146000DD05FC /* KoCo */ = {
 			isa = PBXGroup;
 			children = (
+				7D50ECD72CB2C18A00B34B91 /* Extensions */,
+				7D50ECD42CB2BEDB00B34B91 /* CustomViewModifier */,
 				7D50ECD32CB29B8200B34B91 /* Info.plist */,
 				7DBBAABF2CAD63E6009171D2 /* SupportingFiles */,
 				7DBBAABC2CAD6292009171D2 /* Assets */,
@@ -135,9 +149,43 @@
 			path = WebView;
 			sourceTree = "<group>";
 		};
+		7D50ECD42CB2BEDB00B34B91 /* CustomViewModifier */ = {
+			isa = PBXGroup;
+			children = (
+				7D50ECD52CB2BEF200B34B91 /* TextModifier.swift */,
+				7D50ECDD2CB2F02C00B34B91 /* ViewModifier.swift */,
+			);
+			path = CustomViewModifier;
+			sourceTree = "<group>";
+		};
+		7D50ECD72CB2C18A00B34B91 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				7D50ECD82CB2C19800B34B91 /* View++.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		7D50ECDA2CB2C8FC00B34B91 /* ReviewWriteView */ = {
+			isa = PBXGroup;
+			children = (
+				7D50ECDB2CB2C92C00B34B91 /* ReviewWriteView.swift */,
+			);
+			path = ReviewWriteView;
+			sourceTree = "<group>";
+		};
+		7D50ED052CB3BEE700B34B91 /* Button */ = {
+			isa = PBXGroup;
+			children = (
+				7D50ED062CB3BF0300B34B91 /* ShowDetailToggleButton.swift */,
+			);
+			path = Button;
+			sourceTree = "<group>";
+		};
 		7DBBAA8F2CA2F5A6009171D2 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				7D50ECDA2CB2C8FC00B34B91 /* ReviewWriteView */,
 				7D50ECCC2CB2851E00B34B91 /* StoreWebView */,
 				7DBBAA902CA2F5BD009171D2 /* MapView */,
 			);
@@ -203,8 +251,10 @@
 		7DBBAAB82CAD623E009171D2 /* CustomView */ = {
 			isa = PBXGroup;
 			children = (
+				7D50ED052CB3BEE700B34B91 /* Button */,
 				7D50ECD02CB28D6200B34B91 /* WebView */,
 				7DBBAAB92CAD624C009171D2 /* BottomSheet */,
+				7D50ED0B2CB3F1C800B34B91 /* BaisicAsyncImage.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -315,11 +365,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				7DBBAAB22CAD609D009171D2 /* KakaoMapView.swift in Sources */,
+				7D50ECD62CB2BEF200B34B91 /* TextModifier.swift in Sources */,
 				7DBBAAA02CACCA38009171D2 /* Router.swift in Sources */,
 				7DBBAAA42CACCA96009171D2 /* APIURL.swift in Sources */,
 				7DBBAA992CACC968009171D2 /* NetworkManager.swift in Sources */,
 				7DBBAAAA2CAD364B009171D2 /* SearchLocation.swift in Sources */,
+				7D50ECDC2CB2C92C00B34B91 /* ReviewWriteView.swift in Sources */,
+				7D50ECD92CB2C19800B34B91 /* View++.swift in Sources */,
+				7D50ED0C2CB3F1C800B34B91 /* BaisicAsyncImage.swift in Sources */,
 				7DBBAA942CAC0FDE009171D2 /* LocationManager.swift in Sources */,
+				7D50ECDE2CB2F02C00B34B91 /* ViewModifier.swift in Sources */,
 				7DBBAAA62CACCAB7009171D2 /* APIKey.swift in Sources */,
 				7DBBAA962CAC15A9009171D2 /* MapViewModel.swift in Sources */,
 				7D1AEFCC2C9F146000DD05FC /* ContentView.swift in Sources */,
@@ -327,6 +382,7 @@
 				7DBBAAB72CAD6143009171D2 /* KakaoMapCoordinator.swift in Sources */,
 				7DBBAAB02CAD6047009171D2 /* ViewModelType.swift in Sources */,
 				7DBBAA922CA2F5E5009171D2 /* MapView.swift in Sources */,
+				7D50ED072CB3BF0300B34B91 /* ShowDetailToggleButton.swift in Sources */,
 				7D50ECD22CB28D7500B34B91 /* WebView.swift in Sources */,
 				7D50ECCE2CB285B200B34B91 /* StoreWebView.swift in Sources */,
 				7DBBAAB52CAD6100009171D2 /* NameSpace.swift in Sources */,
@@ -476,7 +532,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -508,7 +564,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
