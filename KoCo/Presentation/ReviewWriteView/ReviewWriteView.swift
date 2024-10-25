@@ -20,80 +20,62 @@ import PhotosUI
 
 //별점
 
+struct ReviewSectionType {
+    var isContentShown : Bool
+    let title : String
+
+}
+enum ReviewSection : String, CaseIterable {
+    case addPhotos = "영수증/사진 기록"
+    case addStoreReview = "매장 방문 후기"
+    case addProductReview = "화장품 사용 후기"
+    case addTags = "태그"
+    case addStarRate = "별점"
+}
+
 struct ReviewWriteView: View {
     @Binding var isPresented : Bool
     var operation : Operation = .create
     var storeName : String
     var storeId : String
 
-    
+    @State private var sections = ReviewSection.allCases.map{
+        ReviewSectionType(isContentShown: false, title: $0.rawValue)
+    }
+
     @State var selectedPhotos: [PhotosPickerItem] = []
     @State private var selectedImages: [UIImage] = []
     
     var body: some View {
         ScrollView(showsIndicators : false){
-            HStack(alignment : .top) {
-                VStack(alignment : .leading){
-                    Text(storeName)
-                        .foregroundStyle(.skyblue)
-                    Text("리뷰를 등록해주세요!")
-                }
-                .asTitleText()
-                
-                Button {
-                    isPresented = false
-                } label : {
-                    Assets.SystemImage.xmark
-                        .foregroundColor(.gray)
-                }
 
-            }
+            headerView
             .padding(.vertical)
             
-            
-            VStack{
-                Text("영수증/사진 기록")
-                    .asSectionTitleText()
-                
+
+            ReviewSectionView(isContentShown: $sections[0].isContentShown, title: sections[0].title){
                 addPhotosView
-                
             }
-            .asSectionView()
             .padding(.bottom,5)
             
-            VStack{
-                Text("매장 방문 후기")
-                    .asSectionTitleText()
-                
-                
+            ReviewSectionView(isContentShown: $sections[1].isContentShown, title: sections[1].title){
+                addStoreReviewView
             }
-            .asSectionView()
             .padding(.bottom,5)
             
-            VStack{
-                Text("화장품 사용 후기")
-                    .asSectionTitleText()
-                
-                
+            ReviewSectionView(isContentShown: $sections[2].isContentShown, title: sections[2].title){
+                addProductReviewView
             }
-            .asSectionView()
             .padding(.bottom,5)
             
-            VStack{
-                Text("태그")
-                    .asSectionTitleText()
-                
+            ReviewSectionView(isContentShown: $sections[3].isContentShown, title: sections[3].title){
+                addTagsView
             }
-            .asSectionView()
             .padding(.bottom,5)
             
-            VStack{
-                Text("별점")
-                    .asSectionTitleText()
-                
-                
+            ReviewSectionView(isContentShown: $sections[4].isContentShown, title: sections[4].title){
+                addStarRateView
             }
-            .asSectionView()
             .padding(.bottom,5)
             
         }
@@ -110,6 +92,25 @@ struct ReviewWriteView: View {
 
 
 extension ReviewWriteView {
+    var headerView : some View {
+        HStack(alignment : .top) {
+            VStack(alignment : .leading){
+                Text(storeName)
+                    .foregroundStyle(.skyblue)
+                Text("리뷰를 등록해주세요!")
+            }
+            .asTitleText()
+            
+            Button {
+                isPresented = false
+            } label : {
+                Assets.SystemImage.xmark
+                    .foregroundColor(.gray)
+            }
+
+        }
+    }
+    
     var addPhotosView : some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
@@ -148,10 +149,32 @@ extension ReviewWriteView {
         .onChange(of: selectedPhotos) { newValue in
             convertSelectedPhotosToImages(newValue)
         }
-        
-        
     }
     
+    var addStoreReviewView : some View {
+        VStack{
+            Text("addStoreReviewView")
+        }
+    }
+    
+    var addProductReviewView : some View {
+        VStack{
+            Text("addProductReviewView")
+        }
+    }
+    
+    var addTagsView : some View {
+        VStack{
+            Text("addTagsView")
+        }
+    }
+    
+    var addStarRateView : some View {
+        VStack{
+            Text("addStarRateView")
+        }
+    }
+
     
     
     private func convertSelectedPhotosToImages(_ newPhotos: [PhotosPickerItem]) {
