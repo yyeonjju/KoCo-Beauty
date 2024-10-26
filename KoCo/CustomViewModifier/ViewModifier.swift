@@ -18,3 +18,17 @@ struct SectionView : ViewModifier {
         
     }
 }
+
+struct OutlineView : ViewModifier {
+    var outlineColor : Color
+    
+    func body(content: Content) -> some View {
+        content
+            .padding(5)
+            .background(.clear)
+            .overlay(
+                RoundedRectangle(cornerRadius:10)
+                    .stroke(outlineColor)
+            )
+    }
+}

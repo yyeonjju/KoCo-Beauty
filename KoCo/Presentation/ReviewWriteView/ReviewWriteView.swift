@@ -8,18 +8,6 @@
 import SwiftUI
 import PhotosUI
 
-//저장하기 , X 버튼
-
-//사진 추가?
-//영수증 기록
-
-//매장 방문 후기
-//화장품 사용 후기
-
-//태그
-
-//별점
-
 struct ReviewSectionType {
     var isContentShown : Bool
     let title : String
@@ -28,7 +16,7 @@ struct ReviewSectionType {
 enum ReviewSection : String, CaseIterable {
     case addPhotos = "영수증/사진 기록"
     case addStoreReview = "매장 방문 후기"
-    case addProductReview = "화장품 사용 후기"
+    case addProductReview = "화장품/제품 사용 후기"
     case addTags = "태그"
     case addStarRate = "별점"
 }
@@ -43,8 +31,25 @@ struct ReviewWriteView: View {
         ReviewSectionType(isContentShown: false, title: $0.rawValue)
     }
 
+    
+    //사진
     @State var selectedPhotos: [PhotosPickerItem] = []
     @State private var selectedImages: [UIImage] = []
+    
+    //매장 리뷰
+    @State var storeReviewText : String = ""
+    
+    //제품 리뷰
+    @State var productReviewText : String = ""
+    
+    //태그
+    private let tags : [String] = [
+        "합리적인 가격", "비싼 만큼 가치 있음", "청결", "제품 퀄리티 좋음", "친절", "트렌디함", "주차 편리", "편안한 대기 공간", "추천", "비추천", "편리한 예약"
+    ]
+    @State var clickedTags : [String] = []
+    
+    //별점
+    @State private var starRate : Int = 0
     
     var body: some View {
         ScrollView(showsIndicators : false){
@@ -78,12 +83,19 @@ struct ReviewWriteView: View {
             }
             .padding(.bottom,5)
             
+            Button{
+                print("리뷰 등록버튼 눌림")
+            } label : {
+                Text("리뷰 등록")
+                    .frame(maxWidth : .infinity)
+                    .asNormalOutlineText(isFilled : true, height : 50)
+            }
+            .padding(.top, 20)
+            
         }
         .padding(.horizontal)
         .frame(maxWidth : .infinity, maxHeight: .infinity)
         .background(Assets.Colors.gray5)
-        
-        
         
     }
 }
@@ -153,26 +165,29 @@ extension ReviewWriteView {
     
     var addStoreReviewView : some View {
         VStack{
-            Text("addStoreReviewView")
+            TextField("매장 리뷰", text: $storeReviewText, axis: .vertical)
         }
+        .asOutlineView()
+        .padding([.bottom, .horizontal])
     }
     
     var addProductReviewView : some View {
         VStack{
-            Text("addProductReviewView")
+            TextField("제품 리뷰", text: $productReviewText, axis: .vertical)
         }
+        .asOutlineView()
+        .padding([.bottom, .horizontal])
     }
     
     var addTagsView : some View {
         VStack{
-            Text("addTagsView")
+            HStackMultipleLinesMultipleSelectButtonView(elements: tags, clickedElements: $clickedTags)
         }
     }
     
     var addStarRateView : some View {
-        VStack{
-            Text("addStarRateView")
-        }
+        RatingView(rating: $starRate)
+            .padding(.bottom)
     }
 
     

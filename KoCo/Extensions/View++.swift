@@ -26,7 +26,11 @@ extension View{
 
 //ViewModifier
 extension View {
-    func asSectionView (alignment : Alignment = .leading) -> some View {
+    func asSectionView(alignment : Alignment = .leading) -> some View {
         modifier(SectionView())
+    }
+    
+    func asOutlineView(outlineColor : Color = Assets.Colors.skyblue) -> some View {
+        modifier(OutlineView(outlineColor: outlineColor))
     }
 }

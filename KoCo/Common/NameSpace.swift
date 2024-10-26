@@ -12,11 +12,15 @@ import SwiftUI
 enum Operation {
     case create
     case edit
+    
+    case read
 }
 
 enum Assets {
     enum Colors {
         static let skyblue = Color("skyblue")
+        static let pointYellow = Color("pointYellow")
+        
         static let black = Color("black")
         static let gray1 = Color("gray1")
         static let gray2 = Color("gray2")
@@ -34,6 +38,7 @@ enum Assets {
         static let xmark = Image(systemName: "xmark")
         static let chevronDown = Image(systemName: "chevron.down")
         static let plusCircleFill = Image(systemName: "plus.circle.fill")
+        static let starFill = Image(systemName: "star.fill")
         
         
     }
