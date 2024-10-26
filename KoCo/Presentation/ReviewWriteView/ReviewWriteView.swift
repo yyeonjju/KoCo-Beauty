@@ -44,8 +44,13 @@ struct ReviewWriteView: View {
     
     //태그
     private let tags : [String] = [
-        "합리적인 가격", "비싼 만큼 가치 있음", "청결", "제품 퀄리티 좋음", "친절", "트렌디함", "주차 편리", "편안한 대기 공간", "추천", "비추천", "편리한 예약"
+        "가격이 합리적임", "비싼 만큼 가치 있음", "매장이 청결함", "매장이 트렌디함", "제품 퀄리티 좋음", "직원이 친절함", "주차가 편리함", "대기 공간이 편안함", "예약이 편리함", "추천", "비추천"
     ]
+    
+//    [
+//        "합리적인 가격", "비싼 만큼 가치 있음", "청결", "제품 퀄리티 좋음", "친절", "트렌디함", "주차 편리", "편안한 대기 공간", "추천", "비추천", "편리한 예약"
+//    ]
+    
     @State var clickedTags : [String] = []
     
     //별점
@@ -84,7 +89,7 @@ struct ReviewWriteView: View {
             .padding(.bottom,5)
             
             Button{
-                print("리뷰 등록버튼 눌림")
+                print("리뷰 등록버튼 눌림", starRate)
             } label : {
                 Text("리뷰 등록")
                     .frame(maxWidth : .infinity)
@@ -186,7 +191,7 @@ extension ReviewWriteView {
     }
     
     var addStarRateView : some View {
-        RatingView(rating: $starRate)
+        StarRatingView(rating: $starRate)
             .padding(.bottom)
     }
 
