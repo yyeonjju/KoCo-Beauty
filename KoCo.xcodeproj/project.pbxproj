@@ -22,6 +22,13 @@
 		7D9A86B22CCBDCC300E0E415 /* ReviewSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9A86B12CCBDCC300E0E415 /* ReviewSectionView.swift */; };
 		7D9A86B42CCBFC1900E0E415 /* HStackMultipleLinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9A86B32CCBFC1900E0E415 /* HStackMultipleLinesView.swift */; };
 		7D9A86B62CCCDA2D00E0E415 /* StarRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9A86B52CCCDA2D00E0E415 /* StarRatingView.swift */; };
+		7D9A86B82CCD1D1000E0E415 /* ReviewWriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9A86B72CCD1D1000E0E415 /* ReviewWriteViewModel.swift */; };
+		7D9A86BB2CCD22D800E0E415 /* RepositoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9A86BA2CCD22D800E0E415 /* RepositoryType.swift */; };
+		7D9A86BD2CCD23F000E0E415 /* BaseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9A86BC2CCD23F000E0E415 /* BaseRepository.swift */; };
+		7D9A86C12CCE310C00E0E415 /* MyStoreDocumentsDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9A86C02CCE310C00E0E415 /* MyStoreDocumentsDTO.swift */; };
+		7D9A86C62CE1D3EB00E0E415 /* MyStoreRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9A86C52CE1D3EB00E0E415 /* MyStoreRepository.swift */; };
+		7D9A86D22CE1E94900E0E415 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7D9A86D12CE1E94900E0E415 /* RealmSwift */; };
+		7D9A86D32CE1EA5B00E0E415 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 7D9A86D12CE1E94900E0E415 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		7DBBAA922CA2F5E5009171D2 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAA912CA2F5E5009171D2 /* MapView.swift */; };
 		7DBBAA942CAC0FDE009171D2 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAA932CAC0FDE009171D2 /* LocationManager.swift */; };
 		7DBBAA962CAC15A9009171D2 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAA952CAC15A9009171D2 /* MapViewModel.swift */; };
@@ -43,6 +50,20 @@
 		7DBBAAC12CAD63F6009171D2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAAC02CAD63F6009171D2 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		7D9A86D42CE1EA5B00E0E415 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				7D9A86D32CE1EA5B00E0E415 /* RealmSwift in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		7D1AEFC62C9F146000DD05FC /* KoCo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KoCo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D1AEFC92C9F146000DD05FC /* KoCoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KoCoApp.swift; sourceTree = "<group>"; };
@@ -61,6 +82,11 @@
 		7D9A86B12CCBDCC300E0E415 /* ReviewSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewSectionView.swift; sourceTree = "<group>"; };
 		7D9A86B32CCBFC1900E0E415 /* HStackMultipleLinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HStackMultipleLinesView.swift; sourceTree = "<group>"; };
 		7D9A86B52CCCDA2D00E0E415 /* StarRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarRatingView.swift; sourceTree = "<group>"; };
+		7D9A86B72CCD1D1000E0E415 /* ReviewWriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWriteViewModel.swift; sourceTree = "<group>"; };
+		7D9A86BA2CCD22D800E0E415 /* RepositoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryType.swift; sourceTree = "<group>"; };
+		7D9A86BC2CCD23F000E0E415 /* BaseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseRepository.swift; sourceTree = "<group>"; };
+		7D9A86C02CCE310C00E0E415 /* MyStoreDocumentsDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStoreDocumentsDTO.swift; sourceTree = "<group>"; };
+		7D9A86C52CE1D3EB00E0E415 /* MyStoreRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStoreRepository.swift; sourceTree = "<group>"; };
 		7DBBAA912CA2F5E5009171D2 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		7DBBAA932CAC0FDE009171D2 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		7DBBAA952CAC15A9009171D2 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
@@ -85,6 +111,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D9A86D22CE1E94900E0E415 /* RealmSwift in Frameworks */,
 				7DBBAA9E2CACC9E2009171D2 /* Alamofire in Frameworks */,
 				7DBBAAAD2CAD474C009171D2 /* KakaoMapsSDK-SPM in Frameworks */,
 			);
@@ -124,6 +151,7 @@
 				7DBBAAA72CAD35A8009171D2 /* Models */,
 				7DBBAA972CACC951009171D2 /* Networking */,
 				7DBBAA8F2CA2F5A6009171D2 /* Presentation */,
+				7D9A86BE2CCE2F4200E0E415 /* Data */,
 				7D1AEFC92C9F146000DD05FC /* KoCoApp.swift */,
 				7D1AEFCB2C9F146000DD05FC /* ContentView.swift */,
 				7D1AEFCF2C9F146200DD05FC /* Preview Content */,
@@ -176,6 +204,7 @@
 			isa = PBXGroup;
 			children = (
 				7D50ECDB2CB2C92C00B34B91 /* ReviewWriteView.swift */,
+				7D9A86B72CCD1D1000E0E415 /* ReviewWriteViewModel.swift */,
 			);
 			path = ReviewWriteView;
 			sourceTree = "<group>";
@@ -196,6 +225,33 @@
 				7D9A86B52CCCDA2D00E0E415 /* StarRatingView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		7D9A86B92CCD226900E0E415 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				7D9A86BA2CCD22D800E0E415 /* RepositoryType.swift */,
+				7D9A86BC2CCD23F000E0E415 /* BaseRepository.swift */,
+				7D9A86C52CE1D3EB00E0E415 /* MyStoreRepository.swift */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		7D9A86BE2CCE2F4200E0E415 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				7D9A86BF2CCE2F6000E0E415 /* DTO */,
+				7D9A86B92CCD226900E0E415 /* Repository */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		7D9A86BF2CCE2F6000E0E415 /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				7D9A86C02CCE310C00E0E415 /* MyStoreDocumentsDTO.swift */,
+			);
+			path = DTO;
 			sourceTree = "<group>";
 		};
 		7DBBAA8F2CA2F5A6009171D2 /* Presentation */ = {
@@ -311,6 +367,7 @@
 				7D1AEFC22C9F146000DD05FC /* Sources */,
 				7D1AEFC32C9F146000DD05FC /* Frameworks */,
 				7D1AEFC42C9F146000DD05FC /* Resources */,
+				7D9A86D42CE1EA5B00E0E415 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -320,6 +377,7 @@
 			packageProductDependencies = (
 				7DBBAA9D2CACC9E2009171D2 /* Alamofire */,
 				7DBBAAAC2CAD474C009171D2 /* KakaoMapsSDK-SPM */,
+				7D9A86D12CE1E94900E0E415 /* RealmSwift */,
 			);
 			productName = KoCo;
 			productReference = 7D1AEFC62C9F146000DD05FC /* KoCo.app */;
@@ -352,6 +410,7 @@
 			packageReferences = (
 				7DBBAA9C2CACC9E2009171D2 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				7DBBAAAB2CAD474C009171D2 /* XCRemoteSwiftPackageReference "KakaoMapsSDK-SPM" */,
+				7D9A86D02CE1E94900E0E415 /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = 7D1AEFC72C9F146000DD05FC /* Products */;
 			projectDirPath = "";
@@ -381,15 +440,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D9A86C12CCE310C00E0E415 /* MyStoreDocumentsDTO.swift in Sources */,
 				7DBBAAB22CAD609D009171D2 /* KakaoMapView.swift in Sources */,
 				7D50ECD62CB2BEF200B34B91 /* TextModifier.swift in Sources */,
 				7DBBAAA02CACCA38009171D2 /* Router.swift in Sources */,
+				7D9A86C62CE1D3EB00E0E415 /* MyStoreRepository.swift in Sources */,
 				7DBBAAA42CACCA96009171D2 /* APIURL.swift in Sources */,
 				7DBBAA992CACC968009171D2 /* NetworkManager.swift in Sources */,
 				7DBBAAAA2CAD364B009171D2 /* SearchLocation.swift in Sources */,
 				7D50ECDC2CB2C92C00B34B91 /* ReviewWriteView.swift in Sources */,
 				7D50ECD92CB2C19800B34B91 /* View++.swift in Sources */,
 				7D50ED0C2CB3F1C800B34B91 /* BaisicAsyncImage.swift in Sources */,
+				7D9A86BD2CCD23F000E0E415 /* BaseRepository.swift in Sources */,
 				7DBBAA942CAC0FDE009171D2 /* LocationManager.swift in Sources */,
 				7D50ECDE2CB2F02C00B34B91 /* ViewModifier.swift in Sources */,
 				7DBBAAA62CACCAB7009171D2 /* APIKey.swift in Sources */,
@@ -398,9 +460,11 @@
 				7D9A86B42CCBFC1900E0E415 /* HStackMultipleLinesView.swift in Sources */,
 				7D9A86B22CCBDCC300E0E415 /* ReviewSectionView.swift in Sources */,
 				7DBBAABB2CAD6258009171D2 /* BottomSheetView.swift in Sources */,
+				7D9A86B82CCD1D1000E0E415 /* ReviewWriteViewModel.swift in Sources */,
 				7DBBAAB72CAD6143009171D2 /* KakaoMapCoordinator.swift in Sources */,
 				7DBBAAB02CAD6047009171D2 /* ViewModelType.swift in Sources */,
 				7DBBAA922CA2F5E5009171D2 /* MapView.swift in Sources */,
+				7D9A86BB2CCD22D800E0E415 /* RepositoryType.swift in Sources */,
 				7D50ED072CB3BF0300B34B91 /* ShowDetailToggleButton.swift in Sources */,
 				7D9A86B62CCCDA2D00E0E415 /* StarRatingView.swift in Sources */,
 				7D50ECD22CB28D7500B34B91 /* WebView.swift in Sources */,
@@ -622,6 +686,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		7D9A86D02CE1E94900E0E415 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = exactVersion;
+				version = 10.53.0;
+			};
+		};
 		7DBBAA9C2CACC9E2009171D2 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -641,6 +713,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		7D9A86D12CE1E94900E0E415 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7D9A86D02CE1E94900E0E415 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
 		7DBBAA9D2CACC9E2009171D2 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 7DBBAA9C2CACC9E2009171D2 /* XCRemoteSwiftPackageReference "Alamofire" */;

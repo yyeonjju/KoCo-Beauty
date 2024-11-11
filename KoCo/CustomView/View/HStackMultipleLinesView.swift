@@ -45,6 +45,8 @@ struct HStackMultipleLinesMultipleSelectButtonView: View {
                     Text(tag)
                         .font(.system(size: 13))
                         .padding()
+//                        .padding(.vertical, 10)
+//                        .padding(.horizontal, 8)
                         .foregroundColor(clickedElements.contains(tag) ? .white : forgroundColor)
                         .frame(height: buttonHeight)
                         .background(clickedElements.contains(tag) ? forgroundColor : .white)
@@ -54,6 +56,8 @@ struct HStackMultipleLinesMultipleSelectButtonView: View {
                                 .stroke( forgroundColor, lineWidth: clickedElements.contains(tag) ? 0 : 1)
                         )
                         .padding([.horizontal, .vertical], 8)
+//                        .padding(.vertical, 8)
+//                        .padding(.horizontal, 2)
                         .alignmentGuide(.leading, computeValue: { dimensions in
                             //width 값을 기반으로 각 버튼의 수평 위치를 결정합니다. 각 버튼은 앞선 버튼 너비만큼 오른쪽으로 이동하여 배치
                             
