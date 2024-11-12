@@ -29,6 +29,7 @@
 		7D9A86C62CE1D3EB00E0E415 /* MyStoreRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9A86C52CE1D3EB00E0E415 /* MyStoreRepository.swift */; };
 		7D9A86D22CE1E94900E0E415 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7D9A86D12CE1E94900E0E415 /* RealmSwift */; };
 		7D9A86D32CE1EA5B00E0E415 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 7D9A86D12CE1E94900E0E415 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		7D9A86D72CE339CC00E0E415 /* ReviewTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9A86D62CE339CC00E0E415 /* ReviewTag.swift */; };
 		7DBBAA922CA2F5E5009171D2 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAA912CA2F5E5009171D2 /* MapView.swift */; };
 		7DBBAA942CAC0FDE009171D2 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAA932CAC0FDE009171D2 /* LocationManager.swift */; };
 		7DBBAA962CAC15A9009171D2 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAA952CAC15A9009171D2 /* MapViewModel.swift */; };
@@ -87,6 +88,7 @@
 		7D9A86BC2CCD23F000E0E415 /* BaseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseRepository.swift; sourceTree = "<group>"; };
 		7D9A86C02CCE310C00E0E415 /* MyStoreDocumentsDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStoreDocumentsDTO.swift; sourceTree = "<group>"; };
 		7D9A86C52CE1D3EB00E0E415 /* MyStoreRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStoreRepository.swift; sourceTree = "<group>"; };
+		7D9A86D62CE339CC00E0E415 /* ReviewTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewTag.swift; sourceTree = "<group>"; };
 		7DBBAA912CA2F5E5009171D2 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		7DBBAA932CAC0FDE009171D2 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		7DBBAA952CAC15A9009171D2 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
@@ -254,6 +256,14 @@
 			path = DTO;
 			sourceTree = "<group>";
 		};
+		7D9A86D52CE339B400E0E415 /* Enum */ = {
+			isa = PBXGroup;
+			children = (
+				7D9A86D62CE339CC00E0E415 /* ReviewTag.swift */,
+			);
+			path = Enum;
+			sourceTree = "<group>";
+		};
 		7DBBAA8F2CA2F5A6009171D2 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
@@ -315,6 +325,7 @@
 		7DBBAAB32CAD60F3009171D2 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				7D9A86D52CE339B400E0E415 /* Enum */,
 				7DBBAAB42CAD6100009171D2 /* NameSpace.swift */,
 			);
 			path = Common;
@@ -462,6 +473,7 @@
 				7DBBAABB2CAD6258009171D2 /* BottomSheetView.swift in Sources */,
 				7D9A86B82CCD1D1000E0E415 /* ReviewWriteViewModel.swift in Sources */,
 				7DBBAAB72CAD6143009171D2 /* KakaoMapCoordinator.swift in Sources */,
+				7D9A86D72CE339CC00E0E415 /* ReviewTag.swift in Sources */,
 				7DBBAAB02CAD6047009171D2 /* ViewModelType.swift in Sources */,
 				7DBBAA922CA2F5E5009171D2 /* MapView.swift in Sources */,
 				7D9A86BB2CCD22D800E0E415 /* RepositoryType.swift in Sources */,

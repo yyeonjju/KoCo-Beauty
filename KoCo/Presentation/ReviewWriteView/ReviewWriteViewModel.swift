@@ -10,6 +10,7 @@ import Combine
 import UIKit
 import SwiftUI
 import PhotosUI
+import RealmSwift
 
 final class ReviewWriteViewModel : ObservableObject, ViewModelType {
     var cancellables = Set<AnyCancellable>()
@@ -25,7 +26,15 @@ final class ReviewWriteViewModel : ObservableObject, ViewModelType {
     //제품리뷰
     @Published var productReviewText = ""
     //선택된 태그
-    @Published var clickedTags : [String] = []
+    @Published var clickedTags : [String] = [] 
+//    {
+//        didSet {
+//            self.clickedTagIDs = clickedTags.map{
+//                ReviewTag(rawValue:$0) ?? .recommend
+//            }
+//        }
+//    }
+//    private var clickedTagIDs : [ReviewTag] = []
     //별점
     @Published var starRate : Int = 0
     
@@ -55,11 +64,18 @@ final class ReviewWriteViewModel : ObservableObject, ViewModelType {
     private func saveReviewToRealm(storeInfo : LocationDocument) {
         //TODO: 리뷰 잘 작성했는지 검증
         
-        
         print("latitude💕💕💕", storeInfo.y)
         print("longitude💕💕💕", storeInfo.x)
+        print("🧡 클릭된 태그 --> ", clickedTags)
         
-        let reviewContent = ReviewContent(storeReviewText: storeReviewText, productReviewText: productReviewText, starRate: starRate)
+
+        //[string] -> [ReviewTag]
+        let reviewTags = clickedTags.map{ReviewTag(rawValue:$0) ?? .recommend}
+        //array 형태의 태그 리스트 -> RealmSwift.List 형태
+        let realmListTagIDs : RealmSwift.List<ReviewTag> = RealmSwift.List()
+        realmListTagIDs.append(objectsIn: reviewTags)
+        
+        let reviewContent = ReviewContent(storeReviewText: storeReviewText, productReviewText: productReviewText, tags: realmListTagIDs, starRate: starRate)
         
         if let latitude = Double(storeInfo.y), let longitude = Double(storeInfo.x){
             print("latitude💕", latitude)
@@ -68,7 +84,7 @@ final class ReviewWriteViewModel : ObservableObject, ViewModelType {
 
             print("✅reviewContent✅", reviewContent)
             print("✅storeInfo✅", storeInfo)
-            myStoreRepository.createItem(storeInfo)
+//            myStoreRepository.createItem(storeInfo)
         }
 
     }
