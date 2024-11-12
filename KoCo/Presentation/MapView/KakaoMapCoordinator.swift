@@ -287,7 +287,7 @@ extension KakaoMapCoordinator : KakaoMapEventDelegate{
         let poi = layer?.getPoi(poiID: poiID)
         
         
-        //PoiOptions 세팅할 때 매장id로 지정해주었던 poiID로 lastTappedStoreID 값 업데이트
+        //PoiOptions 세팅할 때 매장id로 지정해주었던 poiID(매장의 id)로 lastTappedStoreID 값 업데이트
         parent.lastTappedStoreID = poiID
         
         

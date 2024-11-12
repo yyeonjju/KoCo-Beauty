@@ -32,7 +32,7 @@ class BaseRepository : RepositoryType {
         do {
             try realm.write{
                 realm.add(data)
-                print("Realm Create Succeed")
+                print("Realm Create Succeed -> ", getAllObjects(tableModel: M.self))
             }
         } catch {
             print(error)

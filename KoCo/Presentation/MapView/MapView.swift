@@ -24,7 +24,11 @@ struct MapView: View {
             bottomSheet
         }
         .fullScreenCover(isPresented: $reviewWritePageShown){
-            ReviewWriteView(isPresented: $reviewWritePageShown, storeName: "하하하하", storeId: "3243")
+            if let tappedStoreData = vm.output.searchLocations.first(where: {
+                $0.id == vm.lastTappedStoreID
+            }){
+                ReviewWriteView(isPresented: $reviewWritePageShown, storeInfo: tappedStoreData)
+            }
         }
         .onChange(of: locationManager.lastKnownLocation) { newValue in
             print("🎀🎀내 위치 감지해서 or 디폴트 위치 설정으로 lastKnownLocation 바뀌었다🎀🎀 -> ", newValue)

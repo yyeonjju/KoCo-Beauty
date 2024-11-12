@@ -22,27 +22,15 @@ enum ReviewSection : String, CaseIterable {
 }
 
 struct ReviewWriteView: View {
-    private let vm = ReviewWriteViewModel(myStoreRepository: MyStoreRepository())
+    @StateObject private var vm = ReviewWriteViewModel(myStoreRepository: MyStoreRepository())
     
     @Binding var isPresented : Bool
     var operation : Operation = .create
-    var storeName : String
-    var storeId : String
+    var storeInfo : LocationDocument
     
     @State private var sections = ReviewSection.allCases.map{
         ReviewSectionType(isContentShown: false, title: $0.rawValue)
     }
-
-    
-    //사진
-    @State var selectedPhotos: [PhotosPickerItem] = []
-    @State private var selectedImages: [UIImage] = []
-    
-    //매장 리뷰
-    @State var storeReviewText : String = ""
-    
-    //제품 리뷰
-    @State var productReviewText : String = ""
     
     //태그
     private let tags : [String] = 
@@ -67,6 +55,7 @@ struct ReviewWriteView: View {
         "추천",
         "비추천"
     ]
+    
 //    [
 //        "가격이 합리적임", "비싼 만큼 가치 있음", "매장이 청결함", "매장이 트렌디함", "제품 퀄리티 좋음", "직원이 친절함", "주차가 편리함", "대기 공간이 편안함", "예약이 편리함", "추천", "비추천"
 //    ]
@@ -75,10 +64,7 @@ struct ReviewWriteView: View {
 //        "합리적인 가격", "비싼 만큼 가치 있음", "청결", "제품 퀄리티 좋음", "친절", "트렌디함", "주차 편리", "편안한 대기 공간", "추천", "비추천", "편리한 예약"
 //    ]
     
-    @State var clickedTags : [String] = []
-    
-    //별점
-    @State private var starRate : Int = 0
+
     
     var body: some View {
         ScrollView(showsIndicators : false){
@@ -113,7 +99,9 @@ struct ReviewWriteView: View {
             .padding(.bottom,5)
             
             Button{
-                print("리뷰 등록버튼 눌림", starRate)
+                print("리뷰 등록버튼 눌림", vm.starRate)
+                
+                vm.action(.saveReview(storeInfo: storeInfo))
             } label : {
                 Text("리뷰 등록")
                     .frame(maxWidth : .infinity)
@@ -125,13 +113,7 @@ struct ReviewWriteView: View {
         .padding(.horizontal)
         .frame(maxWidth : .infinity, maxHeight: .infinity)
         .background(Assets.Colors.gray5)
-//        .onAppear{
-//            let repo = BaseRepository()
-//            repo.checkFileURL()
-//            repo.checkSchemaVersion()
-//            
-//        }
-        
+
     }
 }
 
@@ -142,7 +124,7 @@ extension ReviewWriteView {
     var headerView : some View {
         HStack(alignment : .top) {
             VStack(alignment : .leading){
-                Text(storeName)
+                Text(storeInfo.placeName)
                     .foregroundStyle(.skyblue)
                 Text("리뷰를 등록해주세요!")
             }
@@ -162,7 +144,7 @@ extension ReviewWriteView {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
                 
-                ForEach(selectedImages, id : \.self) { image in
+                ForEach(vm.selectedImages, id : \.self) { image in
                     Image(uiImage: image)
                         .resizable()
                         .background(Assets.Colors.gray4)
@@ -172,7 +154,10 @@ extension ReviewWriteView {
                 }
                 
                 PhotosPicker(
-                    selection: $selectedPhotos,
+                    selection: Binding(
+                        get: {vm.selectedPhotos },
+                        set: {vm.selectedPhotos = $0}
+                    ),
                     matching: .images
                 ) {
                     Rectangle()
@@ -193,14 +178,22 @@ extension ReviewWriteView {
             }
         }
         .padding([.leading,.bottom])
-        .onChange(of: selectedPhotos) { newValue in
+        .onChange(of: vm.selectedPhotos) { newValue in
+            print("💕", Thread.isMainThread)
             convertSelectedPhotosToImages(newValue)
         }
     }
     
     var addStoreReviewView : some View {
         VStack{
-            TextField("매장 리뷰", text: $storeReviewText, axis: .vertical)
+            TextField(
+                "매장 리뷰",
+                text: Binding(
+                    get: {vm.storeReviewText },
+                    set: {vm.storeReviewText = $0}
+                ),
+                axis: .vertical
+            )
         }
         .asOutlineView()
         .padding([.bottom, .horizontal])
@@ -208,7 +201,14 @@ extension ReviewWriteView {
     
     var addProductReviewView : some View {
         VStack{
-            TextField("제품 리뷰", text: $productReviewText, axis: .vertical)
+            TextField(
+                "제품 리뷰",
+                text: Binding(
+                    get: {vm.productReviewText },
+                    set: {vm.productReviewText = $0}
+                ),
+                axis: .vertical
+            )
         }
         .asOutlineView()
         .padding([.bottom, .horizontal])
@@ -216,26 +216,39 @@ extension ReviewWriteView {
     
     var addTagsView : some View {
         VStack{
-            HStackMultipleLinesMultipleSelectButtonView(elements: tags, clickedElements: $clickedTags)
+            HStackMultipleLinesMultipleSelectButtonView(
+                elements: tags,
+                clickedElements: Binding(
+                    get: {vm.clickedTags},
+                    set: {vm.clickedTags = $0}
+                )
+            )
         }
     }
     
     var addStarRateView : some View {
-        StarRatingView(rating: $starRate)
+        StarRatingView(
+            rating: Binding(
+                get: {vm.starRate},
+                set: {vm.starRate = $0}
+            )
+        )
             .padding(.bottom)
     }
 
     
     
     private func convertSelectedPhotosToImages(_ newPhotos: [PhotosPickerItem]) {
-        selectedImages.removeAll()
+        vm.selectedImages.removeAll()
         
         for newPhoto in newPhotos{
             newPhoto.loadTransferable(type: Data.self) { result in
                 switch result {
                 case .success(let data):
                     if let data, let newImage = UIImage(data: data){
-                        selectedImages.append(newImage)
+                        DispatchQueue.main.async {
+                            vm.selectedImages.append(newImage)
+                        }
                     }
                     
                 case .failure(let error):

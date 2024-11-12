@@ -63,12 +63,18 @@ class ReviewContent: EmbeddedObject {
 //    @Persisted var tags : List<TagEnum>
     @Persisted var starRate : Int
     
+    convenience init(storeReviewText: String, productReviewText: String, starRate: Int) {
+        self.init()
+        self.storeReviewText = storeReviewText
+        self.productReviewText = productReviewText
+        self.starRate = starRate
+    }
     
 }
 
 
 //
-//enum TagEnum: Int,PersistableEnum, CaseIterable {
+//enum ReviewTag: Int, PersistableEnum, CaseIterable {
 //
 //    case reasonablePrice = 1 //"가격이 합리적임"
 //    case worthThePrice = 2 //"비싼 만큼 가치 있음"
@@ -89,7 +95,8 @@ class ReviewContent: EmbeddedObject {
 //    case recommend = 12//"추천"
 //    case notRecommend = 13//"비추천"
 //    
-//    var toKorean : LocalizedStringKey {
+////    var toKorean : LocalizedStringKey {
+//    var toKorean : String {
 //        switch self {
 //        case .reasonablePrice:
 //            "가격이 합리적임"

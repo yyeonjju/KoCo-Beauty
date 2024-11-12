@@ -11,6 +11,7 @@ import Combine
 protocol ViewModelType : AnyObject, ObservableObject {
     associatedtype Input
     associatedtype Output
+    associatedtype Action
 
     var cancellables : Set<AnyCancellable> {get set}
     
@@ -18,4 +19,5 @@ protocol ViewModelType : AnyObject, ObservableObject {
     var output : Output{get set}
     
     func transform ()
+    func action (_ action:Action)
 }
