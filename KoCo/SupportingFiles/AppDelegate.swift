@@ -14,8 +14,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         //바뀔 스키마 버전 넣어주기
         // version 2 : ReviewContent에 tags 추가
-        let config = Realm.Configuration(schemaVersion: 2) { migration, oldSchemaVersion in
-            if oldSchemaVersion < 2 {
+        // version 3 : ReviewContent에 photoFileNames 추가
+        let config = Realm.Configuration(schemaVersion: 3) { migration, oldSchemaVersion in
+            if oldSchemaVersion < 3 {
                 //단순 컬럼, 테이블 추가나 삭제 등에 대해서는 코드 X
             }
         }

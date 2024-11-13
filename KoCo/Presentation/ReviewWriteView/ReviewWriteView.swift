@@ -28,6 +28,11 @@ struct ReviewWriteView: View {
     var operation : Operation = .create
     var storeInfo : LocationDocument
     
+    
+    //TODO: 🌸 여기 전 페이지에서 넘겨줄 때  operation & isFlaged 파악해서 넘겨주기 🌸
+    //TODO: 🌸 키보드 내리기
+    
+    
     @State private var sections = ReviewSection.allCases.map{
         ReviewSectionType(isContentShown: false, title: $0.rawValue)
     }

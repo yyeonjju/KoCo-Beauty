@@ -55,16 +55,16 @@ final class MyStoreInfo : Object {
     
 }
 
-
 class ReviewContent: EmbeddedObject {
-//    @Persisted var photo: List<Data>
+    @Persisted var photoFileNames: List<String>
     @Persisted var storeReviewText : String
     @Persisted var productReviewText : String
     @Persisted var tags : List<ReviewTag>
     @Persisted var starRate : Int
     
-    convenience init(storeReviewText: String, productReviewText: String, tags : List<ReviewTag>, starRate: Int) {
+    convenience init(photoFileNames : List<String>, storeReviewText: String, productReviewText: String, tags : List<ReviewTag>, starRate: Int) {
         self.init()
+        self.photoFileNames = photoFileNames
         self.storeReviewText = storeReviewText
         self.productReviewText = productReviewText
         self.tags = tags

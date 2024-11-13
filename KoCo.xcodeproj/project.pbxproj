@@ -30,6 +30,7 @@
 		7D9A86D22CE1E94900E0E415 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7D9A86D12CE1E94900E0E415 /* RealmSwift */; };
 		7D9A86D32CE1EA5B00E0E415 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 7D9A86D12CE1E94900E0E415 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		7D9A86D72CE339CC00E0E415 /* ReviewTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9A86D62CE339CC00E0E415 /* ReviewTag.swift */; };
+		7D9A86DB2CE365A600E0E415 /* ImageSavingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9A86DA2CE365A600E0E415 /* ImageSavingManager.swift */; };
 		7DBBAA922CA2F5E5009171D2 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAA912CA2F5E5009171D2 /* MapView.swift */; };
 		7DBBAA942CAC0FDE009171D2 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAA932CAC0FDE009171D2 /* LocationManager.swift */; };
 		7DBBAA962CAC15A9009171D2 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAA952CAC15A9009171D2 /* MapViewModel.swift */; };
@@ -89,6 +90,7 @@
 		7D9A86C02CCE310C00E0E415 /* MyStoreDocumentsDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStoreDocumentsDTO.swift; sourceTree = "<group>"; };
 		7D9A86C52CE1D3EB00E0E415 /* MyStoreRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStoreRepository.swift; sourceTree = "<group>"; };
 		7D9A86D62CE339CC00E0E415 /* ReviewTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewTag.swift; sourceTree = "<group>"; };
+		7D9A86DA2CE365A600E0E415 /* ImageSavingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSavingManager.swift; sourceTree = "<group>"; };
 		7DBBAA912CA2F5E5009171D2 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		7DBBAA932CAC0FDE009171D2 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		7DBBAA952CAC15A9009171D2 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
@@ -242,6 +244,7 @@
 		7D9A86BE2CCE2F4200E0E415 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				7D9A86D92CE3646700E0E415 /* FileManager */,
 				7D9A86BF2CCE2F6000E0E415 /* DTO */,
 				7D9A86B92CCD226900E0E415 /* Repository */,
 			);
@@ -262,6 +265,14 @@
 				7D9A86D62CE339CC00E0E415 /* ReviewTag.swift */,
 			);
 			path = Enum;
+			sourceTree = "<group>";
+		};
+		7D9A86D92CE3646700E0E415 /* FileManager */ = {
+			isa = PBXGroup;
+			children = (
+				7D9A86DA2CE365A600E0E415 /* ImageSavingManager.swift */,
+			);
+			path = FileManager;
 			sourceTree = "<group>";
 		};
 		7DBBAA8F2CA2F5A6009171D2 /* Presentation */ = {
@@ -458,6 +469,7 @@
 				7D9A86C62CE1D3EB00E0E415 /* MyStoreRepository.swift in Sources */,
 				7DBBAAA42CACCA96009171D2 /* APIURL.swift in Sources */,
 				7DBBAA992CACC968009171D2 /* NetworkManager.swift in Sources */,
+				7D9A86DB2CE365A600E0E415 /* ImageSavingManager.swift in Sources */,
 				7DBBAAAA2CAD364B009171D2 /* SearchLocation.swift in Sources */,
 				7D50ECDC2CB2C92C00B34B91 /* ReviewWriteView.swift in Sources */,
 				7D50ECD92CB2C19800B34B91 /* View++.swift in Sources */,
@@ -636,9 +648,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yeonju.KoCo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -668,9 +684,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yeonju.KoCo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
