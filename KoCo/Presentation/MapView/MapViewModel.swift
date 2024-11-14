@@ -29,10 +29,41 @@ final class MapViewModel : ObservableObject, ViewModelType {
     @Published var currentCameraCenterCoordinate : LocationCoordinate? = nil
     
     //지도의 poi 탭했을 때 그 매장의 id (==poiID)
-    @Published var lastTappedStoreID : String?
+    @Published var lastTappedStoreID : String = "" {
+        didSet{
+           
+            lastTappedStoreData = output.searchLocations.first(where: {
+                $0.id == lastTappedStoreID
+            })
+            
+            if let myStoreInfo = myStoreRepository.getAllObjects(tableModel: MyStoreInfo.self)?.first(where: {$0.KakaoPlaceID == lastTappedStoreID}) {
+                isTappeStoreFlaged = myStoreInfo.isFlaged
+                isTappeStoreReviewed = myStoreInfo.isReviewed
+                
+            }else {
+                isTappeStoreFlaged = false
+                isTappeStoreReviewed = false
+            }
+//            print("⭐️lastTappedStoreID" , lastTappedStoreID)
+//            print("⭐️lastTappedStoreData" , lastTappedStoreData)
+//            print("⭐️flaged" , isTappeStoreFlaged)
+//            print("⭐️reviewed" , isTappeStoreReviewed)
+
+        }
+    }
+    //탭한 매장의 정보
+    var lastTappedStoreData : LocationDocument?
+    //탭한 매장 플래그 여부
+    var isTappeStoreFlaged : Bool = false
+    //탭한 매장 리뷰 여부
+    var isTappeStoreReviewed : Bool = false
     
     
-    init() {
+    private var myStoreRepository : any RepositoryType
+    
+    init(myStoreRepository : any RepositoryType) {
+        self.myStoreRepository = myStoreRepository
+        
         transform()
     }
     

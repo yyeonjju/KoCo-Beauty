@@ -33,7 +33,7 @@ final class ReviewWriteViewModel : ObservableObject, ViewModelType {
     
     private var myStoreRepository : any RepositoryType
     
-    init(myStoreRepository : some RepositoryType) {
+    init(myStoreRepository : any RepositoryType) {
         self.myStoreRepository = myStoreRepository
         
         myStoreRepository.checkFileURL()
@@ -128,12 +128,16 @@ extension ReviewWriteViewModel {
 extension ReviewWriteViewModel{
     enum Action {
         case saveReview(storeInfo : LocationDocument)
+        
+//        case setStoreReviewText(text : String)
     }
     
     func action (_ action:Action) {
         switch action {
         case .saveReview(let storeInfo):
             input.saveReview.send(storeInfo)
+//        case .setStoreReviewText(let text):
+            
         }
     }
 }

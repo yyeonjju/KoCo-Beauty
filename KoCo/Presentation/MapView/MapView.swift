@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MapView: View {
     @StateObject private var locationManager = LocationManager()
-    @StateObject private var vm = MapViewModel()
+    @StateObject private var vm = MapViewModel(myStoreRepository: MyStoreRepository())
     
     @State private var reviewWritePageShown = false
     
@@ -24,10 +24,9 @@ struct MapView: View {
             bottomSheet
         }
         .fullScreenCover(isPresented: $reviewWritePageShown){
-            if let tappedStoreData = vm.output.searchLocations.first(where: {
-                $0.id == vm.lastTappedStoreID
-            }){
-                ReviewWriteView(isPresented: $reviewWritePageShown, storeInfo: tappedStoreData)
+            if let tappedStoreData = vm.lastTappedStoreData {
+                let operation : Operation = vm.isTappeStoreReviewed ? .read : .create
+                ReviewWriteView(isPresented: $reviewWritePageShown, operation : operation, storeInfo: tappedStoreData)
             }
         }
         .onChange(of: locationManager.lastKnownLocation) { newValue in
@@ -122,20 +121,17 @@ extension MapView {
     }
     
     var bottomSheetContent : some View {
-        let tappedStoreData = vm.output.searchLocations.first {
-            $0.id == vm.lastTappedStoreID
-        }
-        let category = tappedStoreData?.categoryName.components(separatedBy: ">") ?? ["화장품"]
-        let categoryText = category[category.count-1]
         
         return VStack {
-            if let tappedStoreData {
+            if let tappedStoreData = vm.lastTappedStoreData {
+                let category = tappedStoreData.categoryName.components(separatedBy: ">")
+                let categoryText = category.count>1 ? category[category.count-1] : "-"
                 HStack {
                     //매장이름
                     Text(tappedStoreData.placeName)
                         .font(.system(size: 18, weight: .heavy))
                         .foregroundStyle(.skyblue)
-//                        .padding()
+                    //                        .padding()
                     //카테고리 이름
                     Text(categoryText)
                         .font(.system(size: 16, weight: .bold))
@@ -202,7 +198,7 @@ extension MapView {
                     Button {
                         reviewWritePageShown = true
                     }label : {
-                        Text("리뷰 기록")
+                        Text(vm.isTappeStoreReviewed ? "작성한 리뷰 보기" : "리뷰 기록")
                             .asNormalOutlineText(isFilled : true)
                     }
                     

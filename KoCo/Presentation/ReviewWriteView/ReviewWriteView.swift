@@ -11,7 +11,7 @@ import PhotosUI
 struct ReviewSectionType {
     var isContentShown : Bool
     let title : String
-
+    
 }
 enum ReviewSection : String, CaseIterable {
     case addPhotos = "영수증/사진 기록"
@@ -33,92 +33,101 @@ struct ReviewWriteView: View {
     //TODO: 🌸 키보드 내리기
     
     
-    @State private var sections = ReviewSection.allCases.map{
-        ReviewSectionType(isContentShown: false, title: $0.rawValue)
-    }
+    @State private var sections : [ReviewSectionType] = []
     
     //태그
     private let tags : [String] = ReviewTag.allCases.map{$0.rawValue}
-//    [
-//        
-//        "가격이 합리적임",
-//        "비싼 만큼 가치 있음",
-//         
-//        "매장이 청결함",
-//        "매장이 청결하지 않음",
-//        
-//        "매장이 트렌디함",
-//        
-//        "제품 퀄리티 좋음",
-//        
-//        "직원이 친절함",
-//        "직원이 불친절함",
-//         
-//        "주차가 편리함",
-//        "대기 공간이 편안함",
-//        "예약이 편리함",
-//        "추천",
-//        "비추천"
-//    ]
+    //    [
+    //
+    //        "가격이 합리적임",
+    //        "비싼 만큼 가치 있음",
+    //
+    //        "매장이 청결함",
+    //        "매장이 청결하지 않음",
+    //
+    //        "매장이 트렌디함",
+    //
+    //        "제품 퀄리티 좋음",
+    //
+    //        "직원이 친절함",
+    //        "직원이 불친절함",
+    //
+    //        "주차가 편리함",
+    //        "대기 공간이 편안함",
+    //        "예약이 편리함",
+    //        "추천",
+    //        "비추천"
+    //    ]
     
-//    [
-//        "가격이 합리적임", "비싼 만큼 가치 있음", "매장이 청결함", "매장이 트렌디함", "제품 퀄리티 좋음", "직원이 친절함", "주차가 편리함", "대기 공간이 편안함", "예약이 편리함", "추천", "비추천"
-//    ]
+    //    [
+    //        "가격이 합리적임", "비싼 만큼 가치 있음", "매장이 청결함", "매장이 트렌디함", "제품 퀄리티 좋음", "직원이 친절함", "주차가 편리함", "대기 공간이 편안함", "예약이 편리함", "추천", "비추천"
+    //    ]
     
-//    [
-//        "합리적인 가격", "비싼 만큼 가치 있음", "청결", "제품 퀄리티 좋음", "친절", "트렌디함", "주차 편리", "편안한 대기 공간", "추천", "비추천", "편리한 예약"
-//    ]
+    //    [
+    //        "합리적인 가격", "비싼 만큼 가치 있음", "청결", "제품 퀄리티 좋음", "친절", "트렌디함", "주차 편리", "편안한 대기 공간", "추천", "비추천", "편리한 예약"
+    //    ]
     
-
+    
     
     var body: some View {
-        ScrollView(showsIndicators : false){
-
-            headerView
-            .padding(.vertical)
+        if sections.isEmpty {
+            ProgressView()
+                .onAppear{
+                    self.sections = ReviewSection.allCases.map{
+                        ReviewSectionType(isContentShown: self.operation == .create ? false : true, title: $0.rawValue)
+                    }
+                }
             
-
-            ReviewSectionView(isContentShown: $sections[0].isContentShown, title: sections[0].title){
-                addPhotosView
-            }
-            .padding(.bottom,5)
-            
-            ReviewSectionView(isContentShown: $sections[1].isContentShown, title: sections[1].title){
-                addStoreReviewView
-            }
-            .padding(.bottom,5)
-            
-            ReviewSectionView(isContentShown: $sections[2].isContentShown, title: sections[2].title){
-                addProductReviewView
-            }
-            .padding(.bottom,5)
-            
-            ReviewSectionView(isContentShown: $sections[3].isContentShown, title: sections[3].title){
-                addTagsView
-            }
-            .padding(.bottom,5)
-            
-            ReviewSectionView(isContentShown: $sections[4].isContentShown, title: sections[4].title){
-                addStarRateView
-            }
-            .padding(.bottom,5)
-            
-            Button{
-                print("리뷰 등록버튼 눌림", vm.starRate)
+        } else {
+            ScrollView(showsIndicators : false){
                 
-                vm.action(.saveReview(storeInfo: storeInfo))
-            } label : {
-                Text("리뷰 등록")
-                    .frame(maxWidth : .infinity)
-                    .asNormalOutlineText(isFilled : true, height : 50)
+                headerView
+                    .padding(.vertical)
+                
+                
+                ReviewSectionView(isContentShown: $sections[0].isContentShown, title: sections[0].title){
+                    addPhotosView
+                }
+                .padding(.bottom,5)
+                
+                ReviewSectionView(isContentShown: $sections[1].isContentShown, title: sections[1].title){
+                    addStoreReviewView
+                }
+                .padding(.bottom,5)
+                
+                ReviewSectionView(isContentShown: $sections[2].isContentShown, title: sections[2].title){
+                    addProductReviewView
+                }
+                .padding(.bottom,5)
+                
+                ReviewSectionView(isContentShown: $sections[3].isContentShown, title: sections[3].title){
+                    addTagsView
+                }
+                .padding(.bottom,5)
+                
+                ReviewSectionView(isContentShown: $sections[4].isContentShown, title: sections[4].title){
+                    addStarRateView
+                }
+                .padding(.bottom,5)
+                
+                Button{
+                    print("리뷰 등록버튼 눌림", vm.starRate)
+                    
+                    vm.action(.saveReview(storeInfo: storeInfo))
+                } label : {
+                    Text("리뷰 등록")
+                        .frame(maxWidth : .infinity)
+                        .asNormalOutlineText(isFilled : true, height : 50)
+                }
+                .padding(.top, 20)
+                
             }
-            .padding(.top, 20)
+            .padding(.horizontal)
+            .frame(maxWidth : .infinity, maxHeight: .infinity)
+            .background(Assets.Colors.gray5)
             
         }
-        .padding(.horizontal)
-        .frame(maxWidth : .infinity, maxHeight: .infinity)
-        .background(Assets.Colors.gray5)
-
+        
     }
 }
 
@@ -141,7 +150,7 @@ extension ReviewWriteView {
                 Assets.SystemImage.xmark
                     .foregroundColor(.gray)
             }
-
+            
         }
     }
     
@@ -238,9 +247,9 @@ extension ReviewWriteView {
                 set: {vm.starRate = $0}
             )
         )
-            .padding(.bottom)
+        .padding(.bottom)
     }
-
+    
     
     
     private func convertSelectedPhotosToImages(_ newPhotos: [PhotosPickerItem]) {
