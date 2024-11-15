@@ -9,6 +9,11 @@ import Foundation
 import UIKit
 import SwiftUI
 
+enum RepositoryError : Error {
+    case noStore
+    case noReviewContent
+}
+
 enum Operation {
     case create
     case edit

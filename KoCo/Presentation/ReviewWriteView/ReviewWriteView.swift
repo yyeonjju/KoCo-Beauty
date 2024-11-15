@@ -29,7 +29,7 @@ struct ReviewWriteView: View {
     var storeInfo : LocationDocument
     
     
-    //TODO: 🌸 여기 전 페이지에서 넘겨줄 때  operation & isFlaged 파악해서 넘겨주기 🌸
+    //TODO: 🌸vm.output.errorOccur에 대한 대응🌸
     //TODO: 🌸 키보드 내리기
     
     
@@ -37,42 +37,14 @@ struct ReviewWriteView: View {
     
     //태그
     private let tags : [String] = ReviewTag.allCases.map{$0.rawValue}
-    //    [
-    //
-    //        "가격이 합리적임",
-    //        "비싼 만큼 가치 있음",
-    //
-    //        "매장이 청결함",
-    //        "매장이 청결하지 않음",
-    //
-    //        "매장이 트렌디함",
-    //
-    //        "제품 퀄리티 좋음",
-    //
-    //        "직원이 친절함",
-    //        "직원이 불친절함",
-    //
-    //        "주차가 편리함",
-    //        "대기 공간이 편안함",
-    //        "예약이 편리함",
-    //        "추천",
-    //        "비추천"
-    //    ]
-    
-    //    [
-    //        "가격이 합리적임", "비싼 만큼 가치 있음", "매장이 청결함", "매장이 트렌디함", "제품 퀄리티 좋음", "직원이 친절함", "주차가 편리함", "대기 공간이 편안함", "예약이 편리함", "추천", "비추천"
-    //    ]
-    
-    //    [
-    //        "합리적인 가격", "비싼 만큼 가치 있음", "청결", "제품 퀄리티 좋음", "친절", "트렌디함", "주차 편리", "편안한 대기 공간", "추천", "비추천", "편리한 예약"
-    //    ]
-    
     
     
     var body: some View {
+        
         if sections.isEmpty {
             ProgressView()
                 .onAppear{
+                    //operation에 따라 섹션 공간 토글 여부
                     self.sections = ReviewSection.allCases.map{
                         ReviewSectionType(isContentShown: self.operation == .create ? false : true, title: $0.rawValue)
                     }
@@ -87,44 +59,57 @@ struct ReviewWriteView: View {
                 
                 ReviewSectionView(isContentShown: $sections[0].isContentShown, title: sections[0].title){
                     addPhotosView
+                        .allowsHitTesting(operation != .read)
                 }
                 .padding(.bottom,5)
                 
                 ReviewSectionView(isContentShown: $sections[1].isContentShown, title: sections[1].title){
                     addStoreReviewView
+                        .allowsHitTesting(operation != .read)
                 }
                 .padding(.bottom,5)
                 
                 ReviewSectionView(isContentShown: $sections[2].isContentShown, title: sections[2].title){
                     addProductReviewView
+                        .allowsHitTesting(operation != .read)
                 }
                 .padding(.bottom,5)
                 
                 ReviewSectionView(isContentShown: $sections[3].isContentShown, title: sections[3].title){
                     addTagsView
+                        .allowsHitTesting(operation != .read)
                 }
                 .padding(.bottom,5)
                 
                 ReviewSectionView(isContentShown: $sections[4].isContentShown, title: sections[4].title){
                     addStarRateView
+                        .allowsHitTesting(operation != .read)
                 }
                 .padding(.bottom,5)
                 
-                Button{
-                    print("리뷰 등록버튼 눌림", vm.starRate)
-                    
-                    vm.action(.saveReview(storeInfo: storeInfo))
-                } label : {
-                    Text("리뷰 등록")
-                        .frame(maxWidth : .infinity)
-                        .asNormalOutlineText(isFilled : true, height : 50)
+                if operation == .create {
+                    Button{
+                        print("리뷰 등록버튼 눌림", vm.starRate)
+                        
+                        vm.action(.saveReview(storeInfo: storeInfo))
+                    } label : {
+                        Text("리뷰 등록")
+                            .frame(maxWidth : .infinity)
+                            .asNormalOutlineText(isFilled : true, height : 50)
+                    }
+                    .padding(.top, 20)
                 }
-                .padding(.top, 20)
                 
             }
             .padding(.horizontal)
             .frame(maxWidth : .infinity, maxHeight: .infinity)
             .background(Assets.Colors.gray5)
+            .onAppear{
+                if operation == .read {
+                    vm.action(.getReview(storeID: storeInfo.id))
+                }
+            }
+            
             
         }
         
@@ -140,7 +125,7 @@ extension ReviewWriteView {
             VStack(alignment : .leading){
                 Text(storeInfo.placeName)
                     .foregroundStyle(.skyblue)
-                Text("리뷰를 등록해주세요!")
+                Text(operation == .create ? "리뷰를 등록해주세요!" : "작성한 리뷰입니다!")
             }
             .asTitleText()
             
@@ -167,27 +152,30 @@ extension ReviewWriteView {
                         .scaledToFill()
                 }
                 
-                PhotosPicker(
-                    selection: Binding(
-                        get: {vm.selectedPhotos },
-                        set: {vm.selectedPhotos = $0}
-                    ),
-                    matching: .images
-                ) {
-                    Rectangle()
-                        .fill(.clear)
-                        .frame(width : 80, height : 80)
-                        .cornerRadius(10)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: CGFloat(10))
-                                .stroke(Assets.Colors.skyblue, lineWidth: 2)
-                        )
-                        .overlay{
-                            Assets.SystemImage.plusCircleFill
-                                .foregroundStyle(Assets.Colors.skyblue)
-                                .imageScale(.large)
-                        }
+                if operation == .create {
+                    PhotosPicker(
+                        selection: Binding(
+                            get: {vm.selectedPhotos },
+                            set: {vm.selectedPhotos = $0}
+                        ),
+                        matching: .images
+                    ) {
+                        Rectangle()
+                            .fill(.clear)
+                            .frame(width : 80, height : 80)
+                            .cornerRadius(10)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: CGFloat(10))
+                                    .stroke(Assets.Colors.skyblue, lineWidth: 2)
+                            )
+                            .overlay{
+                                Assets.SystemImage.plusCircleFill
+                                    .foregroundStyle(Assets.Colors.skyblue)
+                                    .imageScale(.large)
+                            }
+                    }
                 }
+
                 Spacer()
             }
         }

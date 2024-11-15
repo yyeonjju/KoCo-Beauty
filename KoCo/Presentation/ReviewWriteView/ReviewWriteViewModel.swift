@@ -13,6 +13,8 @@ import PhotosUI
 import RealmSwift
 
 final class ReviewWriteViewModel : ObservableObject, ViewModelType {
+    private var myStoreRepository : any RepositoryType
+    
     var cancellables = Set<AnyCancellable>()
     var input = Input()
     @Published var output = Output()
@@ -29,9 +31,7 @@ final class ReviewWriteViewModel : ObservableObject, ViewModelType {
     @Published var clickedTags : [String] = []
     //별점
     @Published var starRate : Int = 0
-    
-    
-    private var myStoreRepository : any RepositoryType
+
     
     init(myStoreRepository : any RepositoryType) {
         self.myStoreRepository = myStoreRepository
@@ -50,6 +50,45 @@ final class ReviewWriteViewModel : ObservableObject, ViewModelType {
                 self.saveReviewToRealm(storeInfo: storeInfo)
             }
             .store(in: &cancellables)
+        
+        input
+            .getReviewForID
+            .sink { [weak self] storeID in
+                guard let self else{return}
+                self.getReviewFromRealm(storeID: storeID)
+            }
+            .store(in: &cancellables)
+        
+    }
+    
+    private func getReviewFromRealm(storeID : String) {
+        guard let myStore = myStoreRepository.getAllObjects(tableModel: MyStoreInfo.self)?.first(where: {$0.KakaoPlaceID == storeID}) else {
+            output.errorOccur = .noStore
+            print("🚨🚨🚨noStore🚨🚨🚨")
+            return
+        }
+        
+        guard let reviewContent = myStore.reviewContent else {
+            output.errorOccur = .noReviewContent
+            print("🚨🚨🚨noReviewContent🚨🚨🚨")
+            return
+        }
+        
+        //리뷰 컨텐츠 뷰에 셋업
+        //매장 리뷰
+        self.storeReviewText = reviewContent.storeReviewText
+        //제품 리뷰
+        self.productReviewText = reviewContent.productReviewText
+        //태그
+        self.clickedTags =  Array(reviewContent.tags).map{$0.rawValue}
+        //별점
+        self.starRate = reviewContent.starRate
+        //사진 기록
+        for fileName in reviewContent.photoFileNames {
+            let uiImage = ImageSavingManager.loadImageFromDocument(filename: fileName)
+            self.selectedImages.append(uiImage ?? UIImage())
+        }
+        
         
     }
     
@@ -79,7 +118,8 @@ final class ReviewWriteViewModel : ObservableObject, ViewModelType {
             print("🥰 이미지 이름 -> ", "\(storeInfo.id)_\(currentDate)_\(offset)")
             
             //realm 에 저장할 파일 이름 만들기
-            let fileName = "\(storeInfo.id)_\(currentDate)_\(offset)"
+            let dateString = DateFormatManager.shared.getDateFormatter(format: .yearMonthDay).string(from: currentDate)
+            let fileName = "\(storeInfo.id)_\(dateString)_\(offset)"
             imageFileNames.append(fileName)
             
             //파일매니저에 이미지 하나씩 저장
@@ -117,9 +157,11 @@ extension ReviewWriteViewModel {
     
     struct Input {
         let saveReview = PassthroughSubject<LocationDocument, Never>()
+        let getReviewForID = PassthroughSubject<String, Never>()
     }
     
     struct Output {
+        var errorOccur : RepositoryError?
     }
 }
 
@@ -128,16 +170,15 @@ extension ReviewWriteViewModel {
 extension ReviewWriteViewModel{
     enum Action {
         case saveReview(storeInfo : LocationDocument)
-        
-//        case setStoreReviewText(text : String)
+        case getReview(storeID : String)
     }
     
     func action (_ action:Action) {
         switch action {
         case .saveReview(let storeInfo):
             input.saveReview.send(storeInfo)
-//        case .setStoreReviewText(let text):
-            
+        case .getReview(let storeID):
+            input.getReviewForID.send(storeID)
         }
     }
 }
