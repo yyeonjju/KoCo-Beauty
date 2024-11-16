@@ -9,6 +9,8 @@ import Foundation
 import Combine
 
 final class MapViewModel : ObservableObject, ViewModelType {
+    private var myStoreRepository : any RepositoryType & MyStoreType
+    
     var cancellables = Set<AnyCancellable>()
     var input = Input()
     @Published var output = Output()
@@ -31,12 +33,12 @@ final class MapViewModel : ObservableObject, ViewModelType {
     //지도의 poi 탭했을 때 그 매장의 id (==poiID)
     @Published var lastTappedStoreID : String = "" {
         didSet{
-           
+
             lastTappedStoreData = output.searchLocations.first(where: {
                 $0.id == lastTappedStoreID
             })
             
-            if let myStoreInfo = myStoreRepository.getAllObjects(tableModel: MyStoreInfo.self)?.first(where: {$0.KakaoPlaceID == lastTappedStoreID}) {
+            if let myStoreInfo = myStoreRepository.myStore(for: lastTappedStoreID) {
                 isTappeStoreFlaged = myStoreInfo.isFlaged
                 isTappeStoreReviewed = myStoreInfo.isReviewed
                 
@@ -59,9 +61,7 @@ final class MapViewModel : ObservableObject, ViewModelType {
     var isTappeStoreReviewed : Bool = false
     
     
-    private var myStoreRepository : any RepositoryType
-    
-    init(myStoreRepository : any RepositoryType) {
+    init(myStoreRepository : any RepositoryType & MyStoreType) {
         self.myStoreRepository = myStoreRepository
         
         transform()
@@ -73,6 +73,17 @@ final class MapViewModel : ObservableObject, ViewModelType {
             .sink { [weak self] location in
                 guard let self else{return}
                 self.getStoreData(location: location)
+            }
+            .store(in: &cancellables)
+        
+        input
+            .toggleIsFlagedStatus
+            .sink { [weak self] to in
+                guard let self, let lastTappedStoreData else{return}
+                
+                myStoreRepository.toggleFlag(storeID: lastTappedStoreID, to: to, storeData: lastTappedStoreData)
+                
+                lastTappedStoreID = lastTappedStoreData.id
             }
             .store(in: &cancellables)
     }
@@ -116,6 +127,7 @@ extension MapViewModel {
     
     struct Input {
         let fetchStoreData = PassthroughSubject<LocationCoordinate, Never>()
+        let toggleIsFlagedStatus = PassthroughSubject<Bool, Never>()
         
         let viewOnTask = PassthroughSubject<Void, Never>()
     }
@@ -132,12 +144,16 @@ extension MapViewModel{
         //주변 매장 검색을 위해
         //location에서 권한에 따라 불러온 위치 & "현재 지도에서 검색" 버튼 눌렀을 때
         case fetchStoreData(location : LocationCoordinate)
+        case toggleIsFlagedStatus(to : Bool)
     }
     
     func action (_ action:Action) {
         switch action {
         case .fetchStoreData(let location) :
             input.fetchStoreData.send(location)
+        case .toggleIsFlagedStatus(let to) :
+            input.toggleIsFlagedStatus.send(to)
+            
         }
     }
 }

@@ -13,7 +13,7 @@ import PhotosUI
 import RealmSwift
 
 final class ReviewWriteViewModel : ObservableObject, ViewModelType {
-    private var myStoreRepository : any RepositoryType
+    private var myStoreRepository : any RepositoryType & MyStoreType
     
     var cancellables = Set<AnyCancellable>()
     var input = Input()
@@ -33,7 +33,7 @@ final class ReviewWriteViewModel : ObservableObject, ViewModelType {
     @Published var starRate : Int = 0
 
     
-    init(myStoreRepository : any RepositoryType) {
+    init(myStoreRepository : any RepositoryType & MyStoreType) {
         self.myStoreRepository = myStoreRepository
         
         myStoreRepository.checkFileURL()
@@ -62,7 +62,7 @@ final class ReviewWriteViewModel : ObservableObject, ViewModelType {
     }
     
     private func getReviewFromRealm(storeID : String) {
-        guard let myStore = myStoreRepository.getAllObjects(tableModel: MyStoreInfo.self)?.first(where: {$0.KakaoPlaceID == storeID}) else {
+        guard let myStore = myStoreRepository.myStore(for: storeID) else {
             output.errorOccur = .noStore
             print("🚨🚨🚨noStore🚨🚨🚨")
             return

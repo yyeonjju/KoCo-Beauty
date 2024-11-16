@@ -205,9 +205,12 @@ extension MapView {
                     Spacer()
                     
                     Button {
-                        print("플래그 버튼 눌림")
+                        vm.action(.toggleIsFlagedStatus(to: !vm.isTappeStoreFlaged))
                     } label : {
-                        Assets.SystemImage.flag
+                        
+                        let flag = vm.isTappeStoreFlaged ? Assets.SystemImage.flagFill : Assets.SystemImage.flag
+                        
+                        flag
                             .resizable()
                             .foregroundColor(.skyblue)
                             .frame(width: 20, height: 24)
