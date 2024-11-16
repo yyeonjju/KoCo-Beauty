@@ -12,6 +12,7 @@ struct MapView: View {
     @StateObject private var vm = MapViewModel(myStoreRepository: MyStoreRepository())
     
     @State private var reviewWritePageShown = false
+    @State private var isMenuSpread = false
     
     var body: some View {
         ZStack {
@@ -20,6 +21,8 @@ struct MapView: View {
             if vm.showReloadStoreDataButton {
                 reloadStoreDataButton
             }
+            
+            menuButtonSection
            
             bottomSheet
         }
@@ -84,6 +87,56 @@ extension MapView {
         }
         .ignoresSafeArea()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+    
+    var menuButtonSection : some View {
+        VStack(alignment : .trailing) {
+            
+            HStack{
+                Spacer()
+                
+                Button {
+                    withAnimation{
+                        isMenuSpread.toggle()
+                    }
+                } label : {
+                    CircleMenuView(
+                        iconSize: CGSize(width: 20, height: 20),
+                        icon : Assets.SystemImage.ellipsis
+                    )
+                }
+                .padding(.top)
+                .padding(.trailing, 20)
+            }
+
+            
+            Button {
+                print("💕")
+            } label : {
+                CircleMenuView(
+                    icon :  Assets.SystemImage.menucard
+                )
+            }
+            .padding(.trailing, 20)
+            .opacity(isMenuSpread ? 1 : 0)
+            .offset(y : isMenuSpread ? 0 : -30)
+
+            
+            Button {
+                print("💕💕")
+            } label : {
+                CircleMenuView(
+                    iconSize: CGSize(width: 16, height: 16),
+                    icon :  Assets.SystemImage.flag
+                )
+            }
+            .padding(.trailing, 20)
+            .opacity(isMenuSpread ? 1 : 0)
+            .offset(y : isMenuSpread ? 0 : -60)
+
+            
+            Spacer()
+        }
     }
     
     var reloadStoreDataButton : some View {

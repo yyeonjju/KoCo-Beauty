@@ -45,6 +45,14 @@ enum Assets {
         static let plusCircleFill = Image(systemName: "plus.circle.fill")
         static let starFill = Image(systemName: "star.fill")
         
+        static let ellipsis = Image(systemName: "ellipsis")
+        static let menucard = Image(systemName: "menucard")
+        
+        
+//        static let pencilLine = Image(systemName: "pencil.line")
+//        static let highlighter = Image(systemName: "highlighter")
+//        static let bookClosed = Image(systemName: "book.closed")
+//        static let noteText = Image(systemName: "note.text")
         
     }
 }

@@ -19,7 +19,7 @@ final class MyStoreRepository : BaseRepository, MyStoreType {
        return getAllObjects(tableModel: MyStoreInfo.self)?.first(where: {$0.KakaoPlaceID == storeID})
     }
     
-    //테이블에서 삭제할 때는 파일매니저에 저장한 이미지까지 함께 삭제
+    //리뷰 있는 매장 데이터 삭제할 때는 파일매니저에 저장한 이미지까지 함께 삭제
     //TODO: 🌸 파일 매니저에 저장된 사진들 삭제🌸
     func removeItemWithFileManagerImage() {
         
