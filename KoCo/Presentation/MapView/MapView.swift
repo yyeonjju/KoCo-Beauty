@@ -110,8 +110,9 @@ extension MapView {
             }
 
             
-            Button {
-                print("💕")
+            NavigationLink {
+                MyStoreListView(mode: .reviewExist)
+                    .navigationTitle("리뷰 작성한 매장")
             } label : {
                 CircleMenuView(
                     icon :  Assets.SystemImage.menucard
@@ -122,8 +123,9 @@ extension MapView {
             .offset(y : isMenuSpread ? 0 : -30)
 
             
-            Button {
-                print("💕💕")
+            NavigationLink {
+                MyStoreListView(mode: .flaged)
+                    .navigationTitle("플래그된 매장")
             } label : {
                 CircleMenuView(
                     iconSize: CGSize(width: 16, height: 16),
@@ -159,6 +161,7 @@ extension MapView {
                 .font(.system(size: 13))
                 .cornerRadius(20)
                 .padding(.top)
+                .shadow(color: Assets.Colors.black.opacity(0.4), radius: 3)
                 
             }
             
@@ -177,34 +180,15 @@ extension MapView {
         
         return VStack {
             if let tappedStoreData = vm.lastTappedStoreData {
-                let category = tappedStoreData.categoryName.components(separatedBy: ">")
-                let categoryText = category.count>1 ? category[category.count-1] : "-"
-                HStack {
-                    //매장이름
-                    Text(tappedStoreData.placeName)
-                        .font(.system(size: 18, weight: .heavy))
-                        .foregroundStyle(.skyblue)
-                    //                        .padding()
-                    //카테고리 이름
-                    Text(categoryText)
-                        .font(.system(size: 16, weight: .bold))
-                        .foregroundStyle(.gray)
-                    
-                    Spacer()
-                }
-                .padding(.bottom,4)
+                let categories = tappedStoreData.categoryName.components(separatedBy: ">")
+                let categoryText = categories.count>1 ? categories[categories.count-1] : "-"
                 
-                HStack{
-                    Text(tappedStoreData.distance + "m")
-                        .font(.system(size: 14, weight: .bold))
-                    
-                    Text(tappedStoreData.addressName)
-                        .font(.system(size: 14, weight: .bold))
-                        .foregroundStyle(.gray)
-                    
-                    Spacer()
-                }
-                .padding(.bottom,4)
+                StoreInfoHeaderView(
+                    placeName: tappedStoreData.placeName,
+                    categoryText: categoryText,
+                    distance: tappedStoreData.distance,
+                    addressName: tappedStoreData.addressName
+                )
                 
                 HStack {
                     if !tappedStoreData.phone.isEmpty{

@@ -12,7 +12,7 @@ import SwiftUI
 import PhotosUI
 import RealmSwift
 
-final class ReviewWriteViewModel : ObservableObject, ViewModelType {
+final class ReviewWriteViewModel : ViewModelType {
     private var myStoreRepository : any RepositoryType & MyStoreType
     
     var cancellables = Set<AnyCancellable>()

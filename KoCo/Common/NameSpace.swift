@@ -9,6 +9,13 @@ import Foundation
 import UIKit
 import SwiftUI
 
+enum MyStoreMode {
+    case entire
+    
+    case flaged
+    case reviewExist
+}
+
 enum RepositoryError : Error {
     case noStore
     case noReviewContent

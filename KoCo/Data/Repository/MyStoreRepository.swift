@@ -8,11 +8,39 @@
 import Foundation
 
 protocol MyStoreType {
+    func myStoreList(mode : MyStoreMode) -> [MyStoreInfo]
     func myStore(for storeID : String) -> MyStoreInfo?
     func toggleFlag(storeID : String, to : Bool, storeData : LocationDocument)
 }
 
 final class MyStoreRepository : BaseRepository, MyStoreType {
+    
+    //realm에 저장된 myStore 리스트
+    func myStoreList(mode : MyStoreMode = .entire) -> [MyStoreInfo] {
+        switch mode {
+        case .entire :
+            if let results = getAllObjects(tableModel: MyStoreInfo.self) {
+                return Array(results)
+            }else {
+                return []
+            }
+            
+        case .reviewExist :
+            if let results = getAllObjects(tableModel: MyStoreInfo.self)?.where({$0.isReviewed}) {
+                return Array(results)
+            }else {
+                return []
+            }
+            
+        case .flaged :
+            if let results = getAllObjects(tableModel: MyStoreInfo.self)?.where({$0.isFlaged}) {
+                return Array(results)
+            }else {
+                return []
+            }
+            
+        }
+    }
     
     //realm에 존재하는가 여부 (플래그 또는 리뷰 작성)
     func myStore(for storeID : String) -> MyStoreInfo? {
