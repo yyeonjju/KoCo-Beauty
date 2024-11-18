@@ -37,28 +37,40 @@ final class MapViewModel : ObservableObject, ViewModelType {
             lastTappedStoreData = output.searchLocations.first(where: {
                 $0.id == lastTappedStoreID
             })
-            
-            if let myStoreInfo = myStoreRepository.myStore(for: lastTappedStoreID) {
-                isTappeStoreFlaged = myStoreInfo.isFlaged
-                isTappeStoreReviewed = myStoreInfo.isReviewed
-                
-            }else {
-                isTappeStoreFlaged = false
-                isTappeStoreReviewed = false
-            }
-//            print("⭐️lastTappedStoreID" , lastTappedStoreID)
-//            print("⭐️lastTappedStoreData" , lastTappedStoreData)
-//            print("⭐️flaged" , isTappeStoreFlaged)
-//            print("⭐️reviewed" , isTappeStoreReviewed)
 
         }
     }
     //탭한 매장의 정보
-    var lastTappedStoreData : LocationDocument?
+    var lastTappedStoreData : LocationDocument? {
+        didSet{
+            guard let lastTappedStoreData else{return }
+            setupCurrentStoreStatus(id: lastTappedStoreData.id)
+        }
+
+    }
     //탭한 매장 플래그 여부
-    var isTappeStoreFlaged : Bool = false
+    @Published var isTappeStoreFlaged : Bool = false
     //탭한 매장 리뷰 여부
     var isTappeStoreReviewed : Bool = false
+    
+    @Published var selectedMyStore : MyStoreInfo? {
+        didSet{
+            guard let myStore = selectedMyStore else {return }
+            
+            lastTappedStoreData = LocationDocument(
+                id: myStore.KakaoPlaceID,
+                placeName: myStore.KakaoPaceName,
+                distance: "-",
+                placeUrl: myStore.KakaoPlaceUrl,
+                categoryName: myStore.categoryName,
+                addressName: myStore.addressName,
+                roadAddressName: myStore.roadAddressName,
+                phone: myStore.phone,
+                x: String(myStore.longitude_x),
+                y: String(myStore.latitude_y)
+            )
+        }
+    }
     
     
     init(myStoreRepository : any RepositoryType & MyStoreType) {
@@ -78,21 +90,31 @@ final class MapViewModel : ObservableObject, ViewModelType {
         
         input
             .toggleIsFlagedStatus
-            .sink { [weak self] to in
+            .sink { [weak self] id,to in
                 guard let self, let lastTappedStoreData else{return}
                 
-                myStoreRepository.toggleFlag(storeID: lastTappedStoreID, to: to, storeData: lastTappedStoreData)
+                myStoreRepository.toggleFlag(storeID: id, to: to, storeData: lastTappedStoreData)
                 
-                lastTappedStoreID = lastTappedStoreData.id
+                setupCurrentStoreStatus(id: id)
+                
             }
             .store(in: &cancellables)
     }
     
-    
+    private func setupCurrentStoreStatus(id : String) {
+        if let myStoreInfo = myStoreRepository.myStore(for: id) {
+            isTappeStoreFlaged = myStoreInfo.isFlaged
+            isTappeStoreReviewed = myStoreInfo.isReviewed
+            
+        }else {
+            isTappeStoreFlaged = false
+            isTappeStoreReviewed = false
+        }
+    }
     
     // "현재 지도에서 다시 검색" 버튼 눌렀을 때
     // & 위치 권한 확인하고 처음 현재 위치 파악했을 때
-    func getStoreData(location : LocationCoordinate) {
+    private func getStoreData(location : LocationCoordinate) {
         print("⭐️ 스토어 검색해야해", location)
         
         NetworkManager.shared.searchStoreData(query: "화장품", location : location)
@@ -127,7 +149,7 @@ extension MapViewModel {
     
     struct Input {
         let fetchStoreData = PassthroughSubject<LocationCoordinate, Never>()
-        let toggleIsFlagedStatus = PassthroughSubject<Bool, Never>()
+        let toggleIsFlagedStatus = PassthroughSubject<(String,Bool), Never>()
         
         let viewOnTask = PassthroughSubject<Void, Never>()
     }
@@ -144,15 +166,15 @@ extension MapViewModel{
         //주변 매장 검색을 위해
         //location에서 권한에 따라 불러온 위치 & "현재 지도에서 검색" 버튼 눌렀을 때
         case fetchStoreData(location : LocationCoordinate)
-        case toggleIsFlagedStatus(to : Bool)
+        case toggleIsFlagedStatus(id : String, to : Bool)
     }
     
     func action (_ action:Action) {
         switch action {
         case .fetchStoreData(let location) :
             input.fetchStoreData.send(location)
-        case .toggleIsFlagedStatus(let to) :
-            input.toggleIsFlagedStatus.send(to)
+        case .toggleIsFlagedStatus(let id, let to) :
+            input.toggleIsFlagedStatus.send((id, to))
             
         }
     }

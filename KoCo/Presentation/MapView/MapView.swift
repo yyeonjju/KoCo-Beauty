@@ -56,6 +56,12 @@ struct MapView: View {
                 vm.LocationsToAddPois = locations
             }
         }
+        .onChange(of: vm.selectedMyStore) { myStore in
+            //플래그, 리뷰한 리스트 화면에서 탭한 매장, dismiss되면서 binding된 데이터
+            vm.isBottomSheetOpen = true
+            
+        }
+        
 //        .onChange(of: vm.lastTappedStoreID) { newValue in
 //            //매장 이름을 네이버 이미지 검색 api 로 검색해서 bottomSheet에 이미지 로드
 //        }
@@ -111,7 +117,7 @@ extension MapView {
 
             
             NavigationLink {
-                MyStoreListView(mode: .reviewExist)
+                MyStoreListView(mode: .reviewExist, selectedMyStore : $vm.selectedMyStore)
                     .navigationTitle("리뷰 작성한 매장")
             } label : {
                 CircleMenuView(
@@ -124,7 +130,7 @@ extension MapView {
 
             
             NavigationLink {
-                MyStoreListView(mode: .flaged)
+                MyStoreListView(mode: .flaged, selectedMyStore : $vm.selectedMyStore)
                     .navigationTitle("플래그된 매장")
             } label : {
                 CircleMenuView(
@@ -242,7 +248,7 @@ extension MapView {
                     Spacer()
                     
                     Button {
-                        vm.action(.toggleIsFlagedStatus(to: !vm.isTappeStoreFlaged))
+                        vm.action(.toggleIsFlagedStatus(id : tappedStoreData.id,to: !vm.isTappeStoreFlaged))
                     } label : {
                         
                         let flag = vm.isTappeStoreFlaged ? Assets.SystemImage.flagFill : Assets.SystemImage.flag

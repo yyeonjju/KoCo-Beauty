@@ -9,8 +9,10 @@ import SwiftUI
 
 struct MyStoreListView: View {
     @StateObject private var vm = MyStoreListViewModel(myStoreRepository: MyStoreRepository())
+    @Environment(\.dismiss) var dismiss
     
     var mode : MyStoreMode
+    @Binding var selectedMyStore : MyStoreInfo?
     
     var body: some View {
         ScrollView{
@@ -25,12 +27,18 @@ struct MyStoreListView: View {
                     ForEach(vm.output.myStoreList, id: \.id) { myStore in
                         let categories = myStore.categoryName.components(separatedBy: ">")
                         let categoryText = categories.count>1 ? categories[categories.count-1] : "-"
-                        StoreInfoHeaderView(
-                            placeName: myStore.KakaoPaceName,
-                            categoryText: categoryText,
-                            addressName: myStore.addressName
-                        )
-                        .padding()
+                        
+                        Button {
+                            selectedMyStore = myStore
+                            dismiss()
+                        }label : {
+                            StoreInfoHeaderView(
+                                placeName: myStore.KakaoPaceName,
+                                categoryText: categoryText,
+                                addressName: myStore.addressName
+                            )
+                            .padding()
+                        }
                         
                         Divider()
                             .foregroundColor(.gray)
