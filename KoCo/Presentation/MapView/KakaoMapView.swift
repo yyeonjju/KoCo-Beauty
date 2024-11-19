@@ -31,6 +31,9 @@ struct KakaoMapView: UIViewRepresentable {
     
     @Binding var lastTappedStoreID : String
 
+    @Binding var selectedMyStoreAddingOnMap : Bool
+    var lastTappedStoreData : LocationDocument?
+    var selectedMyStoreID : String?
     
     
     func makeUIView(context: Self.Context) -> KMViewContainer {
@@ -50,13 +53,26 @@ struct KakaoMapView: UIViewRepresentable {
         
         if isCameraMoving, let cameraMoveTo {
             let mapPoint = MapPoint(longitude: cameraMoveTo.longitude, latitude: cameraMoveTo.latitude)
-            context.coordinator.moveCameraToCurrentLocation(mapPoint)
+            context.coordinator.moveCameraTo(mapPoint){
+                self.isCameraMoving = false
+            }
         }
         
         if isPoisAdding{
             context.coordinator.createPois(currentPoint : cameraMoveTo, locations: LocationsToAddPois)
         }
         
+        if selectedMyStoreAddingOnMap, let myStore = lastTappedStoreData, let longitude = Double(myStore.x), let latitude = Double(myStore.y) {
+            //선택한 myStore에 대해 poi 추가
+            context.coordinator.createSelectedMyStorePoi(myStore: myStore)
+            
+            let myStoreMapPoint = MapPoint(longitude: longitude, latitude: latitude)
+            context.coordinator.moveCameraTo(myStoreMapPoint) {
+                self.selectedMyStoreAddingOnMap = false
+            }
+        }
+        
+
         
        
         if draw {

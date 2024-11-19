@@ -51,7 +51,22 @@ final class MyStoreInfo : Object {
         self.isReviewed = isReviewed
         self.reviewContent = reviewContent
     }
-
+    
+    func convertToLocationDocument () -> LocationDocument {
+        LocationDocument(
+            id: self.KakaoPlaceID,
+            placeName: self.KakaoPaceName,
+            distance: "-",
+            placeUrl: self.KakaoPlaceUrl,
+            categoryName: self.categoryName,
+            addressName: self.addressName,
+            roadAddressName: self.roadAddressName,
+            phone: self.phone,
+            x: String(self.longitude_x),
+            y: String(self.latitude_y)
+        )
+    }
+    
     
 }
 

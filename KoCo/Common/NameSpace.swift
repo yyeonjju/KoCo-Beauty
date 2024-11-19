@@ -77,6 +77,11 @@ enum MapInfo {
         //현재 위치 표시에 대한 layer
         static let currentPointlayerID = "currentPointlayer"
         static let currentPointPoiPinStyleID = "currentPointPoiPinStyle"
+        
+        //선택된 myStore 매장 표시에 대한 layer
+        static let myStoreLayerID = "myStoreLayer"
+        static let myStorePoiPinStyleID = "myStorePoiPinStyle"
+        static let tappedMyStorePoiPinStyleID = "tappedMyStorePoiPinStyle"
     }
 
 }

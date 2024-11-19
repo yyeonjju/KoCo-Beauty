@@ -14,6 +14,8 @@ final class KakaoMapCoordinator: NSObject, MapControllerDelegate {
 //    var first: Bool // 처음 위치로 카메라 이동시켜주기 위해
     var auth: Bool //카카오 sdk 인증
     
+
+    var kakaoMap : KakaoMap?
     var controller: KMController?
     var container: KMViewContainer?
     var tappedPoi : Poi?
@@ -42,6 +44,7 @@ final class KakaoMapCoordinator: NSObject, MapControllerDelegate {
         print("🧡🧡🧡viewInit")
         let view = controller?.getView(MapInfo.viewName) as! KakaoMap
         view.eventDelegate = self
+        kakaoMap = view
         
         createLabelLayer()
         createPoiStyle()
@@ -49,9 +52,10 @@ final class KakaoMapCoordinator: NSObject, MapControllerDelegate {
     }
     
     //현재 위치 감지한 시점에 그 위치로 카메라 이동
-    func moveCameraToCurrentLocation(_ mapPoint : MapPoint) {
+    func moveCameraTo(_ mapPoint : MapPoint, completion : @escaping () -> Void) {
         // KakaoMap SDK의 MapPoint로 변환
-        print("❤️현재 위치로 카메라 이동❤️", mapPoint)
+        print("❤️❤️❤️카메라 이동❤️❤️❤️", mapPoint)
+        print("❤️❤️❤️isMainThread❤️❤️❤️", Thread.isMainThread)
         
         // KakaoMap뷰를 가져와서 타입 캐스팅으로 KakaoMap 타입으로 변환
         if let mapView = controller?.getView(MapInfo.viewName) as? KakaoMap {
@@ -61,7 +65,7 @@ final class KakaoMapCoordinator: NSObject, MapControllerDelegate {
             //카메가 이동 시 애니메이션
             mapView.animateCamera(cameraUpdate: cameraUpdate, options: CameraAnimationOptions(autoElevation: false, consecutive: true, durationInMillis: 500)) {[weak self] in
                 guard let self else {return}
-                self.parent.isCameraMoving = false
+                completion()
             }
         }
     }
@@ -160,10 +164,14 @@ extension KakaoMapCoordinator {
         //✅ 화장품 매장에 대한 layer
         let layerOption = LabelLayerOptions(layerID: MapInfo.Poi.storeLayerID, competitionType: .none, competitionUnit: .symbolFirst, orderType: .rank, zOrder: 10001)
         
+        //✅ 선택된 myStore에 대한 layer
+        let myStoreLayerOption = LabelLayerOptions(layerID: MapInfo.Poi.myStoreLayerID, competitionType: .none, competitionUnit: .symbolFirst, orderType: .rank, zOrder: 10010)
+        
         //✅ 현재 위치에 대한 layer
         let currentPointLayerOption = LabelLayerOptions(layerID: MapInfo.Poi.currentPointlayerID, competitionType: .none, competitionUnit: .symbolFirst, orderType: .rank, zOrder: 10000)
         
         let _ = manager.addLabelLayer(option: layerOption)
+        let _ = manager.addLabelLayer(option: myStoreLayerOption)
         let _ = manager.addLabelLayer(option: currentPointLayerOption)
     }
     
@@ -202,6 +210,30 @@ extension KakaoMapCoordinator {
         let tappedPoiStyle = PoiStyle(styleID: MapInfo.Poi.tappedPoiPinStyleID, styles: [tappedPerLevelStyle_level0, tappedPerLevelStyle_leve15])
 
         
+        //✅ 선택된 myStore에 대한 PoiStyle
+        ///📍store PoiIconStyle - symbol과 badge를 정의
+        let myStoreIconStyle = PoiIconStyle(symbol: UIImage(named: "myStore_pin")!, anchorPoint: CGPoint(x: 0.0, y: 0.5))
+        let tappedMyStoreIconStyle = PoiIconStyle(symbol: UIImage(named: "myStore_pin_activate")!, anchorPoint: CGPoint(x: 0.0, y: 0.5))
+        
+        ///📍PoiTextLineStyle - 텍스트가 어떻게 표출될지 정의
+        let myStoreTextLineStyle = PoiTextLineStyle(textStyle: TextStyle(fontSize: 20, fontColor: .blue))
+        let myStoreTextStyle = PoiTextStyle(textLineStyles: [myStoreTextLineStyle])
+        myStoreTextStyle.textLayouts = [PoiTextLayout.bottom]
+        
+        ///📍PerLevelPoiStyle - 레벨별로 스타일 지정할 수 있음
+        ///level 0만 있으면 모든 레벨에서 해당 스타일이 적용됨
+        ///📍 PoiStyle - PerLevelPoiStyle(레벨별로 스타일)들을 모아서 하나의 Poi 스타일을 생성
+
+        //클릭되지 않았을 때 기본 poi 스타일
+        let myStorePerLevelStyle_level0 = PerLevelPoiStyle(iconStyle: myStoreIconStyle, level: 0)
+        let myStorePerLevelStyle_leve15 = PerLevelPoiStyle(iconStyle: myStoreIconStyle, textStyle: myStoreTextStyle, padding: 20, level: 16)
+        let myStoreBasicPoiStyle = PoiStyle(styleID: MapInfo.Poi.myStorePoiPinStyleID, styles: [myStorePerLevelStyle_level0, myStorePerLevelStyle_leve15])
+        //클릭되었을 때 poi 스타일
+        let tappedMyStorePerLevelStyle_level0 = PerLevelPoiStyle(iconStyle: tappedMyStoreIconStyle, level: 0)
+        let tappedMyStorePerLevelStyle_leve15 = PerLevelPoiStyle(iconStyle: tappedMyStoreIconStyle, textStyle: myStoreTextStyle, padding: 20, level: 16)
+        let tappedMyStorePoiStyle = PoiStyle(styleID: MapInfo.Poi.tappedMyStorePoiPinStyleID, styles: [tappedMyStorePerLevelStyle_level0, tappedMyStorePerLevelStyle_leve15])
+        
+        
         //✅ 현재 위치의 PoiStyle
         ///📍📍currentPoint PoiIconStyle ( with. transition)
         let currentPointIconStyle = PoiIconStyle(symbol: UIImage(named: "currentPoint")!, anchorPoint: CGPoint(x: 0.0, y: 0.5), transition: PoiTransition(entrance: .scale, exit: .scale), enableEntranceTransition: true, enableExitTransition: true)
@@ -215,10 +247,51 @@ extension KakaoMapCoordinator {
         manager.addPoiStyle(basicPoiStyle) //기본 poi 스타일
         manager.addPoiStyle(tappedPoiStyle) //클릭되었을 때 poi 스타일
         
+        manager.addPoiStyle(myStoreBasicPoiStyle) //myStore 기본 poi 스타일
+        manager.addPoiStyle(tappedMyStorePoiStyle) //myStore 클릭되었을 때 poi 스타일
+        
         manager.addPoiStyle(currentPointPoiStyle)//현재 위치의 poi 스타일
+        
     }
     
-    
+    func createSelectedMyStorePoi(myStore : LocationDocument) {
+        guard let longitude = Double(myStore.x), let latitude = Double(myStore.y) else {return}
+        
+        let view = controller?.getView(MapInfo.viewName) as! KakaoMap
+        let manager = view.getLabelManager()
+        let myStorelayer = manager.getLabelLayer(layerID: MapInfo.Poi.myStoreLayerID)
+        
+        //현재까지의 poi 없애기
+        myStorelayer?.clearAllItems()
+        
+        //✅ 선택한 MyStore의 poi
+        //표시하고 싶은 좌표
+        let myStoreMapPoint = MapPoint(longitude: longitude, latitude: latitude)
+        
+        
+        //poi별로 다른 텍스트를 적용해주기 위해
+        
+        //탭 안 했을 때의 스타일
+        //⭐️ poi 클릭했을 때 poiID에 해당하는 매장 정보를 판단하기 위해 서버에서 받은 매장의 id가 poiID가 되도록 poiID직접 지정
+        let basicPoiOption : PoiOptions = PoiOptions(
+            styleID: MapInfo.Poi.myStorePoiPinStyleID,
+            poiID: myStore.id
+        )
+        basicPoiOption.clickable = true
+        basicPoiOption.addText(PoiText(
+            text: myStore.placeName,
+            styleIndex: 0
+        ))
+        
+        let _ = myStorelayer?.addPoi(option: basicPoiOption, at: myStoreMapPoint, callback: { _ in
+            print("poi 추가 완료")
+        })
+        myStorelayer?.showAllPois()
+        
+        //Poi가 생긴 후에 getPoi를 할 수 있음
+//        let poi = myStorelayer?.getPoi(poiID: myStore.id)
+//        tappedPoi = poi
+    }
     
     func createPois(currentPoint : LocationCoordinate?, locations :  [LocationDocument]) {
         print("❤️createPois❤️")
@@ -278,31 +351,35 @@ extension KakaoMapCoordinator : KakaoMapEventDelegate{
         /// - parameter layerID: Poi가 속한 layerID
         /// - parameter poiID:  Poi의 ID
         /// - parameter position: Poi의 위치
-        
-        print("✅✅✅poiDidTapped✅✅✅")
+    
         
         let view = controller?.getView(MapInfo.viewName) as! KakaoMap
         let manager = view.getLabelManager()
         let layer = manager.getLabelLayer(layerID: layerID)
         let poi = layer?.getPoi(poiID: poiID)
         
+        print("❤️❤️❤️ poiDidTapped ❤️❤️❤️", Thread.isMainThread)
+        print("❤️❤️❤️ tappedPoi ❤️❤️❤️", tappedPoi)
+        print("❤️❤️❤️ poi ❤️❤️❤️", poi)
         
         //PoiOptions 세팅할 때 매장id로 지정해주었던 poiID(매장의 id)로 lastTappedStoreID 값 업데이트
         parent.lastTappedStoreID = poiID
         
+        let basicPoiPinStyleID = layerID == MapInfo.Poi.storeLayerID ? MapInfo.Poi.basicPoiPinStyleID : MapInfo.Poi.myStorePoiPinStyleID
+        let tappedPoiPinStyleID = layerID == MapInfo.Poi.storeLayerID ? MapInfo.Poi.tappedPoiPinStyleID : MapInfo.Poi.tappedMyStorePoiPinStyleID
         
         //poi 스타일 변경
         if tappedPoi == poi{
             //기존에 선택되어있던게 있으면 basic스타일로 바꾸기
-            poi?.changeStyle(styleID:MapInfo.Poi.basicPoiPinStyleID)
+            poi?.changeStyle(styleID:basicPoiPinStyleID)
             parent.isBottomSheetOpen = false
             tappedPoi = nil
         }else {
             if let tappedPoi { //기존에 선택되어있던게 있으면 basic스타일로 바꾸기
-                tappedPoi.changeStyle(styleID:MapInfo.Poi.basicPoiPinStyleID)
+                tappedPoi.changeStyle(styleID:basicPoiPinStyleID)
             }
             //새로 선택한 poi는 tappedStyle로
-            poi?.changeStyle(styleID:MapInfo.Poi.tappedPoiPinStyleID)
+            poi?.changeStyle(styleID:tappedPoiPinStyleID)
             parent.isBottomSheetOpen = true
             tappedPoi = poi
         }

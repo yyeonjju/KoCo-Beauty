@@ -33,11 +33,19 @@ final class MapViewModel : ObservableObject, ViewModelType {
     //지도의 poi 탭했을 때 그 매장의 id (==poiID)
     @Published var lastTappedStoreID : String = "" {
         didSet{
+            
 
-            lastTappedStoreData = output.searchLocations.first(where: {
+            if let storeDataAmongSearchLocations = output.searchLocations.first(where: {
                 $0.id == lastTappedStoreID
-            })
-
+            }) {
+                //검색한 위치 중에 있으면
+                lastTappedStoreData = storeDataAmongSearchLocations
+            } else if let selectedMyStore, selectedMyStore.KakaoPlaceID == lastTappedStoreID {
+                //플래그된매장, 리뷰작성한 매장 리스트 페이지에서 선택한 매장이라서 지도에 뜬 매장이라면
+                lastTappedStoreData = selectedMyStore.convertToLocationDocument()
+            } else {
+                lastTappedStoreData = nil
+            }
         }
     }
     //탭한 매장의 정보
@@ -53,24 +61,20 @@ final class MapViewModel : ObservableObject, ViewModelType {
     //탭한 매장 리뷰 여부
     var isTappeStoreReviewed : Bool = false
     
+    
+    //MyStoreListView에서 아이템 선택해서 MapView로 넘어왔을 때 맵에 띄워주기 위해
+    @Published var selectedMyStoreAddingOnMap : Bool = false
+    @Published var selectedMyStoreID : String?
     @Published var selectedMyStore : MyStoreInfo? {
         didSet{
             guard let myStore = selectedMyStore else {return }
             
-            lastTappedStoreData = LocationDocument(
-                id: myStore.KakaoPlaceID,
-                placeName: myStore.KakaoPaceName,
-                distance: "-",
-                placeUrl: myStore.KakaoPlaceUrl,
-                categoryName: myStore.categoryName,
-                addressName: myStore.addressName,
-                roadAddressName: myStore.roadAddressName,
-                phone: myStore.phone,
-                x: String(myStore.longitude_x),
-                y: String(myStore.latitude_y)
-            )
+            selectedMyStoreID = selectedMyStore?.KakaoPlaceID
+            
+            lastTappedStoreData = myStore.convertToLocationDocument()
         }
     }
+
     
     
     init(myStoreRepository : any RepositoryType & MyStoreType) {

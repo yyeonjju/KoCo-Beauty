@@ -59,7 +59,7 @@ struct MapView: View {
         .onChange(of: vm.selectedMyStore) { myStore in
             //플래그, 리뷰한 리스트 화면에서 탭한 매장, dismiss되면서 binding된 데이터
             vm.isBottomSheetOpen = true
-            
+            vm.selectedMyStoreAddingOnMap = true
         }
         
 //        .onChange(of: vm.lastTappedStoreID) { newValue in
@@ -83,7 +83,10 @@ extension MapView {
             isPoisAdding : $vm.isPoisAdding,
             LocationsToAddPois : $vm.LocationsToAddPois,
             currentCameraCenterCoordinate : $vm.currentCameraCenterCoordinate,
-            lastTappedStoreID : $vm.lastTappedStoreID
+            lastTappedStoreID : $vm.lastTappedStoreID,
+            selectedMyStoreAddingOnMap : $vm.selectedMyStoreAddingOnMap,
+            lastTappedStoreData : vm.lastTappedStoreData,
+            selectedMyStoreID : vm.selectedMyStoreID
         )
         .onAppear{
             vm.draw = true
