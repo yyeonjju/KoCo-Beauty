@@ -359,8 +359,11 @@ extension KakaoMapCoordinator : KakaoMapEventDelegate{
         let poi = layer?.getPoi(poiID: poiID)
         
         print("❤️❤️❤️ poiDidTapped ❤️❤️❤️", Thread.isMainThread)
-        print("❤️❤️❤️ tappedPoi ❤️❤️❤️", tappedPoi)
-        print("❤️❤️❤️ poi ❤️❤️❤️", poi)
+        print("❤️❤️❤️ layerID ❤️❤️❤️", layerID)
+        print("❤️❤️❤️ tappedPoi ❤️❤️❤️", tappedPoi?.itemID)
+        print("❤️❤️❤️ poi ❤️❤️❤️", poi?.itemID)
+        
+ 
         
         //PoiOptions 세팅할 때 매장id로 지정해주었던 poiID(매장의 id)로 lastTappedStoreID 값 업데이트
         parent.lastTappedStoreID = poiID
@@ -375,15 +378,18 @@ extension KakaoMapCoordinator : KakaoMapEventDelegate{
             parent.isBottomSheetOpen = false
             tappedPoi = nil
         }else {
-            if let tappedPoi { //기존에 선택되어있던게 있으면 basic스타일로 바꾸기
-                tappedPoi.changeStyle(styleID:basicPoiPinStyleID)
+            if let tappedPoi{
+                //기존에 선택되어 있었던 tappedPoi가 어느 레이어의 poi인지에 따라 basic스타일로 바꾸기
+                tappedPoi.changeStyle(
+                    styleID: tappedPoi.layerID == MapInfo.Poi.storeLayerID ? MapInfo.Poi.basicPoiPinStyleID : MapInfo.Poi.myStorePoiPinStyleID
+                )
             }
+            
             //새로 선택한 poi는 tappedStyle로
             poi?.changeStyle(styleID:tappedPoiPinStyleID)
             parent.isBottomSheetOpen = true
             tappedPoi = poi
         }
-        
         
 //        //poi를 지도의 중앙으로할 수 있도록 카메라 이동
 //        if let PoiPosition = poi?.position {
