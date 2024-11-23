@@ -10,16 +10,17 @@ import PhotosUI
 
 struct ReviewSectionType {
     var isContentShown : Bool
-    let title : String
+    let title : LocalizedStringKey
     
 }
-enum ReviewSection : String, CaseIterable {
-    case addPhotos = "영수증/사진 기록"
-    case addStoreReview = "매장 방문 후기"
-    case addProductReview = "화장품/제품 사용 후기"
-    case addTags = "태그"
-    case addStarRate = "별점"
+enum ReviewSection {
+    static let addPhotos : LocalizedStringKey = "영수증/사진 기록"
+    static let addStoreReview : LocalizedStringKey = "매장 방문 후기"
+    static let addProductReview : LocalizedStringKey = "화장품/제품 사용 후기"
+    static let addTags : LocalizedStringKey = "태그"
+    static let addStarRate : LocalizedStringKey = "별점"
 }
+
 
 struct ReviewWriteView: View {
     @StateObject private var vm = ReviewWriteViewModel(myStoreRepository: MyStoreRepository())
@@ -44,9 +45,16 @@ struct ReviewWriteView: View {
         if sections.isEmpty {
             ProgressView()
                 .onAppear{
+                    let sectionList = [
+                        ReviewSection.addPhotos,
+                        ReviewSection.addStoreReview,
+                        ReviewSection.addProductReview,
+                        ReviewSection.addTags,
+                        ReviewSection.addStarRate
+                    ]
                     //operation에 따라 섹션 공간 토글 여부
-                    self.sections = ReviewSection.allCases.map{
-                        ReviewSectionType(isContentShown: self.operation == .create ? false : true, title: $0.rawValue)
+                    self.sections = sectionList.map{
+                        ReviewSectionType(isContentShown: self.operation == .create ? false : true, title: $0)
                     }
                 }
             

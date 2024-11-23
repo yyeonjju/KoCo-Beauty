@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7D0C005B2CF1DC530026EB88 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7D0C005A2CF1DC530026EB88 /* Localizable.xcstrings */; };
 		7D1AEFCA2C9F146000DD05FC /* KoCoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1AEFC92C9F146000DD05FC /* KoCoApp.swift */; };
 		7D1AEFCC2C9F146000DD05FC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1AEFCB2C9F146000DD05FC /* ContentView.swift */; };
 		7D1AEFCE2C9F146200DD05FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D1AEFCD2C9F146200DD05FC /* Assets.xcassets */; };
@@ -72,6 +73,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7D0C005A2CF1DC530026EB88 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		7D1AEFC62C9F146000DD05FC /* KoCo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KoCo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D1AEFC92C9F146000DD05FC /* KoCoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KoCoApp.swift; sourceTree = "<group>"; };
 		7D1AEFCB2C9F146000DD05FC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 		7D1AEFBD2C9F146000DD05FC = {
 			isa = PBXGroup;
 			children = (
+				7D0C005A2CF1DC530026EB88 /* Localizable.xcstrings */,
 				7DBBAAA12CACCA79009171D2 /* .gitignore */,
 				7D1AEFC82C9F146000DD05FC /* KoCo */,
 				7D1AEFC72C9F146000DD05FC /* Products */,
@@ -450,6 +453,8 @@
 			knownRegions = (
 				en,
 				Base,
+				ko,
+				"zh-Hans",
 			);
 			mainGroup = 7D1AEFBD2C9F146000DD05FC;
 			packageReferences = (
@@ -472,6 +477,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7D1AEFD12C9F146200DD05FC /* Preview Assets.xcassets in Resources */,
+				7D0C005B2CF1DC530026EB88 /* Localizable.xcstrings in Resources */,
 				7DBBAABE2CAD62BA009171D2 /* Colors.xcassets in Resources */,
 				7DBBAAA22CACCA79009171D2 /* .gitignore in Resources */,
 				7D1AEFCE2C9F146200DD05FC /* Assets.xcassets in Resources */,

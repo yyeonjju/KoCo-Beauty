@@ -10,12 +10,12 @@ import SwiftUI
 
 struct ReviewSectionView<Content : View>: View {
     @Binding var isContentShown : Bool
-    var title : String
+    var title : LocalizedStringKey
     var content : () -> Content
     
     init(
         isContentShown : Binding<Bool>,
-        title : String,
+        title : LocalizedStringKey,
         @ViewBuilder content : @escaping () -> Content
     ) {
         self._isContentShown = isContentShown

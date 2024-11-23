@@ -274,7 +274,7 @@ extension KakaoMapCoordinator {
         //탭 안 했을 때의 스타일
         //⭐️ poi 클릭했을 때 poiID에 해당하는 매장 정보를 판단하기 위해 서버에서 받은 매장의 id가 poiID가 되도록 poiID직접 지정
         let basicPoiOption : PoiOptions = PoiOptions(
-            styleID: MapInfo.Poi.myStorePoiPinStyleID,
+            styleID: MapInfo.Poi.tappedMyStorePoiPinStyleID,
             poiID: myStore.id
         )
         basicPoiOption.clickable = true
@@ -289,8 +289,8 @@ extension KakaoMapCoordinator {
         myStorelayer?.showAllPois()
         
         //Poi가 생긴 후에 getPoi를 할 수 있음
-//        let poi = myStorelayer?.getPoi(poiID: myStore.id)
-//        tappedPoi = poi
+        let poi = myStorelayer?.getPoi(poiID: myStore.id)
+        tappedPoi = poi
     }
     
     func createPois(currentPoint : LocationCoordinate?, locations :  [LocationDocument]) {
