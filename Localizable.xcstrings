@@ -14,6 +14,12 @@
             "state" : "translated",
             "value" : "매장이 없습니다"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有商店"
+          }
         }
       }
     },
@@ -33,6 +39,12 @@
             "state" : "translated",
             "value" : "> 매장 정보 자세히 보기"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ">详细的信息"
+          }
         }
       }
     },
@@ -45,6 +57,12 @@
           }
         },
         "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hello, world!"
+          }
+        },
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hello, world!"
@@ -65,6 +83,12 @@
             "state" : "translated",
             "value" : "리뷰 기록"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "评论记录"
+          }
         }
       }
     },
@@ -80,6 +104,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "리뷰 등록"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "登记评论"
           }
         }
       }
@@ -97,6 +127,12 @@
             "state" : "translated",
             "value" : "리뷰 작성한 매장"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已写评论的店"
+          }
         }
       }
     },
@@ -112,6 +148,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "리뷰를 등록해주세요!"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请登记评论！"
           }
         }
       }
@@ -129,6 +171,12 @@
             "state" : "translated",
             "value" : "매장 리뷰"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "商店评论"
+          }
         }
       }
     },
@@ -144,6 +192,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "매장 방문 후기"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "店访问评"
           }
         }
       }
@@ -161,6 +215,12 @@
             "state" : "translated",
             "value" : "매장을 선택해주세요."
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请选择商店"
+          }
         }
       }
     },
@@ -176,6 +236,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "별점"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "评分"
           }
         }
       }
@@ -193,6 +259,12 @@
             "state" : "translated",
             "value" : "영수증/사진 기록"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "发票/照片记录"
+          }
         }
       }
     },
@@ -208,6 +280,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "이 위치에서 검색"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在此位置查找"
           }
         }
       }
@@ -225,6 +303,12 @@
             "state" : "translated",
             "value" : "작성한 리뷰 보기"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查看已写的评论"
+          }
         }
       }
     },
@@ -240,6 +324,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "작성한 리뷰입니다!"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已写的评论"
           }
         }
       }
@@ -257,6 +347,12 @@
             "state" : "translated",
             "value" : "제품 리뷰"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "产品评"
+          }
         }
       }
     },
@@ -272,6 +368,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "태그"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "标签"
           }
         }
       }
@@ -289,6 +391,12 @@
             "state" : "translated",
             "value" : "플래그된 매장"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收藏夹店"
+          }
         }
       }
     },
@@ -304,6 +412,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "화장품/제품 사용 후기"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "化妆品/产品使用评论"
           }
         }
       }
