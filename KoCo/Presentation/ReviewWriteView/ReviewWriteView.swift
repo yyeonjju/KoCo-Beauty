@@ -13,13 +13,6 @@ struct ReviewSectionType {
     let title : LocalizedStringKey
     
 }
-enum ReviewSection {
-    static let addPhotos : LocalizedStringKey = "영수증/사진 기록"
-    static let addStoreReview : LocalizedStringKey = "매장 방문 후기"
-    static let addProductReview : LocalizedStringKey = "화장품/제품 사용 후기"
-    static let addTags : LocalizedStringKey = "태그"
-    static let addStarRate : LocalizedStringKey = "별점"
-}
 
 
 struct ReviewWriteView: View {

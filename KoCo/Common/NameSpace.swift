@@ -86,6 +86,46 @@ enum MapInfo {
 
 }
 
+enum ReviewSection {
+    static let addPhotos : LocalizedStringKey = "영수증/사진 기록"
+    static let addStoreReview : LocalizedStringKey = "매장 방문 후기"
+    static let addProductReview : LocalizedStringKey = "화장품/제품 사용 후기"
+    static let addTags : LocalizedStringKey = "태그"
+    static let addStarRate : LocalizedStringKey = "별점"
+}
+
+enum ReviewTagLoalizedStringKey {
+    static let reasonablePrice : LocalizedStringKey = "reviewTag_reasonablePrice"
+    static let worthThePrice : LocalizedStringKey = "reviewTag_worthThePrice"
+    static let storeIsClean : LocalizedStringKey = "reviewTag_storeIsClean"
+    static let storeIsNotClean : LocalizedStringKey =  "reviewTag_storeIsNotClean"
+    static let storeIsTrendy : LocalizedStringKey = "reviewTag_storeIsTrendy"
+    static let goodProductQuality : LocalizedStringKey = "reviewTag_goodProductQuality"
+    static let staffIsAttentive : LocalizedStringKey = "reviewTag_staffIsAttentive"
+    static let staffIsNotAttentive : LocalizedStringKey = "reviewTag_staffIsNotAttentive"
+    static let convenientForParking  :LocalizedStringKey = "reviewTag_convenientForParking"
+    static let waitingSpaceIsComfortable : LocalizedStringKey = "reviewTag_waitingSpaceIsComfortable"
+    static let convenientToMakeReservation : LocalizedStringKey = "reviewTag_convenientToMakeReservation"
+    static let recommend : LocalizedStringKey = "reviewTag_recommend"
+    static let notRecommend : LocalizedStringKey = "reviewTag_notRecommend"
+    
+    static let reviewTagLicalizedStringKeyList = [
+        ReviewTagLoalizedStringKey.reasonablePrice ,
+        ReviewTagLoalizedStringKey.worthThePrice ,
+        ReviewTagLoalizedStringKey.storeIsClean ,
+        ReviewTagLoalizedStringKey.storeIsNotClean ,
+        ReviewTagLoalizedStringKey.storeIsTrendy ,
+        ReviewTagLoalizedStringKey.goodProductQuality ,
+        ReviewTagLoalizedStringKey.staffIsAttentive ,
+        ReviewTagLoalizedStringKey.staffIsNotAttentive ,
+        ReviewTagLoalizedStringKey.convenientForParking ,
+        ReviewTagLoalizedStringKey.waitingSpaceIsComfortable ,
+        ReviewTagLoalizedStringKey.convenientToMakeReservation ,
+        ReviewTagLoalizedStringKey.recommend ,
+        ReviewTagLoalizedStringKey.notRecommend ,
+    ]
+}
+
 
 enum ScreenSize {
     static var width : CGFloat {
