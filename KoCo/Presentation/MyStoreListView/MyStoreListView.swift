@@ -18,7 +18,6 @@ struct MyStoreListView: View {
         ScrollView{
             if vm.output.myStoreList.isEmpty {
                 VStack {
-                    Text("\(mode == .flaged ? "플래그한" : "리뷰를 작성한")")
                     Text(" 매장이 없습니다")
                 }
                 .padding(.top, 50)

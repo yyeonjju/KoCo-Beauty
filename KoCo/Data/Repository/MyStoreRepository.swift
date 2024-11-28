@@ -11,6 +11,7 @@ protocol MyStoreType {
     func myStoreList(mode : MyStoreMode) -> [MyStoreInfo]
     func myStore(for storeID : String) -> MyStoreInfo?
     func toggleFlag(storeID : String, to : Bool, storeData : LocationDocument)
+    func addReview(storeID : String, reviewContent : ReviewContent, storeInfo : LocationDocument)
 }
 
 final class MyStoreRepository : BaseRepository, MyStoreType {
@@ -52,6 +53,25 @@ final class MyStoreRepository : BaseRepository, MyStoreType {
     func removeItemWithFileManagerImage() {
         
     }
+    
+    //리뷰 저장
+    func addReview(storeID : String, reviewContent : ReviewContent, storeInfo : LocationDocument) {
+        // myStoreInfo 테이블에 저장되어 있는가
+        if let myStore = myStore(for: storeID){
+            //원래 있던 객체 수정
+            try! realm.write{
+                myStore.isReviewed = true
+                myStore.reviewContent = reviewContent
+            }
+        }else {
+            guard let latitude = Double(storeInfo.y), let longitude = Double(storeInfo.x) else{return }
+            
+            let storeInfo = MyStoreInfo(savedAt: Date(), KakaoPaceName: storeInfo.placeName, KakaoPlaceID: storeInfo.id, KakaoPlaceUrl: storeInfo.placeUrl, latitude_y: latitude, longitude_x: longitude, addressName: storeInfo.addressName, roadAddressName: storeInfo.roadAddressName, phone: storeInfo.phone, categoryName: storeInfo.categoryName, isFlaged: false, isReviewed: true, reviewContent: reviewContent)
+            
+            createItem(storeInfo)
+        }
+    }
+    
     
     //isFlaged 토글
     func toggleFlag(storeID : String, to : Bool, storeData : LocationDocument) {

@@ -28,7 +28,7 @@ final class ReviewWriteViewModel : ViewModelType {
     //제품리뷰
     @Published var productReviewText = ""
     //선택된 태그
-    @Published var clickedTags : [String] = []
+    @Published var clickedTags : [Int] = []
     //별점
     @Published var starRate : Int = 0
 
@@ -80,7 +80,7 @@ final class ReviewWriteViewModel : ViewModelType {
         //제품 리뷰
         self.productReviewText = reviewContent.productReviewText
         //태그
-        self.clickedTags =  Array(reviewContent.tags).map{$0.rawValue}
+        self.clickedTags =  Array(reviewContent.reviewTags).map{$0.rawValue}
         //별점
         self.starRate = reviewContent.starRate
         //사진 기록
@@ -93,9 +93,6 @@ final class ReviewWriteViewModel : ViewModelType {
     }
     
     private func saveReviewToRealm(storeInfo : LocationDocument) {
-        //TODO: 🌸 리뷰 잘 작성했는지 검증 🌸
-        //TODO: 🌸 create인지 update인지 파라미터(operation)🌸
-        //TODO: 🌸 레포지토리에 createItem을 해줄지 update를 할지 구분!🌸
         
         print("latitude💕💕💕", storeInfo.y)
         print("longitude💕💕💕", storeInfo.x)
@@ -106,9 +103,9 @@ final class ReviewWriteViewModel : ViewModelType {
 
         //✅ 태그
         //[string] -> [ReviewTag]
-        let reviewTags = clickedTags.map{ReviewTag(rawValue:$0) ?? .recommend}
+        let reviewTags = clickedTags.map{ReviewTagItem(rawValue:$0) ?? .recommend}
         //array 형태의 태그 리스트 -> RealmSwift.List 형태
-        let realmListTagIDs : RealmSwift.List<ReviewTag> = RealmSwift.List()
+        let realmListTagIDs : RealmSwift.List<ReviewTagItem> = RealmSwift.List()
         realmListTagIDs.append(objectsIn: reviewTags)
         
         //✅ 이미지
@@ -132,21 +129,9 @@ final class ReviewWriteViewModel : ViewModelType {
         print("🥰🥰imageFileNames -> ", imageFileNames)
         
         //✅ 리뷰 컨텐츠
-        let reviewContent = ReviewContent(photoFileNames:realmListPhotoNames, storeReviewText: storeReviewText, productReviewText: productReviewText, tags: realmListTagIDs, starRate: starRate)
-
+        let reviewContent = ReviewContent(photoFileNames:realmListPhotoNames, storeReviewText: storeReviewText, productReviewText: productReviewText, tags: List<ReviewTag>(),reviewTags:realmListTagIDs , starRate: starRate)
         
-        //TODO: 🌸 isFlaged 여부는 어디서 받지? 🌸
-        
-        if let latitude = Double(storeInfo.y), let longitude = Double(storeInfo.x){
-            print("latitude💕", latitude)
-            print("longitude💕", longitude)
-            let storeInfo = MyStoreInfo(savedAt: currentDate, KakaoPaceName: storeInfo.placeName, KakaoPlaceID: storeInfo.id, KakaoPlaceUrl: storeInfo.placeUrl, latitude_y: latitude, longitude_x: longitude, addressName: storeInfo.addressName, roadAddressName: storeInfo.roadAddressName, phone: storeInfo.phone, categoryName: storeInfo.categoryName, isFlaged: false, isReviewed: true, reviewContent: reviewContent)
-
-            print("✅reviewContent✅", reviewContent)
-            print("✅storeInfo✅", storeInfo)
-            myStoreRepository.createItem(storeInfo)
-            
-        }
+        myStoreRepository.addReview(storeID: storeInfo.id, reviewContent: reviewContent, storeInfo: storeInfo)
 
     }
 }

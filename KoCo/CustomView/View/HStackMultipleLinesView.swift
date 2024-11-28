@@ -10,14 +10,14 @@ import SwiftUI
 
 // 다중 선택할 수 있는 멀티 라인 HStack
 struct HStackMultipleLinesMultipleSelectButtonView: View {
-    var elements : [String]
+    var elements : [LocalizedStringKey]
     var clickable : Bool = true
     var forgroundColor : Color = Assets.Colors.skyblue
     var buttonHeight : CGFloat = 35
     //    var backgroundColor : Color = .clear
     //    var haveBorderLine : Bool = true
     
-    @Binding var clickedElements : [String]
+    @Binding var clickedIndexs : [Int]
     @State private var totalHeight : CGFloat = CGFloat.zero
     
     var body: some View {
@@ -28,32 +28,34 @@ struct HStackMultipleLinesMultipleSelectButtonView: View {
         
     }
     
-    private func elementsView(in geo: GeometryProxy, tags : [String]) -> some View {
+    private func elementsView(in geo: GeometryProxy, tags : [LocalizedStringKey]) -> some View {
         var width = CGFloat.zero //현재 줄에서 각 버튼의 시작 위치(수평 위치) = ⭐️⭐️현재 줄에서 지금까지 쌓인 요소들의 width 다음에 그려져야한다⭐️⭐️ -> 각 버튼은 앞선 버튼 너비만큼 오른쪽으로 이동하여 배치
         var height = CGFloat.zero //각 버튼의 시작 위치(수직 위치)
         
         return ZStack(alignment: .topLeading) {
-            ForEach(Array(tags.enumerated()), id: \.offset) { (offset: Int, tag: String) in
+            ForEach(Array(tags.enumerated()), id: \.offset) { (offset: Int, tag: LocalizedStringKey) in
                 Button {
-                    if(clickedElements.contains(tag)){
-                        let deleteIndex = clickedElements.firstIndex{$0 == tag}
-                        clickedElements.remove(at: deleteIndex!)
+                    if(clickedIndexs.contains(offset)){
+                        let deleteIndex = clickedIndexs.firstIndex{$0 == offset}
+                        clickedIndexs.remove(at: deleteIndex!)
                     }else{
-                        clickedElements.append(tag)
+                        clickedIndexs.append(offset)
                     }
+                    
+                    print("🌸🌸🌸🌸clickedIndexs", clickedIndexs)
                 } label : {
                     Text(tag)
                         .font(.system(size: 13))
                         .padding()
 //                        .padding(.vertical, 10)
 //                        .padding(.horizontal, 8)
-                        .foregroundColor(clickedElements.contains(tag) ? .white : forgroundColor)
+                        .foregroundColor(clickedIndexs.contains(offset) ? .white : forgroundColor)
                         .frame(height: buttonHeight)
-                        .background(clickedElements.contains(tag) ? forgroundColor : .white)
+                        .background(clickedIndexs.contains(offset) ? forgroundColor : .white)
                         .cornerRadius(10)
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
-                                .stroke( forgroundColor, lineWidth: clickedElements.contains(tag) ? 0 : 1)
+                                .stroke( forgroundColor, lineWidth: clickedIndexs.contains(offset) ? 0 : 1)
                         )
                         .padding([.horizontal, .vertical], 8)
 //                        .padding(.vertical, 8)

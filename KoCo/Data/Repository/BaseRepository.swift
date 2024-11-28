@@ -41,7 +41,7 @@ class BaseRepository : RepositoryType {
     
     //전체 리스트 Read
     func getAllObjects<M : Object>(tableModel : M.Type) -> Results<M>? {
-       
+        
         let value =  realm.objects(M.self)
         return value
     }

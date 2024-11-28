@@ -30,8 +30,8 @@ struct ReviewWriteView: View {
     @State private var sections : [ReviewSectionType] = []
     
     //태그
-    private let tags : [String] = ReviewTag.allCases.map{$0.rawValue}
-    
+//    private let tags : [String] = ReviewTag.allCases.map{$0.rawValue}
+    private let tags : [LocalizedStringKey] = ReviewTagLoalizedStringKey.tagList
     
     var body: some View {
         
@@ -221,7 +221,7 @@ extension ReviewWriteView {
         VStack{
             HStackMultipleLinesMultipleSelectButtonView(
                 elements: tags,
-                clickedElements: Binding(
+                clickedIndexs: Binding(
                     get: {vm.clickedTags},
                     set: {vm.clickedTags = $0}
                 )

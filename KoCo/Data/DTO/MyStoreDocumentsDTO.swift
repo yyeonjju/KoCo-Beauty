@@ -75,15 +75,16 @@ class ReviewContent: EmbeddedObject {
     @Persisted var storeReviewText : String
     @Persisted var productReviewText : String
     @Persisted var tags : List<ReviewTag>
-//    @Persisted var reviewTags : List<ReviewTagItem> //new
+    @Persisted var reviewTags : List<ReviewTagItem> //new
     @Persisted var starRate : Int
     
-    convenience init(photoFileNames : List<String>, storeReviewText: String, productReviewText: String, tags : List<ReviewTag>, starRate: Int) {
+    convenience init(photoFileNames : List<String>, storeReviewText: String, productReviewText: String, tags : List<ReviewTag>, reviewTags : List<ReviewTagItem>, starRate: Int) {
         self.init()
         self.photoFileNames = photoFileNames
         self.storeReviewText = storeReviewText
         self.productReviewText = productReviewText
         self.tags = tags
+        self.reviewTags = reviewTags
         self.starRate = starRate
     }
     
@@ -115,27 +116,27 @@ enum ReviewTag: String, PersistableEnum {
 }
 
 //new
-//enum ReviewTagItem: Int, PersistableEnum {
-//    case reasonablePrice = 0
-//    case worthThePrice = 1
-//    
-//    case storeIsClean = 2
-//    case storeIsNotClean = 3
-//    
-//    case storeIsTrendy = 4
-//    
-//    case goodProductQuality = 5
-//    
-//    case staffIsAttentive = 6
-//    case staffIsNotAttentive = 7
-//    
-//    case convenientForParking = 8
-//    case waitingSpaceIsComfortable = 9
-//    case convenientToMakeReservation = 10
-//    case recommend = 11
-//    case notRecommend = 12
-//
-//}
+enum ReviewTagItem: Int, PersistableEnum {
+    case reasonablePrice = 0
+    case worthThePrice = 1
+    
+    case storeIsClean = 2
+    case storeIsNotClean = 3
+    
+    case storeIsTrendy = 4
+    
+    case goodProductQuality = 5
+    
+    case staffIsAttentive = 6
+    case staffIsNotAttentive = 7
+    
+    case convenientForParking = 8
+    case waitingSpaceIsComfortable = 9
+    case convenientToMakeReservation = 10
+    case recommend = 11
+    case notRecommend = 12
+
+}
 
 
 //    [

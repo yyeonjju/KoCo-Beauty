@@ -109,7 +109,7 @@ enum ReviewTagLoalizedStringKey {
     static let recommend : LocalizedStringKey = "reviewTag_recommend"
     static let notRecommend : LocalizedStringKey = "reviewTag_notRecommend"
     
-    static let reviewTagLicalizedStringKeyList = [
+    static let tagList = [
         ReviewTagLoalizedStringKey.reasonablePrice ,
         ReviewTagLoalizedStringKey.worthThePrice ,
         ReviewTagLoalizedStringKey.storeIsClean ,
