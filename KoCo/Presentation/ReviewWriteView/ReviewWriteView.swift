@@ -17,6 +17,12 @@ struct ReviewSectionType {
 
 struct ReviewWriteView: View {
     @StateObject private var vm = ReviewWriteViewModel(myStoreRepository: MyStoreRepository())
+    @FocusState private var focusedField: Field?
+    
+    enum Field {
+        case storeReview
+        case productReview
+    }
     
     @Binding var isPresented : Bool
     var operation : Operation = .create
@@ -24,13 +30,11 @@ struct ReviewWriteView: View {
     
     
     //TODO: 🌸vm.output.errorOccur에 대한 대응🌸
-    //TODO: 🌸 키보드 내리기
     
     
     @State private var sections : [ReviewSectionType] = []
     
     //태그
-//    private let tags : [String] = ReviewTag.allCases.map{$0.rawValue}
     private let tags : [LocalizedStringKey] = ReviewTagLoalizedStringKey.tagList
     
     var body: some View {
@@ -109,6 +113,14 @@ struct ReviewWriteView: View {
                 if operation == .read {
                     vm.action(.getReview(storeID: storeInfo.id))
                 }
+            }
+            .onChange(of: vm.output.saveReviewComplete) { value in
+                if value {
+                    isPresented = false
+                }
+            }
+            .onTapGesture {
+                focusedField = nil
             }
             
             
@@ -197,6 +209,7 @@ extension ReviewWriteView {
                 ),
                 axis: .vertical
             )
+            .focused($focusedField, equals: .storeReview)
         }
         .asOutlineView()
         .padding([.bottom, .horizontal])
@@ -212,6 +225,7 @@ extension ReviewWriteView {
                 ),
                 axis: .vertical
             )
+            .focused($focusedField, equals: .productReview)
         }
         .asOutlineView()
         .padding([.bottom, .horizontal])

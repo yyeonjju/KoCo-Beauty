@@ -61,6 +61,12 @@ struct MapView: View {
             vm.isBottomSheetOpen = true
             vm.selectedMyStoreAddingOnMap = true
         }
+        .onChange(of: reviewWritePageShown) { isPresented in
+            //리뷰 작성하고 map으로 돌아왔을 때 리뷰 작성여부 업데이트 위해
+            if !isPresented {
+                vm.action(.setupTappedStoreData(id: vm.lastTappedStoreID))
+            }
+        }
         
 //        .onChange(of: vm.lastTappedStoreID) { newValue in
 //            //매장 이름을 네이버 이미지 검색 api 로 검색해서 bottomSheet에 이미지 로드

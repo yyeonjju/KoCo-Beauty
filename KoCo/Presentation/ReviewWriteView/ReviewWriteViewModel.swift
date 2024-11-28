@@ -132,7 +132,8 @@ final class ReviewWriteViewModel : ViewModelType {
         let reviewContent = ReviewContent(photoFileNames:realmListPhotoNames, storeReviewText: storeReviewText, productReviewText: productReviewText,reviewTags:realmListTagIDs , starRate: starRate)
         
         myStoreRepository.addReview(storeID: storeInfo.id, reviewContent: reviewContent, storeInfo: storeInfo)
-
+        
+        output.saveReviewComplete = true
     }
 }
 
@@ -147,6 +148,7 @@ extension ReviewWriteViewModel {
     
     struct Output {
         var errorOccur : RepositoryError?
+        var saveReviewComplete : Bool = false
     }
 }
 

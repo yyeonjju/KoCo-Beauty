@@ -33,19 +33,7 @@ final class MapViewModel : ObservableObject, ViewModelType {
     //지도의 poi 탭했을 때 그 매장의 id (==poiID)
     @Published var lastTappedStoreID : String = "" {
         didSet{
-            
-
-            if let storeDataAmongSearchLocations = output.searchLocations.first(where: {
-                $0.id == lastTappedStoreID
-            }) {
-                //검색한 위치 중에 있으면
-                lastTappedStoreData = storeDataAmongSearchLocations
-            } else if let selectedMyStore, selectedMyStore.KakaoPlaceID == lastTappedStoreID {
-                //플래그된매장, 리뷰작성한 매장 리스트 페이지에서 선택한 매장이라서 지도에 뜬 매장이라면
-                lastTappedStoreData = selectedMyStore.convertToLocationDocument()
-            } else {
-                lastTappedStoreData = nil
-            }
+            action(.setupTappedStoreData(id: lastTappedStoreID))
         }
     }
     //탭한 매장의 정보
@@ -96,13 +84,31 @@ final class MapViewModel : ObservableObject, ViewModelType {
             .toggleIsFlagedStatus
             .sink { [weak self] id,to in
                 guard let self, let lastTappedStoreData else{return}
-                
                 myStoreRepository.toggleFlag(storeID: id, to: to, storeData: lastTappedStoreData)
-                
                 setupCurrentStoreStatus(id: id)
-                
             }
             .store(in: &cancellables)
+        
+        input.setupTappedStoreData
+            .sink { [weak self] id in
+                guard let self else{return}
+                setupTappedStoreData(id: id)
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func setupTappedStoreData(id : String) {
+        if let storeDataAmongSearchLocations = output.searchLocations.first(where: {
+            $0.id == id
+        }) {
+            //검색한 위치 중에 있으면
+            lastTappedStoreData = storeDataAmongSearchLocations
+        } else if let selectedMyStore, selectedMyStore.KakaoPlaceID == id {
+            //플래그된매장, 리뷰작성한 매장 리스트 페이지에서 선택한 매장이라서 지도에 뜬 매장이라면
+            lastTappedStoreData = selectedMyStore.convertToLocationDocument()
+        } else {
+            lastTappedStoreData = nil
+        }
     }
     
     private func setupCurrentStoreStatus(id : String) {
@@ -154,6 +160,7 @@ extension MapViewModel {
     struct Input {
         let fetchStoreData = PassthroughSubject<LocationCoordinate, Never>()
         let toggleIsFlagedStatus = PassthroughSubject<(String,Bool), Never>()
+        let setupTappedStoreData = PassthroughSubject<String, Never>()
         
         let viewOnTask = PassthroughSubject<Void, Never>()
     }
@@ -171,6 +178,7 @@ extension MapViewModel{
         //location에서 권한에 따라 불러온 위치 & "현재 지도에서 검색" 버튼 눌렀을 때
         case fetchStoreData(location : LocationCoordinate)
         case toggleIsFlagedStatus(id : String, to : Bool)
+        case setupTappedStoreData(id : String)
     }
     
     func action (_ action:Action) {
@@ -179,6 +187,8 @@ extension MapViewModel{
             input.fetchStoreData.send(location)
         case .toggleIsFlagedStatus(let id, let to) :
             input.toggleIsFlagedStatus.send((id, to))
+        case .setupTappedStoreData(let id) :
+            input.setupTappedStoreData.send(id)
             
         }
     }
