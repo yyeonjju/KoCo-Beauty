@@ -74,46 +74,20 @@ class ReviewContent: EmbeddedObject {
     @Persisted var photoFileNames: List<String>
     @Persisted var storeReviewText : String
     @Persisted var productReviewText : String
-    @Persisted var tags : List<ReviewTag>
     @Persisted var reviewTags : List<ReviewTagItem> //new
     @Persisted var starRate : Int
     
-    convenience init(photoFileNames : List<String>, storeReviewText: String, productReviewText: String, tags : List<ReviewTag>, reviewTags : List<ReviewTagItem>, starRate: Int) {
+    convenience init(photoFileNames : List<String>, storeReviewText: String, productReviewText: String, reviewTags : List<ReviewTagItem>, starRate: Int) {
         self.init()
         self.photoFileNames = photoFileNames
         self.storeReviewText = storeReviewText
         self.productReviewText = productReviewText
-        self.tags = tags
         self.reviewTags = reviewTags
         self.starRate = starRate
     }
     
 }
 
-
-//PersistableEnum 자체가 CaseIterable 채택하고 있음
-enum ReviewTag: String, PersistableEnum {
-    
-    case reasonablePrice = "가격이 합리적임"
-    case worthThePrice = "비싼 만큼 가치 있음"
-    
-    case storeIsClean = "매장이 청결함"
-    case storeIsNotClean =  "매장이 청결하지 않음"
-    
-    case storeIsTrendy = "매장이 트렌디함"
-    
-    case goodProductQuality = "제품 퀄리티 좋음"
-    
-    case staffIsAttentive = "직원이 친절함"
-    case staffIsNotAttentive = "직원이 불친절함"
-    
-    case convenientForParking = "주차가 편리함"
-    case waitingSpaceIsComfortable = "대기 공간이 편안함"
-    case convenientToMakeReservation = "예약이 편리함"
-    case recommend = "추천"
-    case notRecommend = "비추천"
-
-}
 
 //new
 enum ReviewTagItem: Int, PersistableEnum {

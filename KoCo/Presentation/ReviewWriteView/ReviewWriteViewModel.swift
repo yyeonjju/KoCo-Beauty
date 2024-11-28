@@ -129,7 +129,7 @@ final class ReviewWriteViewModel : ViewModelType {
         print("🥰🥰imageFileNames -> ", imageFileNames)
         
         //✅ 리뷰 컨텐츠
-        let reviewContent = ReviewContent(photoFileNames:realmListPhotoNames, storeReviewText: storeReviewText, productReviewText: productReviewText, tags: List<ReviewTag>(),reviewTags:realmListTagIDs , starRate: starRate)
+        let reviewContent = ReviewContent(photoFileNames:realmListPhotoNames, storeReviewText: storeReviewText, productReviewText: productReviewText,reviewTags:realmListTagIDs , starRate: starRate)
         
         myStoreRepository.addReview(storeID: storeInfo.id, reviewContent: reviewContent, storeInfo: storeInfo)
 

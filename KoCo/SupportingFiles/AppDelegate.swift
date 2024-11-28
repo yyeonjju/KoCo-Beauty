@@ -16,8 +16,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         // version 2 : ReviewContent에 tags 추가
         // version 3 : ReviewContent에 photoFileNames 추가
         // version 4 : ReviewContent에 reviewTags 추가
-        let config = Realm.Configuration(schemaVersion: 4) { migration, oldSchemaVersion in
-            if oldSchemaVersion < 4 {
+        // version 5 : ReviewContent에 tags 삭제
+        let config = Realm.Configuration(schemaVersion: 5) { migration, oldSchemaVersion in
+            if oldSchemaVersion < 5 {
                 //단순 컬럼, 테이블 추가나 삭제 등에 대해서는 코드 X
             }
         }
