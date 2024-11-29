@@ -102,9 +102,23 @@ final class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObje
         print("사용자 위치를 성공적으로 가지고 온 경우",#function)
         if let coordinate = locations.last?.coordinate {
             print("🧡coordinate", coordinate)
-            lastKnownLocation = LocationCoordinate(longitude: coordinate.longitude, latitude: coordinate.latitude)
             
-//            setRegionCoordinator(center: CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude))
+            //CLGeocoder 사용해서 감지된 사용자의 위치가 한국인지 검증
+            let geocoder = CLGeocoder()
+            let locale = Locale(identifier: "Ko-kr")
+            geocoder.reverseGeocodeLocation(CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude), preferredLocale: locale) { [weak self] placemarks, error in
+                guard let self, let placemarks else {return }
+            
+                if placemarks.last?.isoCountryCode == "KR" {
+                    //사용자의 위치가 한국이 맞다면
+                    self.lastKnownLocation = LocationCoordinate(longitude: coordinate.longitude, latitude: coordinate.latitude)
+                } else {
+                    //사용자의 위치가 한국이 아니라면 -> 디폴트 위치로
+                    self.lastKnownLocation = LocationCoordinate(longitude: 126.9769, latitude: 37.5759)
+                }
+            }
+            
+           
         }
     
         manager.stopUpdatingLocation()
