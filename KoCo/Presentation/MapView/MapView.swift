@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct MapView: View {
     @StateObject private var locationManager = LocationManager()
@@ -13,6 +14,8 @@ struct MapView: View {
     
     @State private var reviewWritePageShown = false
     @State private var isMenuSpread = false
+    
+    var cancellables = Set<AnyCancellable>()
     
     var body: some View {
         ZStack {
@@ -68,12 +71,12 @@ struct MapView: View {
             }
         }
         
-//        .onChange(of: vm.lastTappedStoreID) { newValue in
-//            //매장 이름을 네이버 이미지 검색 api 로 검색해서 bottomSheet에 이미지 로드
-//        }
-        
-
-
+        .onChange(of: vm.lastTappedStoreData) { storeData in
+            //매장 이름을 네이버 이미지 검색 api 로 검색해서 bottomSheet에 이미지 로드
+            print("✅✅✅✅✅lastTappedStoreID - 이미지 검색 시점??✅✅✅✅✅")
+            guard let storeData else{return }
+            vm.action(.searchStoreImage(query: storeData.placeName))
+        }
     }
 }
 
@@ -217,8 +220,8 @@ extension MapView {
                 .padding(.bottom,4)
                 
                 HStack{
-                    ForEach(0..<3) { item in
-                        BaisicAsyncImage(url: "https://search.pstatic.net/common/?type=b150&src=http://post.phinf.naver.net/MjAyMjA0MTVfMjQ2/MDAxNjUwMDE5NDA4Mjgw.CgQJxztRuJfn4ihLu4eKU7dPasRUnQsy2x5owX4ci-gg.1Snzbi21dWabljj5SyfPUDZI-5NT-U7P32CgewqNSYgg.JPEG/Io7UGYEjtHnI1ViGT2_YIhkgFhWI.jpg", width: 100)
+                    ForEach(vm.output.searchedStoreImages, id : \.self) { item in
+                        BaisicAsyncImage(url: item.link, width: 100)
                         .padding(2)
                     }
                 }

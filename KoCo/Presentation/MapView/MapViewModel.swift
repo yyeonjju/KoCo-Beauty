@@ -95,6 +95,13 @@ final class MapViewModel : ObservableObject, ViewModelType {
                 setupTappedStoreData(id: id)
             }
             .store(in: &cancellables)
+        
+        input.searchStoreImage
+            .sink { [weak self] query in
+                guard let self else{return}
+                self.searchStoreImage(query: query)
+            }
+            .store(in: &cancellables)
     }
     
     private func setupTappedStoreData(id : String) {
@@ -140,13 +147,29 @@ final class MapViewModel : ObservableObject, ViewModelType {
                 },
                 receiveValue: { [weak self] value in
                     guard let self else { return }
-                    print("⭐️receiveValue - value", value.documents)
-                    
-                    print("⭐️receiveValue - value")
-                    dump(value.documents)
-                    
-                    
+//                    dump(value.documents)
                     self.output.searchLocations = value.documents
+
+                })
+            .store(in: &cancellables)
+    }
+    
+    private func searchStoreImage(query : String) {
+        NetworkManager.shared.searchStoreImage(query: query)
+            .sink(
+                receiveCompletion: { [weak self] value in
+                    guard let self else { return }
+                    switch value {
+                    case .failure:
+                        print("⭐️receiveCompletion - failure")
+                    case .finished:
+                        break
+                    }
+                },
+                receiveValue: { [weak self] value in
+                    guard let self else { return }
+                    dump(value.items)
+                    output.searchedStoreImages = value.items
 
                 })
             .store(in: &cancellables)
@@ -161,12 +184,14 @@ extension MapViewModel {
         let fetchStoreData = PassthroughSubject<LocationCoordinate, Never>()
         let toggleIsFlagedStatus = PassthroughSubject<(String,Bool), Never>()
         let setupTappedStoreData = PassthroughSubject<String, Never>()
+        let searchStoreImage = PassthroughSubject<String, Never>()
         
         let viewOnTask = PassthroughSubject<Void, Never>()
     }
     
     struct Output {
         var searchLocations : [LocationDocument] = []
+        var searchedStoreImages : [StoreImageItem] = []
     }
 }
 
@@ -179,6 +204,7 @@ extension MapViewModel{
         case fetchStoreData(location : LocationCoordinate)
         case toggleIsFlagedStatus(id : String, to : Bool)
         case setupTappedStoreData(id : String)
+        case searchStoreImage(query : String)
     }
     
     func action (_ action:Action) {
@@ -189,6 +215,8 @@ extension MapViewModel{
             input.toggleIsFlagedStatus.send((id, to))
         case .setupTappedStoreData(let id) :
             input.setupTappedStoreData.send(id)
+        case .searchStoreImage(let query) :
+            input.searchStoreImage.send(query)
             
         }
     }
