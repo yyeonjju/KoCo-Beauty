@@ -8,21 +8,39 @@
 import SwiftUI
 
 struct BaisicAsyncImage: View {
-    var url : String
+    var url : String?
     var width : CGFloat = 80
     var height : CGFloat = 80
     var radius : CGFloat = 4
     
     var body: some View {
-        AsyncImage(url: URL(string: url)){ image in
-            image
-                .resizable()
-        } placeholder: {
-            ProgressView()
+        VStack {
+            if let url {
+                AsyncImage(url: URL(string: url)){ phase in
+                    if let image = phase.image {
+                        image // Displays the loaded image.
+                            .resizable()
+                    } else if phase.error != nil {
+                        defaultContent // Indicates an error.
+                    } else {
+                        ProgressView() // Acts as a placeholder.
+                    }
+                }
+            } else {
+                defaultContent
+            }
         }
         .frame(width : width, height : height)
         .background(Color.gray5)
         .cornerRadius(radius)
         .scaledToFit()
+    }
+    
+    private var defaultContent : some View {
+        Color.gray5
+            .overlay {
+                Assets.SystemImage.photo
+                    .foregroundStyle(.gray3)
+            }
     }
 }

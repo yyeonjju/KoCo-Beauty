@@ -220,9 +220,14 @@ extension MapView {
                 .padding(.bottom,4)
                 
                 HStack{
-                    ForEach(vm.output.searchedStoreImages, id : \.self) { item in
-                        BaisicAsyncImage(url: item.link, width: 100)
-                        .padding(2)
+                    ForEach(0..<3) { index in
+                        
+                        let link = index < vm.output.searchedStoreImages.count
+                        ? vm.output.searchedStoreImages[index].link
+                        : nil
+                        
+                        BaisicAsyncImage(url: link, width: 100)
+                            .padding(2)
                     }
                 }
                 .padding(.bottom,4)

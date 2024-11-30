@@ -44,6 +44,7 @@ enum Assets {
     
     enum SystemImage {
         static let arrowClockwise = Image(systemName: "arrow.clockwise")
+        static let photo = Image(systemName: "photo")
         static let phoneFill = Image(systemName: "phone.fill")
         static let flag = Image(systemName: "flag")
         static let flagFill = Image(systemName: "flag.fill")
