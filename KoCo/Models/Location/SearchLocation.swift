@@ -13,7 +13,7 @@ struct SearchLocationReapose : Decodable {
     
 }
 
-struct LocationDocument : Decodable, Equatable {
+struct LocationDocument : Decodable, Equatable, Hashable {
     let id : String
     let placeName : String
     let distance : String

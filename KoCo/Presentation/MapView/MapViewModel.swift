@@ -134,24 +134,40 @@ final class MapViewModel : ObservableObject, ViewModelType {
     private func getStoreData(location : LocationCoordinate) {
         print("⭐️ 스토어 검색해야해", location)
         
-        NetworkManager.shared.searchStoreData(query: "화장품", location : location)
+        let keywords = ["화장품", "드럭스토어"]
+        
+        //네트워킹 비동기 작업 병렬적으로 실행하기 위해
+        let publishers = keywords.map { keyword in
+            NetworkManager.shared.searchStoreData(query: keyword, location : location, size : 10)
+        }
+        Publishers.MergeMany(publishers)
+            .collect() // 모든 결과를 배열로 수집
             .sink(
-                receiveCompletion: { [weak self] value in
+                receiveCompletion: {  [weak self] completion in
                     guard let self else { return }
-                    switch value {
+                    switch completion {
                     case .failure:
                         print("⭐️receiveCompletion - failure")
                     case .finished:
                         break
                     }
                 },
-                receiveValue: { [weak self] value in
+                receiveValue: { [weak self] resultArray in
                     guard let self else { return }
-//                    dump(value.documents)
-                    self.output.searchLocations = value.documents
+                    
+                    //resultArray : 병력적으로 실행한 작업들에 대한 결과가 배열로 합쳐져서 들어온다
+                    // -> flatMap으로 원하는 배열로 만들기
+//                    dump(resultArray.flatMap{$0.documents})
+                    let result = resultArray.flatMap{$0.documents}
+                    //중복제거
+                    let uniqueArray = Array(Set(result))
+                    print("🤡🤡🤡🤡", uniqueArray.count)
+                    self.output.searchLocations = uniqueArray
 
-                })
+                }
+            )
             .store(in: &cancellables)
+
     }
     
     private func searchStoreImage(query : String) {

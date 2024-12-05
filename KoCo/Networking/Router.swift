@@ -10,14 +10,14 @@ import Alamofire
 
 
 enum Router{
-    case searchStore(baseURL : String, query : String, longitude : String, latitude : String)
+    case searchStore(baseURL : String, query : String, longitude : String, latitude : String, size : Int)
     case searchStoreImage(baseURL : String, query : String)
 }
 
 extension Router : TargetType {
     var baseURL: String {
         switch self {
-        case .searchStore(let baseURL, _, _, _) :
+        case .searchStore(let baseURL, _, _, _, _) :
             return baseURL
         case .searchStoreImage(let baseURL, _) :
             return baseURL
@@ -46,11 +46,12 @@ extension Router : TargetType {
     
     var queryItems: [URLQueryItem] {
         switch self {
-        case .searchStore( _ ,let query, let longitude, let latitude) :
+        case .searchStore( _ ,let query, let longitude, let latitude, let size) :
             return [
                 URLQueryItem(name: "query", value: query),
                 URLQueryItem(name: "x", value: longitude),
                 URLQueryItem(name: "y", value: latitude),
+                URLQueryItem(name: "size", value: String(size)),
 //                URLQueryItem(name: "sort", value: "accuracy"), //distance or accuracy
 //                URLQueryItem(name: "radius", value: "20000")
             ]
