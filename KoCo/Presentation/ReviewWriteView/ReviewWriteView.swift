@@ -64,7 +64,7 @@ struct ReviewWriteView: View {
                 
                 ReviewSectionView(isContentShown: $sections[0].isContentShown, title: sections[0].title){
                     addPhotosView
-                        .allowsHitTesting(operation != .read)
+//                        .allowsHitTesting(operation != .read)
                 }
                 .padding(.bottom,5)
                 
@@ -156,13 +156,20 @@ extension ReviewWriteView {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
                 
-                ForEach(vm.selectedImages, id : \.self) { image in
-                    Image(uiImage: image)
+                ForEach(vm.selectedImages, id : \.self) { uiImage in
+                    let image = Image(uiImage: uiImage)
+                    image
                         .resizable()
                         .background(Assets.Colors.gray4)
                         .frame(width : 80, height : 80)
                         .cornerRadius(10)
                         .scaledToFill()
+                        .asEnlargeImage(
+                            image: image,
+                            allowEnlarger: true,
+                            allowMagnificationGesture: true
+                        )
+
                 }
                 
                 if operation == .create {

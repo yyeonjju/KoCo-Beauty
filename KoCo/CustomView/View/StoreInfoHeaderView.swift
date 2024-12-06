@@ -19,11 +19,11 @@ struct StoreInfoHeaderView : View {
         self.distance = distance
         self.addressName = addressName
         
-//        print("---init---", placeName)
+        print("---init---", placeName)
     }
     
     var body: some View {
-//        let _ = print("-body-", placeName)
+        let _ = print("---body---", placeName)
         VStack{
             HStack {
                 //매장이름

@@ -34,3 +34,16 @@ extension View {
         modifier(OutlineView(outlineColor: outlineColor))
     }
 }
+
+//ImageModifier
+
+extension View {
+    //이미지 확대를 위한 수정자
+    func asEnlargeImage(image :Image ,allowEnlarger : Bool = false,allowMagnificationGesture : Bool = false) -> some View{
+        modifier(EnlargeImage(
+            image :image,
+            allowEnlarger : allowEnlarger,
+            allowMagnificationGesture: allowMagnificationGesture
+        ))
+    }
+}

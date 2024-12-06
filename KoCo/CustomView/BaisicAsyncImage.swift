@@ -13,6 +13,10 @@ struct BaisicAsyncImage: View {
     var height : CGFloat = 80
     var radius : CGFloat = 4
     
+    var allowEnlarger : Bool = false
+    var allowMagnificationGesture : Bool = false
+    
+    
     var body: some View {
         VStack {
             if let url {
@@ -20,6 +24,13 @@ struct BaisicAsyncImage: View {
                     if let image = phase.image {
                         image // Displays the loaded image.
                             .resizable()
+                            .asEnlargeImage(
+                                image :image,
+                                allowEnlarger : allowEnlarger,
+                                allowMagnificationGesture: allowMagnificationGesture
+                            )
+
+                        
                     } else if phase.error != nil {
                         defaultContent // Indicates an error.
                     } else {
@@ -43,4 +54,6 @@ struct BaisicAsyncImage: View {
                     .foregroundStyle(.gray3)
             }
     }
+    
+
 }
