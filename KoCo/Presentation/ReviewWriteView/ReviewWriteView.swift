@@ -33,9 +33,17 @@ struct ReviewWriteView: View {
     
     
     @State private var sections : [ReviewSectionType] = []
+    @State private var operationState : Operation = .create
     
     //태그
     private let tags : [LocalizedStringKey] = ReviewTagLoalizedStringKey.tagList
+
+    init(isPresented: Binding<Bool>, operation: Operation, storeInfo: LocationDocument) {
+        self._isPresented = isPresented
+        self.operation = operation
+        self.operationState = operation
+        self.storeInfo = storeInfo
+    }
     
     var body: some View {
         
@@ -49,9 +57,9 @@ struct ReviewWriteView: View {
                         ReviewSection.addTags,
                         ReviewSection.addStarRate
                     ]
-                    //operation에 따라 섹션 공간 토글 여부
+                    //operationState에 따라 섹션 공간 토글 여부
                     self.sections = sectionList.map{
-                        ReviewSectionType(isContentShown: self.operation == .create ? false : true, title: $0)
+                        ReviewSectionType(isContentShown: self.operationState == .create ? false : true, title: $0)
                     }
                 }
             
@@ -64,35 +72,35 @@ struct ReviewWriteView: View {
                 
                 ReviewSectionView(isContentShown: $sections[0].isContentShown, title: sections[0].title){
                     addPhotosView
-//                        .allowsHitTesting(operation != .read)
+//                        .allowsHitTesting(operationState != .read)
                 }
                 .padding(.bottom,5)
                 
                 ReviewSectionView(isContentShown: $sections[1].isContentShown, title: sections[1].title){
                     addStoreReviewView
-                        .allowsHitTesting(operation != .read)
+                        .allowsHitTesting(operationState != .read)
                 }
                 .padding(.bottom,5)
                 
                 ReviewSectionView(isContentShown: $sections[2].isContentShown, title: sections[2].title){
                     addProductReviewView
-                        .allowsHitTesting(operation != .read)
+                        .allowsHitTesting(operationState != .read)
                 }
                 .padding(.bottom,5)
                 
                 ReviewSectionView(isContentShown: $sections[3].isContentShown, title: sections[3].title){
                     addTagsView
-                        .allowsHitTesting(operation != .read)
+                        .allowsHitTesting(operationState != .read)
                 }
                 .padding(.bottom,5)
                 
                 ReviewSectionView(isContentShown: $sections[4].isContentShown, title: sections[4].title){
                     addStarRateView
-                        .allowsHitTesting(operation != .read)
+                        .allowsHitTesting(operationState != .read)
                 }
                 .padding(.bottom,5)
                 
-                if operation == .create {
+                if operationState != .read{
                     Button{
                         print("리뷰 등록버튼 눌림", vm.starRate)
                         
@@ -110,7 +118,7 @@ struct ReviewWriteView: View {
             .frame(maxWidth : .infinity, maxHeight: .infinity)
             .background(Assets.Colors.gray5)
             .onAppear{
-                if operation == .read {
+                if operationState == .read {
                     vm.action(.getReview(storeID: storeInfo.id))
                 }
             }
@@ -138,7 +146,12 @@ extension ReviewWriteView {
             VStack(alignment : .leading){
                 Text(storeInfo.placeName)
                     .foregroundStyle(.skyblue)
-                Text(operation == .create ? "리뷰를 등록해주세요!" : "작성한 리뷰입니다!")
+                Text(operationState == .create ? "리뷰를 등록해주세요!" : "작성한 리뷰입니다!")
+                
+                if operationState == .read {
+                    editButton
+                }
+
             }
             .asTitleText()
             
@@ -150,6 +163,26 @@ extension ReviewWriteView {
             }
             
         }
+    }
+    
+    var editButton : some View {
+        Button {
+            withAnimation{
+                operationState = .edit
+            }
+        } label : {
+            HStack {
+                Assets.SystemImage.pencilLine
+                    .imageScale(.small)
+                
+                Text("수정하기")
+                    .font(.system(size: 12))
+            }
+            
+            .foregroundColor(Assets.Colors.gray2)
+            .padding(.bottom, 2)
+        }
+        .padding(.top, 4)
     }
     
     var addPhotosView : some View {
@@ -172,7 +205,7 @@ extension ReviewWriteView {
 
                 }
                 
-                if operation == .create {
+                if operationState != .read {
                     PhotosPicker(
                         selection: Binding(
                             get: {vm.selectedPhotos },

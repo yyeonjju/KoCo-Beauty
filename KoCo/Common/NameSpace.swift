@@ -52,6 +52,7 @@ enum Assets {
         static let chevronDown = Image(systemName: "chevron.down")
         static let plusCircleFill = Image(systemName: "plus.circle.fill")
         static let starFill = Image(systemName: "star.fill")
+        static let pencilLine = Image(systemName : "pencil.line")
         
         static let ellipsis = Image(systemName: "ellipsis")
         static let menucard = Image(systemName: "menucard")
