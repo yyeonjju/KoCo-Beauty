@@ -63,13 +63,13 @@ final class ReviewWriteViewModel : ViewModelType {
     
     private func getReviewFromRealm(storeID : String) {
         guard let myStore = myStoreRepository.myStore(for: storeID) else {
-            output.errorOccur = .noStore
+            output.repositoryErrorOccur = .noStore
             print("🚨🚨🚨noStore🚨🚨🚨")
             return
         }
         
         guard let reviewContent = myStore.reviewContent else {
-            output.errorOccur = .noReviewContent
+            output.repositoryErrorOccur = .noReviewContent
             print("🚨🚨🚨noReviewContent🚨🚨🚨")
             return
         }
@@ -94,9 +94,22 @@ final class ReviewWriteViewModel : ViewModelType {
     
     private func saveReviewToRealm(storeInfo : LocationDocument) {
         
-        print("latitude💕💕💕", storeInfo.y)
-        print("longitude💕💕💕", storeInfo.x)
-        print("🧡 클릭된 태그 --> ", clickedTags)
+        if storeReviewText.isEmpty {
+            output.reviewValidationErrorOccur = .noStoreReview
+            return
+        }
+        if clickedTags.isEmpty  {
+            output.reviewValidationErrorOccur = .noTag
+            return
+        }
+        if starRate < 1 {
+            output.reviewValidationErrorOccur = .noStarRate
+            return
+        }
+        
+//        print("latitude", storeInfo.y)
+//        print("longitude", storeInfo.x)
+//        print(" 클릭된 태그 --> ", clickedTags)
         
         let currentDate = Date()
         
@@ -112,7 +125,7 @@ final class ReviewWriteViewModel : ViewModelType {
         var imageFileNames : [String] = []
         //파일 매니저에 이미지 저장
         for (offset, image) in selectedImages.enumerated() {
-            print("🥰 이미지 이름 -> ", "\(storeInfo.id)_\(currentDate)_\(offset)")
+//            print("이미지 이름 -> ", "\(storeInfo.id)_\(currentDate)_\(offset)")
             
             //realm 에 저장할 파일 이름 만들기
             let dateString = DateFormatManager.shared.getDateFormatter(format: .yearMonthDay).string(from: currentDate)
@@ -126,7 +139,7 @@ final class ReviewWriteViewModel : ViewModelType {
         let realmListPhotoNames : RealmSwift.List<String> = RealmSwift.List()
         realmListPhotoNames.append(objectsIn: imageFileNames)
         
-        print("🥰🥰imageFileNames -> ", imageFileNames)
+//        print("imageFileNames -> ", imageFileNames)
         
         //✅ 리뷰 컨텐츠
         let reviewContent = ReviewContent(photoFileNames:realmListPhotoNames, storeReviewText: storeReviewText, productReviewText: productReviewText,reviewTags:realmListTagIDs , starRate: starRate)
@@ -147,7 +160,8 @@ extension ReviewWriteViewModel {
     }
     
     struct Output {
-        var errorOccur : RepositoryError?
+        var reviewValidationErrorOccur : ReviewContentValidationError?
+        var repositoryErrorOccur : RepositoryError?
         var saveReviewComplete : Bool = false
     }
 }

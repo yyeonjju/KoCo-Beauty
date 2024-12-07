@@ -36,7 +36,6 @@ extension View {
 }
 
 //ImageModifier
-
 extension View {
     //이미지 확대를 위한 수정자
     func asEnlargeImage(image :Image ,allowEnlarger : Bool = false,allowMagnificationGesture : Bool = false) -> some View{
@@ -45,5 +44,28 @@ extension View {
             allowEnlarger : allowEnlarger,
             allowMagnificationGesture: allowMagnificationGesture
         ))
+    }
+}
+
+//Toast
+extension View {
+    func toast(message: LocalizedStringKey,
+               position : Toast.ToastPosition = .bottom,
+               isShowing: Binding<Bool>,
+               config: Toast.Config) -> some View {
+        self.modifier(Toast(message: message,
+                            position : position,
+                            isShowing: isShowing,
+                            config: config))
+    }
+    
+    func toast(message: LocalizedStringKey,
+               position : Toast.ToastPosition = .bottom,
+               isShowing: Binding<Bool>,
+               duration: TimeInterval) -> some View {
+        self.modifier(Toast(message: message,
+                            position : position,
+                            isShowing: isShowing,
+                            config: .init(duration: duration)))
     }
 }

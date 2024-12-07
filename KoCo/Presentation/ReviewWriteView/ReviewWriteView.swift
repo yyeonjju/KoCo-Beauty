@@ -34,6 +34,7 @@ struct ReviewWriteView: View {
     
     @State private var sections : [ReviewSectionType] = []
     @State private var operationState : Operation = .create
+    @State private var toastState : Toast.ToastState = .init(message: "", isShowing: false)
     
     //태그
     private let tags : [LocalizedStringKey] = ReviewTagLoalizedStringKey.tagList
@@ -127,10 +128,15 @@ struct ReviewWriteView: View {
                     isPresented = false
                 }
             }
+            .onChange(of: vm.output.reviewValidationErrorOccur) { error in
+                guard let error else {return}
+                toastState = Toast.ToastState(message: error.rawValue, isShowing: true)
+                vm.output.reviewValidationErrorOccur = nil
+            }
             .onTapGesture {
                 focusedField = nil
             }
-            
+            .toast(message: toastState.message,position: .top ,isShowing: $toastState.isShowing, duration : Toast.long)
             
         }
         

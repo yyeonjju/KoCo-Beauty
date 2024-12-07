@@ -21,6 +21,12 @@ enum RepositoryError : Error {
     case noReviewContent
 }
 
+enum ReviewContentValidationError : LocalizedStringKey, Error {
+    case noStoreReview = "매장 리뷰를 작성해주세요"
+    case noStarRate = "별점을 입력해주세요"
+    case noTag = "태그를 하나 이상 선택해주세요"
+}
+
 enum Operation {
     case create
     case edit
