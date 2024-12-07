@@ -268,11 +268,17 @@ extension MapView {
                         vm.action(.toggleIsFlagedStatus(id : tappedStoreData.id,to: !vm.isTappeStoreFlaged))
                     } label : {
                         
-                        let flag = vm.isTappeStoreFlaged ? Assets.SystemImage.flagFill : Assets.SystemImage.flag
+                        let flag = vm.isTappeStoreFlaged 
+                        ? Assets.SystemImage.flagFill
+                        : Assets.SystemImage.flag
+                        
+                        let flagColor = tappedStoreData.placeName == "네이처리퍼블릭 메트로문래역점"
+                        ? Assets.Colors.pointPink
+                        : Assets.Colors.skyblue
                         
                         flag
                             .resizable()
-                            .foregroundColor(.skyblue)
+                            .foregroundColor(flagColor)
                             .frame(width: 20, height: 24)
                     }
                 }

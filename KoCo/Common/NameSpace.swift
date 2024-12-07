@@ -32,6 +32,7 @@ enum Assets {
     enum Colors {
         static let skyblue = Color("skyblue")
         static let pointYellow = Color("pointYellow")
+        static let pointPink = Color("pointPink")
         
         static let black = Color("black")
         static let gray1 = Color("gray1")
