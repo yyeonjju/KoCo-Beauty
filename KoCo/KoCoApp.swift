@@ -16,6 +16,7 @@ struct KoCoApp: App {
 //            ContentView()
             NavigationView {
                 MapView()
+                    .preferredColorScheme(.light)
                     
             }
 
