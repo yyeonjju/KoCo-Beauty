@@ -1,7 +1,7 @@
 
-# KoCo | 한국 코스매틱 앱
+# KoCo | 한국 코스메틱 앱
 
-![Koco_1](https://github.com/user-attachments/assets/18c4554e-a7ee-49e5-8772-298fb3255575) |![Koco_2](https://github.com/user-attachments/assets/22d5c57f-839e-4c58-9cf4-cc8d8b3a8e5d) |![Koco_3](https://github.com/user-attachments/assets/ef05bbe7-438c-45d5-b189-277e32ab4056) |![Koco_4](https://github.com/user-attachments/assets/128ca08e-dd78-4c21-ae32-b81cd4d096e0)
+![KoCo_En_1](https://github.com/user-attachments/assets/17b7b6be-a21f-4ec1-bc81-35a6238ba5c2) |![KoCo_En_2](https://github.com/user-attachments/assets/ad205ddf-280e-4e43-9d5e-b8ea0973ddf1) |![KoCo_En_3](https://github.com/user-attachments/assets/5d5c6517-8b2d-4faf-a661-fd4ca2b864bb) |![KoCo_En_4](https://github.com/user-attachments/assets/a25ebbbd-0f99-4c09-8a2d-79c0b0ea1811)
 --- | --- | --- | --- |
 
 
@@ -9,7 +9,7 @@
 <br/><br/>
 
 ## 🪗 KoCo (Korea Cosmetic) 
-- 앱 소개 : K뷰티에 관심있는 외국인 관광객들을 위한 코스매틱 매장/상품 기록 앱
+- 앱 소개 : K뷰티에 관심있는 외국인 관광객들을 위한 코스메틱 매장/상품 기록 앱
 - 개발 인원 : 1인
 - 개발 기간 : 약 3주
 - 최소 버전 : 16.0
@@ -23,7 +23,7 @@
 - Network : URLSession
 - Architecture : MVVM
 - Local DB : Realm
-- Map : KakaoMapSDK
+- ETC. : KakaoMapSDK, CoreLocation
 
 
 <br/><br/>

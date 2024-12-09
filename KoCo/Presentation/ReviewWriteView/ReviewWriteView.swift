@@ -152,7 +152,7 @@ extension ReviewWriteView {
             VStack(alignment : .leading){
                 Text(storeInfo.placeName)
                     .foregroundStyle(.skyblue)
-                Text(operationState == .create ? "리뷰를 등록해주세요!" : "작성한 리뷰입니다!")
+                Text(operationState == .read ? "작성한 리뷰입니다!" : "리뷰를 등록해주세요!")
                 
                 if operationState == .read {
                     editButton
