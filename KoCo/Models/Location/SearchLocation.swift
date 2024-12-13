@@ -7,13 +7,13 @@
 
 import Foundation
 
-struct SearchLocationReapose : Decodable {
+struct SearchLocationResponse {
 //    let meta :
     let documents : [LocationDocument]
     
 }
 
-struct LocationDocument : Decodable, Equatable, Hashable {
+struct LocationDocument : Equatable, Hashable {
     let id : String
     let placeName : String
     let distance : String
@@ -24,16 +24,6 @@ struct LocationDocument : Decodable, Equatable, Hashable {
     let phone : String
     let x : String
     let y : String
-    
-    
-    enum CodingKeys: String, CodingKey {
-        case id, distance, phone, x, y
-        case placeName = "place_name"
-        case placeUrl = "place_url"
-        case categoryName = "category_name"
-        case addressName = "address_name"
-        case roadAddressName = "road_address_name"
-    }
 }
 
 

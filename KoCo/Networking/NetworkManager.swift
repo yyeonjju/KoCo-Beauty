@@ -75,14 +75,14 @@ final class NetworkManager {
 }
 
 extension NetworkManager {
-    func searchStoreData (query : String, location : LocationCoordinate, size : Int) -> AnyPublisher<SearchLocationReapose, Error> {
+    func searchStoreData (query : String, location : LocationCoordinate, size : Int) -> AnyPublisher<SearchLocationResponseDTO, Error> {
         let router = Router.searchStore(baseURL : APIURL.kakaoBaseURL,query: query, longitude : String(location.longitude), latitude : String(location.latitude), size : size)
-        return fetch(model: SearchLocationReapose.self, fetchRouter: router)
+        return fetch(model: SearchLocationResponseDTO.self, fetchRouter: router)
     }
     
-    func searchStoreImage (query : String) -> AnyPublisher<SearchStoreImageResponse, Error> {
+    func searchStoreImage (query : String) -> AnyPublisher<SearchStoreImageResponseDTO, Error> {
         let router = Router.searchStoreImage(baseURL : APIURL.naverBaseURL,query: query)
-        return fetch(model: SearchStoreImageResponse.self, fetchRouter: router)
+        return fetch(model: SearchStoreImageResponseDTO.self, fetchRouter: router)
     }
     
 }

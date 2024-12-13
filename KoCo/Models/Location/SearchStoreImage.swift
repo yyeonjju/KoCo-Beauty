@@ -7,18 +7,14 @@
 
 import Foundation
 
-struct SearchStoreImageResponse : Decodable {
-//    let lastBuildDate : Date
-    let total : Int
-    let start : Int
-    let display : Int
+struct SearchStoreImageResponse {
     let items : [StoreImageItem]
 }
 
-struct StoreImageItem : Decodable, Hashable {
+struct StoreImageItem : Hashable {
     let title : String
     let link : String
-    let thumbnail : String
-    let sizeheight : String
-    let sizewidth : String
+//    let thumbnail : String
+//    let sizeheight : String
+//    let sizewidth : String
 }

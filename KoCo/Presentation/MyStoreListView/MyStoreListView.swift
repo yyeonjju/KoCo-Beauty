@@ -24,8 +24,6 @@ struct MyStoreListView: View {
             } else {
                 LazyVStack {
                     ForEach(vm.output.myStoreList, id: \.id) { myStore in
-                        let categories = myStore.categoryName.components(separatedBy: ">")
-                        let categoryText = categories.count>1 ? categories[categories.count-1] : "-"
                         
                         Button {
                             selectedMyStore = myStore
@@ -33,7 +31,7 @@ struct MyStoreListView: View {
                         }label : {
                             StoreInfoHeaderView(
                                 placeName: myStore.KakaoPaceName,
-                                categoryText: categoryText,
+                                categoryText: myStore.categoryName,
                                 addressName: myStore.addressName
                             )
                             .padding()

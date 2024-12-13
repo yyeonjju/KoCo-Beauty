@@ -157,8 +157,11 @@ final class MapViewModel : ObservableObject, ViewModelType {
                     
                     //resultArray : 병력적으로 실행한 작업들에 대한 결과가 배열로 합쳐져서 들어온다
                     // -> flatMap으로 원하는 배열로 만들기
-//                    dump(resultArray.flatMap{$0.documents})
-                    let result = resultArray.flatMap{$0.documents}
+                    
+                    let result = resultArray
+                        .map{$0.toDomain()}
+                        .flatMap{$0.documents}
+                    
                     //중복제거
                     let uniqueArray = Array(Set(result))
                     print("🤡🤡🤡🤡", uniqueArray.count)
@@ -185,7 +188,7 @@ final class MapViewModel : ObservableObject, ViewModelType {
                 receiveValue: { [weak self] value in
                     guard let self else { return }
                     dump(value.items)
-                    output.searchedStoreImages = value.items
+                    output.searchedStoreImages = value.items.map{$0.toDomain()}
 
                 })
             .store(in: &cancellables)

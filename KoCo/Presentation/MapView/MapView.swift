@@ -198,12 +198,10 @@ extension MapView {
         
         return VStack {
             if let tappedStoreData = vm.lastTappedStoreData {
-                let categories = tappedStoreData.categoryName.components(separatedBy: ">")
-                let categoryText = categories.count>1 ? categories[categories.count-1] : "-"
                 
                 StoreInfoHeaderView(
                     placeName: tappedStoreData.placeName,
-                    categoryText: categoryText,
+                    categoryText: tappedStoreData.categoryName,
                     distance: tappedStoreData.distance,
                     addressName: tappedStoreData.addressName
                 )
