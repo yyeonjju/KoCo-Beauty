@@ -62,6 +62,10 @@
 		7DBBAAC12CAD63F6009171D2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAAC02CAD63F6009171D2 /* AppDelegate.swift */; };
 		7DF1CC912D0AEB2B0066C4ED /* SearchLocationResponseDTO+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DF1CC902D0AEB2B0066C4ED /* SearchLocationResponseDTO+Mapping.swift */; };
 		7DF1CC932D0C07260066C4ED /* SearchStoreImageResponse+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DF1CC922D0C07260066C4ED /* SearchStoreImageResponse+Mapping.swift */; };
+		7DF1CC982D0D98D60066C4ED /* LocationImageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DF1CC972D0D98D60066C4ED /* LocationImageRepository.swift */; };
+		7DF1CC9A2D0D98F60066C4ED /* LocationDataRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DF1CC992D0D98F60066C4ED /* LocationDataRepository.swift */; };
+		7DF1CC9C2D0EC8040066C4ED /* DefaultLocationDataRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DF1CC9B2D0EC8040066C4ED /* DefaultLocationDataRepository.swift */; };
+		7DF1CC9E2D0EC8750066C4ED /* DefaultLocationImageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DF1CC9D2D0EC8750066C4ED /* DefaultLocationImageRepository.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -132,6 +136,10 @@
 		7DBBAAC02CAD63F6009171D2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7DF1CC902D0AEB2B0066C4ED /* SearchLocationResponseDTO+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchLocationResponseDTO+Mapping.swift"; sourceTree = "<group>"; };
 		7DF1CC922D0C07260066C4ED /* SearchStoreImageResponse+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchStoreImageResponse+Mapping.swift"; sourceTree = "<group>"; };
+		7DF1CC972D0D98D60066C4ED /* LocationImageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationImageRepository.swift; sourceTree = "<group>"; };
+		7DF1CC992D0D98F60066C4ED /* LocationDataRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDataRepository.swift; sourceTree = "<group>"; };
+		7DF1CC9B2D0EC8040066C4ED /* DefaultLocationDataRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLocationDataRepository.swift; sourceTree = "<group>"; };
+		7DF1CC9D2D0EC8750066C4ED /* DefaultLocationImageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLocationImageRepository.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,6 +189,7 @@
 				7DBBAAA72CAD35A8009171D2 /* Models */,
 				7DBBAA972CACC951009171D2 /* Networking */,
 				7DBBAA8F2CA2F5A6009171D2 /* Presentation */,
+				7DF1CC942D0D986D0066C4ED /* Domain */,
 				7D9A86BE2CCE2F4200E0E415 /* Data */,
 				7D1AEFC92C9F146000DD05FC /* KoCoApp.swift */,
 				7D1AEFCB2C9F146000DD05FC /* ContentView.swift */,
@@ -267,6 +276,8 @@
 				7D9A86BA2CCD22D800E0E415 /* RepositoryType.swift */,
 				7D9A86BC2CCD23F000E0E415 /* BaseRepository.swift */,
 				7D9A86C52CE1D3EB00E0E415 /* MyStoreRepository.swift */,
+				7DF1CC9B2D0EC8040066C4ED /* DefaultLocationDataRepository.swift */,
+				7DF1CC9D2D0EC8750066C4ED /* DefaultLocationImageRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -439,6 +450,31 @@
 			path = DataMapping;
 			sourceTree = "<group>";
 		};
+		7DF1CC942D0D986D0066C4ED /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				7DF1CC952D0D988C0066C4ED /* Interfaces */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		7DF1CC952D0D988C0066C4ED /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				7DF1CC962D0D98AF0066C4ED /* Repositories */,
+			);
+			path = Interfaces;
+			sourceTree = "<group>";
+		};
+		7DF1CC962D0D98AF0066C4ED /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				7DF1CC972D0D98D60066C4ED /* LocationImageRepository.swift */,
+				7DF1CC992D0D98F60066C4ED /* LocationDataRepository.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -530,7 +566,9 @@
 				7D9A86E62CE9AD4600E0E415 /* StoreInfoHeaderView.swift in Sources */,
 				7DBBAAB22CAD609D009171D2 /* KakaoMapView.swift in Sources */,
 				7D50ECD62CB2BEF200B34B91 /* TextModifier.swift in Sources */,
+				7DF1CC9A2D0D98F60066C4ED /* LocationDataRepository.swift in Sources */,
 				7DBBAAA02CACCA38009171D2 /* Router.swift in Sources */,
+				7DF1CC9C2D0EC8040066C4ED /* DefaultLocationDataRepository.swift in Sources */,
 				7D9A86E42CE9951700E0E415 /* MyStoreListViewModel.swift in Sources */,
 				7D9A86C62CE1D3EB00E0E415 /* MyStoreRepository.swift in Sources */,
 				7DBBAAA42CACCA96009171D2 /* APIURL.swift in Sources */,
@@ -553,7 +591,9 @@
 				7D1AEFCC2C9F146000DD05FC /* ContentView.swift in Sources */,
 				7D9A86B42CCBFC1900E0E415 /* HStackMultipleLinesView.swift in Sources */,
 				7D9A86DF2CE8E85500E0E415 /* CircleMenuView.swift in Sources */,
+				7DF1CC9E2D0EC8750066C4ED /* DefaultLocationImageRepository.swift in Sources */,
 				7D9A86B22CCBDCC300E0E415 /* ReviewSectionView.swift in Sources */,
+				7DF1CC982D0D98D60066C4ED /* LocationImageRepository.swift in Sources */,
 				7D9A86E22CE9927500E0E415 /* MyStoreListView.swift in Sources */,
 				7DBBAABB2CAD6258009171D2 /* BottomSheetView.swift in Sources */,
 				7D9A86B82CCD1D1000E0E415 /* ReviewWriteViewModel.swift in Sources */,

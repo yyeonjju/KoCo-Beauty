@@ -9,22 +9,12 @@ import Foundation
 import UIKit
 import SwiftUI
 
+// MARK: - About View
 enum MyStoreMode {
     case entire
     
     case flaged
     case reviewExist
-}
-
-enum RepositoryError : Error {
-    case noStore
-    case noReviewContent
-}
-
-enum ReviewContentValidationError : LocalizedStringKey, Error {
-    case noStoreReview = "매장 리뷰를 작성해주세요"
-    case noStarRate = "별점을 입력해주세요"
-    case noTag = "태그를 하나 이상 선택해주세요"
 }
 
 enum Operation {
@@ -34,6 +24,25 @@ enum Operation {
     case read
 }
 
+// MARK: - Error
+enum RepositoryError : Error {
+    case noStore
+    case noReviewContent
+}
+
+enum NetworkingError : LocalizedStringKey, Error {
+    case searchStoreImageFail = "매장 이미지 요청 실패"
+    case searchLocationDataFail = "장소 데이터 요청 실패"
+}
+
+enum ReviewContentValidationError : LocalizedStringKey, Error {
+    case noStoreReview = "매장 리뷰를 작성해주세요"
+    case noStarRate = "별점을 입력해주세요"
+    case noTag = "태그를 하나 이상 선택해주세요"
+}
+
+
+// MARK: - Assets Constants
 enum Assets {
     enum Colors {
         static let skyblue = Color("skyblue")
@@ -73,6 +82,10 @@ enum Assets {
     }
 }
 
+
+// MARK: - Map Constants
+
+
 enum MapInfo {
     static let viewName = "mapview"
     static let viewInfoName = "map"
@@ -94,6 +107,9 @@ enum MapInfo {
     }
 
 }
+
+
+// MARK: - Review
 
 enum ReviewSection {
     static let addPhotos : LocalizedStringKey = "영수증/사진 기록"
@@ -135,6 +151,7 @@ enum ReviewTagLoalizedStringKey {
     ]
 }
 
+// MARK: - ETC.
 
 enum ScreenSize {
     static var width : CGFloat {

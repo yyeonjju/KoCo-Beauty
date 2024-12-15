@@ -10,10 +10,14 @@ import Combine
 
 struct MapView: View {
     @StateObject private var locationManager = LocationManager()
-    @StateObject private var vm = MapViewModel(myStoreRepository: MyStoreRepository())
+    @StateObject private var vm = MapViewModel(
+        myStoreRepository: MyStoreRepository(),
+        defaultLocationImageRepository: DefaultLocationImageRepository(),
+        defaultLocationDataRepository: DefaultLocationDataRepository())
     
     @State private var reviewWritePageShown = false
     @State private var isMenuSpread = false
+    @State private var toastState : Toast.ToastState = .init(message: "", isShowing: false)
     
     var cancellables = Set<AnyCancellable>()
     
@@ -35,6 +39,21 @@ struct MapView: View {
                 ReviewWriteView(isPresented: $reviewWritePageShown, operation : operation, storeInfo: tappedStoreData)
             }
         }
+//        .toast(message: vm.output.requestErrorOccur?.rawValue ?? "-" ,
+//               position: .top ,
+//               isShowing: 
+//                Binding(
+//                    get: {vm.output.requestErrorOccur != nil},
+//                    set: {if !$0 {vm.output.requestErrorOccur = nil}  }
+//                ),
+//               duration : Toast.long
+//        )
+//        .toast(message: toastState.message,position: .top ,isShowing: $toastState.isShowing, duration : Toast.long)
+//        .onChange(of: vm.output.requestErrorOccur) { error in
+//            guard let error else {return}
+//            toastState = Toast.ToastState(message: error.rawValue, isShowing: true)
+//            vm.output.reviewValidationErrorOccur = nil
+//        }
         .onChange(of: locationManager.lastKnownLocation) { newValue in
             print("🎀🎀내 위치 감지해서 or 디폴트 위치 설정으로 lastKnownLocation 바뀌었다🎀🎀 -> ", newValue)
             
@@ -198,6 +217,8 @@ extension MapView {
         
         return VStack {
             if let tappedStoreData = vm.lastTappedStoreData {
+//                let categories = tappedStoreData.categoryName.components(separatedBy: ">")
+//                let categoryText = categories.count>1 ? categories[categories.count-1] : "-"
                 
                 StoreInfoHeaderView(
                     placeName: tappedStoreData.placeName,

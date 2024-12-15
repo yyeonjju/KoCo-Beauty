@@ -10,6 +10,8 @@ import Combine
 
 final class MapViewModel : ObservableObject, ViewModelType {
     private var myStoreRepository : any RepositoryType & MyStoreType
+    private var defaultLocationImageRepository : LocationImageRepository
+    private var defaultLocationDataRepository : LocationDataRepository
     
     var cancellables = Set<AnyCancellable>()
     var input = Input()
@@ -65,8 +67,11 @@ final class MapViewModel : ObservableObject, ViewModelType {
 
     
     
-    init(myStoreRepository : any RepositoryType & MyStoreType) {
+    init(myStoreRepository : any RepositoryType & MyStoreType, defaultLocationImageRepository : LocationImageRepository,
+         defaultLocationDataRepository : LocationDataRepository) {
         self.myStoreRepository = myStoreRepository
+        self.defaultLocationImageRepository = defaultLocationImageRepository
+        self.defaultLocationDataRepository = defaultLocationDataRepository
         
         transform()
     }
@@ -138,7 +143,7 @@ final class MapViewModel : ObservableObject, ViewModelType {
         
         //네트워킹 비동기 작업 병렬적으로 실행하기 위해
         let publishers = keywords.map { keyword in
-            NetworkManager.shared.searchStoreData(query: keyword, location : location, size : 10)
+            defaultLocationDataRepository.searchStoreData(query: keyword, location: location, size: 10)
         }
         Publishers.MergeMany(publishers)
             .collect() // 모든 결과를 배열로 수집
@@ -159,8 +164,7 @@ final class MapViewModel : ObservableObject, ViewModelType {
                     // -> flatMap으로 원하는 배열로 만들기
                     
                     let result = resultArray
-                        .map{$0.toDomain()}
-                        .flatMap{$0.documents}
+                        .flatMap{$0}
                     
                     //중복제거
                     let uniqueArray = Array(Set(result))
@@ -174,24 +178,24 @@ final class MapViewModel : ObservableObject, ViewModelType {
     }
     
     private func searchStoreImage(query : String) {
-        NetworkManager.shared.searchStoreImage(query: query)
+        defaultLocationImageRepository.searchStoreImage(query: query)
             .sink(
                 receiveCompletion: { [weak self] value in
                     guard let self else { return }
                     switch value {
                     case .failure:
-                        print("⭐️receiveCompletion - failure")
+                        output.requestErrorOccur = .searchStoreImageFail
                     case .finished:
                         break
                     }
                 },
                 receiveValue: { [weak self] value in
                     guard let self else { return }
-                    dump(value.items)
-                    output.searchedStoreImages = value.items.map{$0.toDomain()}
+                    output.searchedStoreImages = value
 
                 })
             .store(in: &cancellables)
+            
     }
     
 }
@@ -211,6 +215,7 @@ extension MapViewModel {
     struct Output {
         var searchLocations : [LocationDocument] = []
         var searchedStoreImages : [StoreImageItem] = []
+        var requestErrorOccur : NetworkingError?
     }
 }
 
