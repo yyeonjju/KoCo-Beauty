@@ -10,10 +10,7 @@ import Combine
 
 struct MapView: View {
     @StateObject private var locationManager = LocationManager()
-    @StateObject private var vm = MapViewModel(
-        myStoreRepository: MyStoreRepository(),
-        defaultLocationImageRepository: DefaultLocationImageRepository(),
-        defaultLocationDataRepository: DefaultLocationDataRepository())
+    @StateObject private var vm = DIContainer.makeMapViewModel()
     
     @State private var reviewWritePageShown = false
     @State private var isMenuSpread = false
