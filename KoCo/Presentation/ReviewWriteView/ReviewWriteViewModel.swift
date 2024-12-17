@@ -13,7 +13,7 @@ import PhotosUI
 import RealmSwift
 
 final class ReviewWriteViewModel : ViewModelType {
-    private var myStoreRepository : any RepositoryType & MyStoreType
+    private var defaultMyStoreRepository : MyStoreRepository
     
     var cancellables = Set<AnyCancellable>()
     var input = Input()
@@ -33,11 +33,8 @@ final class ReviewWriteViewModel : ViewModelType {
     @Published var starRate : Int = 0
 
     
-    init(myStoreRepository : any RepositoryType & MyStoreType) {
-        self.myStoreRepository = myStoreRepository
-        
-        myStoreRepository.checkFileURL()
-        myStoreRepository.checkSchemaVersion()
+    init(defaultMyStoreRepository : MyStoreRepository) {
+        self.defaultMyStoreRepository = defaultMyStoreRepository
         
         transform()
     }
@@ -62,7 +59,7 @@ final class ReviewWriteViewModel : ViewModelType {
     }
     
     private func getReviewFromRealm(storeID : String) {
-        guard let myStore = myStoreRepository.myStore(for: storeID) else {
+        guard let myStore = defaultMyStoreRepository.getMyStoreInfo(id: storeID) else {
             output.repositoryErrorOccur = .noStore
             print("🚨🚨🚨noStore🚨🚨🚨")
             return
@@ -144,7 +141,7 @@ final class ReviewWriteViewModel : ViewModelType {
         //✅ 리뷰 컨텐츠
         let reviewContent = ReviewContent(photoFileNames:realmListPhotoNames, storeReviewText: storeReviewText, productReviewText: productReviewText,reviewTags:realmListTagIDs , starRate: starRate)
         
-        myStoreRepository.addReview(storeID: storeInfo.id, reviewContent: reviewContent, storeInfo: storeInfo)
+        defaultMyStoreRepository.addReview(storeID: storeInfo.id, reviewContent: reviewContent, storeInfo: storeInfo)
         
         output.saveReviewComplete = true
     }

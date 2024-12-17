@@ -1,5 +1,5 @@
 //
-//  MyStoreRepository.swift
+//  MyStoreRealmManager.swift
 //  KoCo
 //
 //  Created by 하연주 on 11/11/24.
@@ -7,14 +7,14 @@
 
 import Foundation
 
-protocol MyStoreType {
+protocol MyStoreRealmMangerType {
     func myStoreList(mode : MyStoreMode) -> [MyStoreInfo]
     func myStore(for storeID : String) -> MyStoreInfo?
     func toggleFlag(storeID : String, to : Bool, storeData : LocationDocument)
     func addReview(storeID : String, reviewContent : ReviewContent, storeInfo : LocationDocument)
 }
 
-final class MyStoreRepository : BaseRepository, MyStoreType {
+final class MyStoreRealmManager : BaseRealmManager, MyStoreRealmMangerType {
     
     //realm에 저장된 myStore 리스트
     func myStoreList(mode : MyStoreMode = .entire) -> [MyStoreInfo] {

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MyStoreListView: View {
-    @StateObject private var vm = MyStoreListViewModel(myStoreRepository: MyStoreRepository())
+    @StateObject private var vm = MyStoreListViewModel(myStoreRepository: MyStoreRealmManager())
     @Environment(\.dismiss) var dismiss
     
     var mode : MyStoreMode

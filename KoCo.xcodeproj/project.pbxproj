@@ -24,10 +24,10 @@
 		7D9A86B42CCBFC1900E0E415 /* HStackMultipleLinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9A86B32CCBFC1900E0E415 /* HStackMultipleLinesView.swift */; };
 		7D9A86B62CCCDA2D00E0E415 /* StarRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9A86B52CCCDA2D00E0E415 /* StarRatingView.swift */; };
 		7D9A86B82CCD1D1000E0E415 /* ReviewWriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9A86B72CCD1D1000E0E415 /* ReviewWriteViewModel.swift */; };
-		7D9A86BB2CCD22D800E0E415 /* RepositoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9A86BA2CCD22D800E0E415 /* RepositoryType.swift */; };
-		7D9A86BD2CCD23F000E0E415 /* BaseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9A86BC2CCD23F000E0E415 /* BaseRepository.swift */; };
+		7D9A86BB2CCD22D800E0E415 /* RealmManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9A86BA2CCD22D800E0E415 /* RealmManagerType.swift */; };
+		7D9A86BD2CCD23F000E0E415 /* BaseRealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9A86BC2CCD23F000E0E415 /* BaseRealmManager.swift */; };
 		7D9A86C12CCE310C00E0E415 /* MyStoreDocumentsDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9A86C02CCE310C00E0E415 /* MyStoreDocumentsDTO.swift */; };
-		7D9A86C62CE1D3EB00E0E415 /* MyStoreRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9A86C52CE1D3EB00E0E415 /* MyStoreRepository.swift */; };
+		7D9A86C62CE1D3EB00E0E415 /* MyStoreRealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9A86C52CE1D3EB00E0E415 /* MyStoreRealmManager.swift */; };
 		7D9A86D22CE1E94900E0E415 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7D9A86D12CE1E94900E0E415 /* RealmSwift */; };
 		7D9A86D32CE1EA5B00E0E415 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 7D9A86D12CE1E94900E0E415 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		7D9A86D72CE339CC00E0E415 /* ReviewTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9A86D62CE339CC00E0E415 /* ReviewTag.swift */; };
@@ -61,12 +61,14 @@
 		7DBBAABE2CAD62BA009171D2 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7DBBAABD2CAD62BA009171D2 /* Colors.xcassets */; };
 		7DBBAAC12CAD63F6009171D2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAAC02CAD63F6009171D2 /* AppDelegate.swift */; };
 		7DF1CC912D0AEB2B0066C4ED /* SearchLocationResponseDTO+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DF1CC902D0AEB2B0066C4ED /* SearchLocationResponseDTO+Mapping.swift */; };
-		7DF1CC932D0C07260066C4ED /* SearchStoreImageResponse+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DF1CC922D0C07260066C4ED /* SearchStoreImageResponse+Mapping.swift */; };
+		7DF1CC932D0C07260066C4ED /* SearchStoreImageResponseDTO+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DF1CC922D0C07260066C4ED /* SearchStoreImageResponseDTO+Mapping.swift */; };
 		7DF1CC982D0D98D60066C4ED /* LocationImageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DF1CC972D0D98D60066C4ED /* LocationImageRepository.swift */; };
 		7DF1CC9A2D0D98F60066C4ED /* LocationDataRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DF1CC992D0D98F60066C4ED /* LocationDataRepository.swift */; };
 		7DF1CC9C2D0EC8040066C4ED /* DefaultLocationDataRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DF1CC9B2D0EC8040066C4ED /* DefaultLocationDataRepository.swift */; };
 		7DF1CC9E2D0EC8750066C4ED /* DefaultLocationImageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DF1CC9D2D0EC8750066C4ED /* DefaultLocationImageRepository.swift */; };
 		7DF1CCA02D0ECCAA0066C4ED /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DF1CC9F2D0ECCA90066C4ED /* DIContainer.swift */; };
+		7DF1CCC42D116F0E0066C4ED /* MyStoreRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DF1CCC32D116F0D0066C4ED /* MyStoreRepository.swift */; };
+		7DF1CCC62D116F370066C4ED /* DefaultMyStoreRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DF1CCC52D116F370066C4ED /* DefaultMyStoreRepository.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -103,10 +105,10 @@
 		7D9A86B32CCBFC1900E0E415 /* HStackMultipleLinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HStackMultipleLinesView.swift; sourceTree = "<group>"; };
 		7D9A86B52CCCDA2D00E0E415 /* StarRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarRatingView.swift; sourceTree = "<group>"; };
 		7D9A86B72CCD1D1000E0E415 /* ReviewWriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWriteViewModel.swift; sourceTree = "<group>"; };
-		7D9A86BA2CCD22D800E0E415 /* RepositoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryType.swift; sourceTree = "<group>"; };
-		7D9A86BC2CCD23F000E0E415 /* BaseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseRepository.swift; sourceTree = "<group>"; };
+		7D9A86BA2CCD22D800E0E415 /* RealmManagerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManagerType.swift; sourceTree = "<group>"; };
+		7D9A86BC2CCD23F000E0E415 /* BaseRealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseRealmManager.swift; sourceTree = "<group>"; };
 		7D9A86C02CCE310C00E0E415 /* MyStoreDocumentsDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStoreDocumentsDTO.swift; sourceTree = "<group>"; };
-		7D9A86C52CE1D3EB00E0E415 /* MyStoreRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStoreRepository.swift; sourceTree = "<group>"; };
+		7D9A86C52CE1D3EB00E0E415 /* MyStoreRealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStoreRealmManager.swift; sourceTree = "<group>"; };
 		7D9A86D62CE339CC00E0E415 /* ReviewTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewTag.swift; sourceTree = "<group>"; };
 		7D9A86DA2CE365A600E0E415 /* ImageSavingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSavingManager.swift; sourceTree = "<group>"; };
 		7D9A86DC2CE7450200E0E415 /* DateFormatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatManager.swift; sourceTree = "<group>"; };
@@ -136,12 +138,14 @@
 		7DBBAABD2CAD62BA009171D2 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		7DBBAAC02CAD63F6009171D2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7DF1CC902D0AEB2B0066C4ED /* SearchLocationResponseDTO+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchLocationResponseDTO+Mapping.swift"; sourceTree = "<group>"; };
-		7DF1CC922D0C07260066C4ED /* SearchStoreImageResponse+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchStoreImageResponse+Mapping.swift"; sourceTree = "<group>"; };
+		7DF1CC922D0C07260066C4ED /* SearchStoreImageResponseDTO+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchStoreImageResponseDTO+Mapping.swift"; sourceTree = "<group>"; };
 		7DF1CC972D0D98D60066C4ED /* LocationImageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationImageRepository.swift; sourceTree = "<group>"; };
 		7DF1CC992D0D98F60066C4ED /* LocationDataRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDataRepository.swift; sourceTree = "<group>"; };
 		7DF1CC9B2D0EC8040066C4ED /* DefaultLocationDataRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLocationDataRepository.swift; sourceTree = "<group>"; };
 		7DF1CC9D2D0EC8750066C4ED /* DefaultLocationImageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLocationImageRepository.swift; sourceTree = "<group>"; };
 		7DF1CC9F2D0ECCA90066C4ED /* DIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
+		7DF1CCC32D116F0D0066C4ED /* MyStoreRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStoreRepository.swift; sourceTree = "<group>"; };
+		7DF1CCC52D116F370066C4ED /* DefaultMyStoreRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultMyStoreRepository.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,7 +193,6 @@
 				7DBBAAB32CAD60F3009171D2 /* Common */,
 				7DBBAAAE2CAD6036009171D2 /* Protocols */,
 				7DBBAAA72CAD35A8009171D2 /* Models */,
-				7DBBAA972CACC951009171D2 /* Networking */,
 				7DBBAA8F2CA2F5A6009171D2 /* Presentation */,
 				7DF1CC942D0D986D0066C4ED /* Domain */,
 				7D9A86BE2CCE2F4200E0E415 /* Data */,
@@ -275,11 +278,9 @@
 		7D9A86B92CCD226900E0E415 /* Repository */ = {
 			isa = PBXGroup;
 			children = (
-				7D9A86BA2CCD22D800E0E415 /* RepositoryType.swift */,
-				7D9A86BC2CCD23F000E0E415 /* BaseRepository.swift */,
-				7D9A86C52CE1D3EB00E0E415 /* MyStoreRepository.swift */,
 				7DF1CC9B2D0EC8040066C4ED /* DefaultLocationDataRepository.swift */,
 				7DF1CC9D2D0EC8750066C4ED /* DefaultLocationImageRepository.swift */,
+				7DF1CCC52D116F370066C4ED /* DefaultMyStoreRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -287,20 +288,12 @@
 		7D9A86BE2CCE2F4200E0E415 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				7DF1CC8E2D0AEAB20066C4ED /* Network */,
+				7DF1CCC12D1169530066C4ED /* LocalData */,
+				7DF1CC8E2D0AEAB20066C4ED /* RemoteData */,
 				7D9A86D92CE3646700E0E415 /* FileManager */,
-				7D9A86BF2CCE2F6000E0E415 /* DTO */,
 				7D9A86B92CCD226900E0E415 /* Repository */,
 			);
 			path = Data;
-			sourceTree = "<group>";
-		};
-		7D9A86BF2CCE2F6000E0E415 /* DTO */ = {
-			isa = PBXGroup;
-			children = (
-				7D9A86C02CCE310C00E0E415 /* MyStoreDocumentsDTO.swift */,
-			);
-			path = DTO;
 			sourceTree = "<group>";
 		};
 		7D9A86D52CE339B400E0E415 /* Enum */ = {
@@ -436,19 +429,20 @@
 			path = Application;
 			sourceTree = "<group>";
 		};
-		7DF1CC8E2D0AEAB20066C4ED /* Network */ = {
+		7DF1CC8E2D0AEAB20066C4ED /* RemoteData */ = {
 			isa = PBXGroup;
 			children = (
+				7DBBAA972CACC951009171D2 /* Networking */,
 				7DF1CC8F2D0AEAC00066C4ED /* DataMapping */,
 			);
-			path = Network;
+			path = RemoteData;
 			sourceTree = "<group>";
 		};
 		7DF1CC8F2D0AEAC00066C4ED /* DataMapping */ = {
 			isa = PBXGroup;
 			children = (
 				7DF1CC902D0AEB2B0066C4ED /* SearchLocationResponseDTO+Mapping.swift */,
-				7DF1CC922D0C07260066C4ED /* SearchStoreImageResponse+Mapping.swift */,
+				7DF1CC922D0C07260066C4ED /* SearchStoreImageResponseDTO+Mapping.swift */,
 			);
 			path = DataMapping;
 			sourceTree = "<group>";
@@ -472,10 +466,30 @@
 		7DF1CC962D0D98AF0066C4ED /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				7DF1CCC32D116F0D0066C4ED /* MyStoreRepository.swift */,
 				7DF1CC972D0D98D60066C4ED /* LocationImageRepository.swift */,
 				7DF1CC992D0D98F60066C4ED /* LocationDataRepository.swift */,
 			);
 			path = Repositories;
+			sourceTree = "<group>";
+		};
+		7DF1CCC12D1169530066C4ED /* LocalData */ = {
+			isa = PBXGroup;
+			children = (
+				7D9A86BA2CCD22D800E0E415 /* RealmManagerType.swift */,
+				7D9A86BC2CCD23F000E0E415 /* BaseRealmManager.swift */,
+				7D9A86C52CE1D3EB00E0E415 /* MyStoreRealmManager.swift */,
+				7DF1CCC22D1169880066C4ED /* DataMapping */,
+			);
+			path = LocalData;
+			sourceTree = "<group>";
+		};
+		7DF1CCC22D1169880066C4ED /* DataMapping */ = {
+			isa = PBXGroup;
+			children = (
+				7D9A86C02CCE310C00E0E415 /* MyStoreDocumentsDTO.swift */,
+			);
+			path = DataMapping;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -573,7 +587,8 @@
 				7DBBAAA02CACCA38009171D2 /* Router.swift in Sources */,
 				7DF1CC9C2D0EC8040066C4ED /* DefaultLocationDataRepository.swift in Sources */,
 				7D9A86E42CE9951700E0E415 /* MyStoreListViewModel.swift in Sources */,
-				7D9A86C62CE1D3EB00E0E415 /* MyStoreRepository.swift in Sources */,
+				7D9A86C62CE1D3EB00E0E415 /* MyStoreRealmManager.swift in Sources */,
+				7DF1CCC62D116F370066C4ED /* DefaultMyStoreRepository.swift in Sources */,
 				7DBBAAA42CACCA96009171D2 /* APIURL.swift in Sources */,
 				7D9B54832D02B61F00253A5F /* ImageModifier.swift in Sources */,
 				7DBBAA992CACC968009171D2 /* NetworkManager.swift in Sources */,
@@ -581,12 +596,13 @@
 				7D9A86DB2CE365A600E0E415 /* ImageSavingManager.swift in Sources */,
 				7DBBAAAA2CAD364B009171D2 /* SearchLocation.swift in Sources */,
 				7D50ECDC2CB2C92C00B34B91 /* ReviewWriteView.swift in Sources */,
+				7DF1CCC42D116F0E0066C4ED /* MyStoreRepository.swift in Sources */,
 				7D50ECD92CB2C19800B34B91 /* View++.swift in Sources */,
 				7D50ED0C2CB3F1C800B34B91 /* BaisicAsyncImage.swift in Sources */,
-				7D9A86BD2CCD23F000E0E415 /* BaseRepository.swift in Sources */,
+				7D9A86BD2CCD23F000E0E415 /* BaseRealmManager.swift in Sources */,
 				7DBBAA942CAC0FDE009171D2 /* LocationManager.swift in Sources */,
 				7D50ECDE2CB2F02C00B34B91 /* ViewModifier.swift in Sources */,
-				7DF1CC932D0C07260066C4ED /* SearchStoreImageResponse+Mapping.swift in Sources */,
+				7DF1CC932D0C07260066C4ED /* SearchStoreImageResponseDTO+Mapping.swift in Sources */,
 				7DF1CCA02D0ECCAA0066C4ED /* DIContainer.swift in Sources */,
 				7D9B54852D043FBF00253A5F /* Toast.swift in Sources */,
 				7DBBAAA62CACCAB7009171D2 /* APIKey.swift in Sources */,
@@ -606,7 +622,7 @@
 				7DBBAAB02CAD6047009171D2 /* ViewModelType.swift in Sources */,
 				7DBBAA922CA2F5E5009171D2 /* MapView.swift in Sources */,
 				7DF1CC912D0AEB2B0066C4ED /* SearchLocationResponseDTO+Mapping.swift in Sources */,
-				7D9A86BB2CCD22D800E0E415 /* RepositoryType.swift in Sources */,
+				7D9A86BB2CCD22D800E0E415 /* RealmManagerType.swift in Sources */,
 				7D50ED072CB3BF0300B34B91 /* ShowDetailToggleButton.swift in Sources */,
 				7D9A86B62CCCDA2D00E0E415 /* StarRatingView.swift in Sources */,
 				7D50ECD22CB28D7500B34B91 /* WebView.swift in Sources */,

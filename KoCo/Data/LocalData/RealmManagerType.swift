@@ -1,5 +1,5 @@
 //
-//  RepositoryType.swift
+//  RealmManagerType.swift
 //  KoCo
 //
 //  Created by 하연주 on 10/26/24.
@@ -8,7 +8,7 @@
 import Foundation
 import RealmSwift
 
-protocol RepositoryType {
+protocol RealmManagerType {
 //    associatedtype Item = Object
     
     var realm : Realm { get }

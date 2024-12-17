@@ -8,11 +8,6 @@
 import Foundation
 import RealmSwift
 
-//모델
-//플래그된 스토어, 리뷰 적은 스토어 따로 저장해야하나?
-// => 두개 따로 관리하면 겹치는 데이터를 저장해야할수도 있으므로 비효율적
-// => 플래그되거나 리뷰적게되면
-
 
 final class MyStoreInfo : Object {
     

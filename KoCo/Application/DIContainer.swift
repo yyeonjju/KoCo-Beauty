@@ -13,21 +13,32 @@ enum DIContainer {
     // MARK: - ViewModel
     static func makeMapViewModel() -> MapViewModel {
         return MapViewModel(
-            myStoreRepository: makeMyStoreRepository(),
+            defaultMyStoreRepository: makeMyStoreRepository(),
             defaultLocationImageRepository: makeLocationImageRepository(),
             defaultLocationDataRepository: makeLocationDataRepository()
         )
     }
     
+    static func makeReviewWriteViewModel() -> ReviewWriteViewModel {
+        return ReviewWriteViewModel(
+            defaultMyStoreRepository: makeMyStoreRepository()
+        )
+    }
+    
     // MARK: - Repository
-    private static func makeMyStoreRepository() -> any RepositoryType & MyStoreType {
-        return MyStoreRepository()
+    private static func makeMyStoreRepository() -> MyStoreRepository {
+        return DefaultMyStoreRepository(myStoreRealmManger: makeMyStoreRepository())
     }
     private static func makeLocationImageRepository() -> LocationImageRepository {
         return DefaultLocationImageRepository()
     }
     private static func makeLocationDataRepository() -> LocationDataRepository {
         return DefaultLocationDataRepository()
+    }
+    
+    // MARK: - DataSource
+    private static func makeMyStoreRepository() -> any RealmManagerType & MyStoreRealmMangerType {
+        return MyStoreRealmManager()
     }
 
 }

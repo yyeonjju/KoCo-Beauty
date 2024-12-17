@@ -1,5 +1,5 @@
 //
-//  SearchStoreImageResponse+Mapping.swift
+//  SearchStoreImageResponseDTO+Mapping.swift
 //  KoCo
 //
 //  Created by 하연주 on 12/13/24.

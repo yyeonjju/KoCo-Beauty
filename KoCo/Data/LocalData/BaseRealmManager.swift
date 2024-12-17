@@ -1,5 +1,5 @@
 //
-//  BaseRepository.swift
+//  BaseRealmManager.swift
 //  KoCo
 //
 //  Created by 하연주 on 10/26/24.
@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 
 
-class BaseRepository : RepositoryType {
+class BaseRealmManager : RealmManagerType {
     var realm = try! Realm()
     
     func checkFileURL() {

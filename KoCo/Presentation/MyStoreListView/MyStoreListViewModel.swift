@@ -9,13 +9,13 @@ import Foundation
 import Combine
 
 final class MyStoreListViewModel : ViewModelType {
-    private var myStoreRepository : any RepositoryType & MyStoreType
+    private var myStoreRepository : any RealmManagerType & MyStoreRealmMangerType
     
     var cancellables = Set<AnyCancellable>()
     var input = Input()
     @Published var output = Output()
     
-    init(myStoreRepository : any RepositoryType & MyStoreType) {
+    init(myStoreRepository : any RealmManagerType & MyStoreRealmMangerType) {
         self.myStoreRepository = myStoreRepository
         
         transform()

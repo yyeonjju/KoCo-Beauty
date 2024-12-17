@@ -16,7 +16,7 @@ struct ReviewSectionType {
 
 
 struct ReviewWriteView: View {
-    @StateObject private var vm = ReviewWriteViewModel(myStoreRepository: MyStoreRepository())
+    @StateObject private var vm = DIContainer.makeReviewWriteViewModel()
     @FocusState private var focusedField: Field?
     
     enum Field {

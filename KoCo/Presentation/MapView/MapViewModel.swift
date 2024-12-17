@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 final class MapViewModel : ObservableObject, ViewModelType {
-    private var myStoreRepository : any RepositoryType & MyStoreType
+    private var defaultMyStoreRepository : MyStoreRepository
     private var defaultLocationImageRepository : LocationImageRepository
     private var defaultLocationDataRepository : LocationDataRepository
     
@@ -67,9 +67,9 @@ final class MapViewModel : ObservableObject, ViewModelType {
 
     
     
-    init(myStoreRepository : any RepositoryType & MyStoreType, defaultLocationImageRepository : LocationImageRepository,
+    init(defaultMyStoreRepository : MyStoreRepository, defaultLocationImageRepository : LocationImageRepository,
          defaultLocationDataRepository : LocationDataRepository) {
-        self.myStoreRepository = myStoreRepository
+        self.defaultMyStoreRepository = defaultMyStoreRepository
         self.defaultLocationImageRepository = defaultLocationImageRepository
         self.defaultLocationDataRepository = defaultLocationDataRepository
         
@@ -89,7 +89,7 @@ final class MapViewModel : ObservableObject, ViewModelType {
             .toggleIsFlagedStatus
             .sink { [weak self] id,to in
                 guard let self, let lastTappedStoreData else{return}
-                myStoreRepository.toggleFlag(storeID: id, to: to, storeData: lastTappedStoreData)
+                defaultMyStoreRepository.switchFlagStatus(storeID: id, to: to, storeData: lastTappedStoreData)
                 setupCurrentStoreStatus(id: id)
             }
             .store(in: &cancellables)
@@ -124,7 +124,7 @@ final class MapViewModel : ObservableObject, ViewModelType {
     }
     
     private func setupCurrentStoreStatus(id : String) {
-        if let myStoreInfo = myStoreRepository.myStore(for: id) {
+        if let myStoreInfo = defaultMyStoreRepository.getMyStoreInfo(id: id) {
             isTappeStoreFlaged = myStoreInfo.isFlaged
             isTappeStoreReviewed = myStoreInfo.isReviewed
             
