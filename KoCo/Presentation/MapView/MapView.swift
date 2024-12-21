@@ -242,8 +242,9 @@ extension MapView {
                         ? vm.output.searchedStoreImages[index].link
                         : nil
                         
-                        BaisicAsyncImage(url: link, width: 100)
+                        CacheAsyncImage(url: link, width: 100)
                             .padding(2)
+                        
                     }
                 }
                 .padding(.bottom,4)

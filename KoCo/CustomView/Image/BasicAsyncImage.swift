@@ -1,8 +1,8 @@
 //
-//  BaisicAsyncImage.swift
+//  BasicAsyncImage.swift
 //  KoCo
 //
-//  Created by 하연주 on 10/7/24.
+//  Created by 하연주 on 12/21/24.
 //
 
 import SwiftUI
