@@ -44,6 +44,7 @@
 		7DB362912D12C98400112E9E /* ImageCacheManager2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB362902D12C98400112E9E /* ImageCacheManager2.swift */; };
 		7DB362942D1702A900112E9E /* CacheAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB362932D1702A900112E9E /* CacheAsyncImage.swift */; };
 		7DB362962D17039B00112E9E /* BasicAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB362952D17039B00112E9E /* BasicAsyncImage.swift */; };
+		7DB362992D18451300112E9E /* UserDefaultsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB362982D18451300112E9E /* UserDefaultsWrapper.swift */; };
 		7DBBAA922CA2F5E5009171D2 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAA912CA2F5E5009171D2 /* MapView.swift */; };
 		7DBBAA942CAC0FDE009171D2 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAA932CAC0FDE009171D2 /* LocationManager.swift */; };
 		7DBBAA962CAC15A9009171D2 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBBAA952CAC15A9009171D2 /* MapViewModel.swift */; };
@@ -126,6 +127,7 @@
 		7DB362902D12C98400112E9E /* ImageCacheManager2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager2.swift; sourceTree = "<group>"; };
 		7DB362932D1702A900112E9E /* CacheAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheAsyncImage.swift; sourceTree = "<group>"; };
 		7DB362952D17039B00112E9E /* BasicAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicAsyncImage.swift; sourceTree = "<group>"; };
+		7DB362982D18451300112E9E /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
 		7DBBAA912CA2F5E5009171D2 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		7DBBAA932CAC0FDE009171D2 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		7DBBAA952CAC15A9009171D2 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
@@ -346,6 +348,14 @@
 			path = Image;
 			sourceTree = "<group>";
 		};
+		7DB362972D18450600112E9E /* UserDefaults */ = {
+			isa = PBXGroup;
+			children = (
+				7DB362982D18451300112E9E /* UserDefaultsWrapper.swift */,
+			);
+			path = UserDefaults;
+			sourceTree = "<group>";
+		};
 		7DBBAA8F2CA2F5A6009171D2 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
@@ -501,6 +511,7 @@
 		7DF1CCC12D1169530066C4ED /* LocalData */ = {
 			isa = PBXGroup;
 			children = (
+				7DB362972D18450600112E9E /* UserDefaults */,
 				7D9A86BA2CCD22D800E0E415 /* RealmManagerType.swift */,
 				7D9A86BC2CCD23F000E0E415 /* BaseRealmManager.swift */,
 				7D9A86C52CE1D3EB00E0E415 /* MyStoreRealmManager.swift */,
@@ -632,6 +643,7 @@
 				7DF1CCA02D0ECCAA0066C4ED /* DIContainer.swift in Sources */,
 				7DB362912D12C98400112E9E /* ImageCacheManager2.swift in Sources */,
 				7D9B54852D043FBF00253A5F /* Toast.swift in Sources */,
+				7DB362992D18451300112E9E /* UserDefaultsWrapper.swift in Sources */,
 				7DBBAAA62CACCAB7009171D2 /* APIKey.swift in Sources */,
 				7D9A86DD2CE7450200E0E415 /* DateFormatManager.swift in Sources */,
 				7DBBAA962CAC15A9009171D2 /* MapViewModel.swift in Sources */,

@@ -8,43 +8,7 @@
 import Foundation
 import Combine
 
-//비효율적? -> etag 확인하기 위한 네트워킹 매번.. , 끝나고 저장하기 매번...
-
-
-
-enum UserDefaultsKey : String {
-    case etagStorage // [String:String]
-}
-
-enum ImageCachPolicy {
-//    case both
-    case memoryOnly
-    case diskOnly
-}
-
-@propertyWrapper
-struct UserDefaultsWrapper<T : Codable> {
-    let key : UserDefaultsKey
-    let defaultValue : T
-    
-    var wrappedValue: T {
-        get {
-            guard let data = UserDefaults.standard.object(forKey: key.rawValue) as? Data else {return defaultValue}
-            let decoder = JSONDecoder()
-            let decodedObject = try? decoder.decode(T.self, from: data)
-            guard let decodedObject else {return defaultValue}
-            return decodedObject
-        }
-        set {
-            let encoder = JSONEncoder()
-            if let encodedStruct = try? encoder.encode(newValue) {
-                UserDefaults.standard.setValue(encodedStruct, forKey: key.rawValue)
-            }
-        }
-
-    }
-}
-
+//비효율적? -> etag 확인하기 위한 네트워킹 매번.. , 끝나고 저장하기 매번... ( etag가 같으면 안해줘도 되지 않나..?)
 
 
 
@@ -58,104 +22,23 @@ final class CacheImage {
     }
 }
 
-
 enum ImageLoadError : Error{
-//    case
-    case noRequest
-
-    case invalidUrlString
-    case noResponse
-    case undefinedStatusCode
-
-    case unknownError
-
-
-
-
-    case failSynchronizeWithServer
-    
-    
-    
-    
     case noMemoryCache
     case failCatch
     case undefinedError
-    
     case noDiskCache
+    
+    case invalidUrlString
+    case noResponse
+    case undefinedStatusCode
+    case unknownError
+
+    //    case noRequest
+    //    case failSynchronizeWithServer
+
 }
 
-extension ImageCacheManager {
-    func synchronizeWithServer(urlString: String, etag : String, cachedImageData : Data) -> AnyPublisher<(Data, String?), ImageLoadError> {
 
-        guard let url = URL(string: urlString) else {
-            
-            
-            return Fail<(Data, String?), ImageLoadError>(error: ImageLoadError.invalidUrlString).eraseToAnyPublisher()
-//            return Future<Data?, ImageLoadError> { promise in
-//                promise(.failure(.invalidUrlString))
-//            }
-//            .eraseToAnyPublisher()
-        }
-
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.addValue(etag, forHTTPHeaderField: "If-None-Match")
-
-        print("🪼allHTTPHeaderFields🪼", request.allHTTPHeaderFields)
-
-
-//        guard let request = try? ImageRouter.loadImage.asURLRequest() else{
-//            return Future<Data?, ImageLoadError> { promise in
-//                promise(.failure(.noRequest))
-//            }
-//            .eraseToAnyPublisher()
-//        }
-
-        return URLSession.shared.dataTaskPublisher(for: request)
-//            .print("🪼debug1🪼")
-            .tryMap { [weak self] result -> (Data, String?) in
-                guard let self, let httpResponse = result.response as? HTTPURLResponse else {
-                    throw ImageLoadError.noResponse
-                }
-
-//                print("🪼statusCode🪼", httpResponse.statusCode)
-
-
-                switch httpResponse.statusCode {
-                case 200: // 저장된 etag랑 값이 다름 -> 응답으로 받은 데이터 가져옴
-                    print("🪼200🪼", result.data)
-                    guard let newETag = httpResponse.allHeaderFields["Etag"] as? String else {
-                        // newETag가 없으면 (이미지데이터, nil)로 리턴
-                        return (result.data, nil)
-                    }
-                    return (result.data, newETag)
-                    
-                case 304: // 저장된 etag랑 같음 -> 저장되어있던 이미지 반환
-                    print("🪼304🪼")
-                    return (cachedImageData, etag)
-
-                default:
-                    print("🪼else🪼")
-                    throw ImageLoadError.undefinedStatusCode
-                }
-
-            }
-            .mapError { error -> ImageLoadError in
-                if let error = error as? ImageLoadError {
-                    return error
-                } else {
-                    return ImageLoadError.unknownError
-                }
-            }
-//            .print("🪼debug2🪼")
-            .eraseToAnyPublisher()
-
-
-
-
-
-    }
-}
 
 final class ImageCacheManager {
     static let shared = ImageCacheManager()
@@ -167,6 +50,12 @@ final class ImageCacheManager {
     private let fileManager = FileManager.default
     private let cache = NSCache<NSString, CacheImage>()
     private let cacheDirectory: URL
+    
+    enum ImageCachPolicy {
+        case both
+        case memoryOnly
+        case diskOnly
+    }
 
     private init() {
         // 캐시 디렉토리 설정
@@ -186,12 +75,26 @@ final class ImageCacheManager {
 
 
     //최종적으로 반환할 데이터
-    func getImageData(urlString : String, policy : ImageCachPolicy = .diskOnly) -> AnyPublisher<Data?, ImageLoadError> {
+    func getImageData(urlString : String, policy : ImageCachPolicy = .both) -> AnyPublisher<Data?, ImageLoadError> {
         let subject = PassthroughSubject<CacheImage?, ImageLoadError>()
         
         switch policy {
-//        case .both:
-//            print("both")
+        case .both:
+            print("both")
+            hitMemoryCache(urlString: urlString)
+                .catch { [weak self] imageLoadError  in //메모리에 캐싱되어 있지 않을 때
+                    print("⭐️⭐️⭐️catch⭐️⭐️⭐️")
+                    guard let self else{
+                        return Just<CacheImage?>(nil)
+                            .setFailureType(to: ImageLoadError.self)
+                            .eraseToAnyPublisher()
+                    }
+                    //디스크 캐시 조회
+                    return self.hitDiskCache(urlString: urlString)
+                }
+                .subscribe(subject)
+                .store(in: &cancellables)
+            
         case .memoryOnly:
             print("menoryOnly")
             hitMemoryCache(urlString: urlString)
@@ -237,6 +140,9 @@ final class ImageCacheManager {
     private func cacheImage(urlString : String, imageData : Data, etag : String, policy : ImageCachPolicy) {
         print()
         switch policy {
+        case .both :
+            saveToMemory(urlString: urlString, imageData: imageData, etag: etag)
+            saveToDisk(urlString: urlString, imageData: imageData, etag: etag)
         case .memoryOnly:
             saveToMemory(urlString: urlString, imageData: imageData, etag: etag)
         case .diskOnly:
@@ -261,15 +167,11 @@ final class ImageCacheManager {
     
     //디스크 hit
     private func hitDiskCache(urlString: String) -> AnyPublisher<CacheImage?, ImageLoadError> {
-        print("💕💕💕💕💕hitDiskCache💕💕💕💕💕")
         
         return Future<CacheImage?, ImageLoadError> {[weak self] promise in
             guard let self else{return }
             let fileName = self.makeFileNameForSaving(urlString: urlString)
             let fileURL = self.cacheDirectory.appendingPathComponent(fileName)
-
-            print("💕💕💕💕💕hitDiskCache - data💕💕💕💕💕", try? Data(contentsOf: fileURL))
-            print("💕💕💕💕💕hitDiskCache - etag💕💕💕💕💕", self.etagStorage[fileName])
             
             if let data = try? Data(contentsOf: fileURL), let etag = self.etagStorage[fileName]  {
                 print("📍📍📍📍📍디스크에 저장된 이미지가 있음", etag)
@@ -291,7 +193,6 @@ final class ImageCacheManager {
     
     //디스크에 캐싱
     private func saveToDisk(urlString : String, imageData : Data, etag : String) {
-        print("💕💕💕💕💕saveToDisk💕💕💕💕💕")
         
         let fileName = self.makeFileNameForSaving(urlString: urlString)
         let fileURL = self.cacheDirectory.appendingPathComponent(makeFileNameForSaving(urlString: urlString))
@@ -307,3 +208,66 @@ final class ImageCacheManager {
 
 }
 
+
+
+extension ImageCacheManager {
+    func synchronizeWithServer(urlString: String, etag : String, cachedImageData : Data) -> AnyPublisher<(Data, String?), ImageLoadError> {
+
+        guard let url = URL(string: urlString) else {
+            return Fail<(Data, String?), ImageLoadError>(error: ImageLoadError.invalidUrlString).eraseToAnyPublisher()
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue(etag, forHTTPHeaderField: "If-None-Match")
+
+        print("🪼allHTTPHeaderFields🪼", request.allHTTPHeaderFields)
+
+
+//        guard let request = try? ImageRouter.loadImage.asURLRequest() else{
+//            return Future<Data?, ImageLoadError> { promise in
+//                promise(.failure(.noRequest))
+//            }
+//            .eraseToAnyPublisher()
+//        }
+
+        return URLSession.shared.dataTaskPublisher(for: request)
+//            .print("🪼debug1🪼")
+            .tryMap { [weak self] result -> (Data, String?) in
+                guard let self, let httpResponse = result.response as? HTTPURLResponse else {
+                    throw ImageLoadError.noResponse
+                }
+
+//                print("🪼statusCode🪼", httpResponse.statusCode)
+
+                switch httpResponse.statusCode {
+                case 200: // 저장된 etag랑 값이 다름 -> 응답으로 받은 데이터 가져옴
+                    print("🪼200🪼", result.data)
+                    guard let newETag = httpResponse.allHeaderFields["Etag"] as? String else {
+                        // newETag가 없으면 (이미지데이터, nil)로 리턴
+                        return (result.data, nil)
+                    }
+                    return (result.data, newETag)
+                    
+                case 304: // 저장된 etag랑 같음 -> 저장되어있던 이미지 반환
+                    print("🪼304🪼")
+                    return (cachedImageData, etag)
+
+                default:
+                    print("🪼else🪼")
+                    throw ImageLoadError.undefinedStatusCode
+                }
+
+            }
+            .mapError { error -> ImageLoadError in
+                if let error = error as? ImageLoadError {
+                    return error
+                } else {
+                    return ImageLoadError.unknownError
+                }
+            }
+//            .print("🪼debug2🪼")
+            .eraseToAnyPublisher()
+
+    }
+}

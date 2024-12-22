@@ -73,8 +73,17 @@ final class CacheAsyncImageViewModel : ObservableObject {
         
         ImageCacheManager.shared.getImageData(urlString: url)
             .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { completion in
+            .sink(receiveCompletion: { [weak self] completion in
                 print("📍📍📍📍📍---completion---", completion)
+                
+                guard let self else { return }
+                switch completion {
+                case .failure:
+                    self.imageData = nil
+                case .finished:
+                    break
+                }
+
             }, receiveValue: { [weak self]value in
                 guard let self ,let value else {return }
                 print("📍📍📍📍📍---value---", value)
