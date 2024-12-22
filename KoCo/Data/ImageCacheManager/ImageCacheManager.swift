@@ -8,9 +8,18 @@
 import Foundation
 import Combine
 
+//비효율적? -> etag 확인하기 위한 네트워킹 매번.. , 끝나고 저장하기 매번...
+
+
 
 enum UserDefaultsKey : String {
     case etagStorage // [String:String]
+}
+
+enum ImageCachPolicy {
+//    case both
+    case memoryOnly
+    case diskOnly
 }
 
 @propertyWrapper
@@ -61,19 +70,31 @@ enum ImageLoadError : Error{
     case unknownError
 
 
-    case noMemoryCache
+
 
     case failSynchronizeWithServer
+    
+    
+    
+    
+    case noMemoryCache
+    case failCatch
+    case undefinedError
+    
+    case noDiskCache
 }
 
 extension ImageCacheManager {
-    func synchronizeWithServer(urlString: String, etag : String, cachedImageData : Data) -> AnyPublisher<Data?, ImageLoadError> {
+    func synchronizeWithServer(urlString: String, etag : String, cachedImageData : Data) -> AnyPublisher<(Data, String?), ImageLoadError> {
 
         guard let url = URL(string: urlString) else {
-            return Future<Data?, ImageLoadError> { promise in
-                promise(.failure(.invalidUrlString))
-            }
-            .eraseToAnyPublisher()
+            
+            
+            return Fail<(Data, String?), ImageLoadError>(error: ImageLoadError.invalidUrlString).eraseToAnyPublisher()
+//            return Future<Data?, ImageLoadError> { promise in
+//                promise(.failure(.invalidUrlString))
+//            }
+//            .eraseToAnyPublisher()
         }
 
         var request = URLRequest(url: url)
@@ -91,37 +112,27 @@ extension ImageCacheManager {
 //        }
 
         return URLSession.shared.dataTaskPublisher(for: request)
-            .print("🪼debug1🪼")
-            .tryMap { [weak self]result -> Data? in
-                guard let httpResponse = result.response as? HTTPURLResponse else {
+//            .print("🪼debug1🪼")
+            .tryMap { [weak self] result -> (Data, String?) in
+                guard let self, let httpResponse = result.response as? HTTPURLResponse else {
                     throw ImageLoadError.noResponse
                 }
 
-                print("🪼statusCode🪼", httpResponse.statusCode)
+//                print("🪼statusCode🪼", httpResponse.statusCode)
 
 
                 switch httpResponse.statusCode {
                 case 200: // 저장된 etag랑 값이 다름 -> 응답으로 받은 데이터 가져옴
                     print("🪼200🪼", result.data)
-
                     guard let newETag = httpResponse.allHeaderFields["Etag"] as? String else {
-                        //⭐️ newETag가 없으면 그냥데이터 리턴
-                        return result.data
-
+                        // newETag가 없으면 (이미지데이터, nil)로 리턴
+                        return (result.data, nil)
                     }
-
-                    //⭐️ newETag가 있는 이미지이면 메모리에 캐싱
-                    let cacheImage = CacheImage(imageData:  result.data, etag: newETag)
-                    self?.cache.setObject(cacheImage, forKey: urlString as NSString)
-
-                    let saved = self?.cache.object(forKey: urlString as NSString)
-
-                    return result.data
-
-
+                    return (result.data, newETag)
+                    
                 case 304: // 저장된 etag랑 같음 -> 저장되어있던 이미지 반환
                     print("🪼304🪼")
-                    return cachedImageData
+                    return (cachedImageData, etag)
 
                 default:
                     print("🪼else🪼")
@@ -151,7 +162,7 @@ final class ImageCacheManager {
 
     var cancellables = Set<AnyCancellable>()
 
-//    @UserDefaultsWrapper(key : .etagStorage, defaultValue: [:]) var etagStorage : [String:String]
+    @UserDefaultsWrapper(key : .etagStorage, defaultValue: [:]) var etagStorage : [String:String]
 
     private let fileManager = FileManager.default
     private let cache = NSCache<NSString, CacheImage>()
@@ -175,99 +186,124 @@ final class ImageCacheManager {
 
 
     //최종적으로 반환할 데이터
-    func getImageData(urlString : String) -> AnyPublisher<Data?, ImageLoadError> {
+    func getImageData(urlString : String, policy : ImageCachPolicy = .diskOnly) -> AnyPublisher<Data?, ImageLoadError> {
+        let subject = PassthroughSubject<CacheImage?, ImageLoadError>()
+        
+        switch policy {
+//        case .both:
+//            print("both")
+        case .memoryOnly:
+            print("menoryOnly")
+            hitMemoryCache(urlString: urlString)
+                .subscribe(subject)
+                .store(in: &cancellables)
+ 
+        case .diskOnly:
+            print("diskOnly")
+            hitDiskCache(urlString: urlString)
+                .subscribe(subject)
+                .store(in: &cancellables)
+        }
 
-
-//        return Future<Data?, ImageLoadError> { promise in
-//            promise(.success(nil))
-//        }
-//        .eraseToAnyPublisher()
-
-        return returnCachedImageData(urlString: urlString)
-
+        return subject
+            .catch { imageLoadError  in
+                //메모리&디스크에 캐싱되지 않았다는 에러를 받은 경우 -> 기본값으로 내려보냄
+//                    if imageLoadError == .noMemoryCache {
+                    return Just(CacheImage(imageData: Data(), etag: "-"))
+//                    }
+            }
+            .flatMap{[weak self] resultImage -> AnyPublisher<(Data,String?), ImageLoadError> in
+                guard let self, let resultImage else {
+                    return Fail(error: ImageLoadError.undefinedError).eraseToAnyPublisher()
+                }
+                let cachedEtag = resultImage.etag
+                let cachedImageData = resultImage.imageData
+                //메모리에 캐싱된게 있으면
+                return self.synchronizeWithServer(urlString : urlString, etag: cachedEtag, cachedImageData : cachedImageData)
+                    
+            }
+            .tryMap {[weak self] (imageData, etag) in
+                guard let self else {return imageData}
+                //캐싱 정책에 따라 이미지 캐싱하는 함수 cacheImage 실행
+                self.cacheImage(urlString: urlString, imageData: imageData, etag: etag ?? "no Etag", policy: policy)
+                return imageData // 이미지 데이터만 리턴
+            }
+            .mapError{$0 as! ImageLoadError}
+            .eraseToAnyPublisher()
 
     }
-
-    //메모리 히트 & 서버와 동기화된 데이터 리턴
-    func returnCachedImageData(urlString: String) -> AnyPublisher<Data?, ImageLoadError> {
-
-        return Future<Data?, ImageLoadError> {[weak self] promise in
+    
+    //캐싱 작업
+    private func cacheImage(urlString : String, imageData : Data, etag : String, policy : ImageCachPolicy) {
+        print()
+        switch policy {
+        case .memoryOnly:
+            saveToMemory(urlString: urlString, imageData: imageData, etag: etag)
+        case .diskOnly:
+            saveToDisk(urlString: urlString, imageData: imageData, etag: etag)
+        }
+    }
+    
+    //메모리 hit
+    private func hitMemoryCache(urlString: String) -> AnyPublisher<CacheImage?, ImageLoadError> {
+        return Future<CacheImage?, ImageLoadError> {[weak self] promise in
             guard let self else {return }
 
             //1) 메모리에 캐시된 이미지가 있는지 검색
-//            guard let cachedImage = self.cache.object(forKey: urlString as NSString) else{
-//                return promise(.failure(.noMemoryCache))
-//            }
-//            print("📍📍📍📍📍메모리에 저장된 이미지가 있음", cachedImage.etag)
-
-            ////⭐️해당하는 이미지 없을 때 네트워킹으로 이미지 로드하는거 따로 해야하나? 아니면 etag 그냥 빈 문자로 보내서 받아오까?
-            ///일단은 후자로 작업하기
-            let cachedImage = self.cache.object(forKey: urlString as NSString)
-        print("📍📍📍📍📍", cachedImage?.etag)
-
-
-            //2) 메모리에 캐시된 이미지가 있다면
-            //⭐️-> etag를 가져와서 서버와 싱크 확인
-            let cachedEtag = cachedImage?.etag ?? ""
-            let cachedImageData = cachedImage?.imageData ?? Data()
-//            return synchronizeWithServer(etag: cachedEtag, cachedImageData : cachedImageData)
-            synchronizeWithServer(urlString : urlString, etag: cachedEtag, cachedImageData : cachedImageData)
-                .sink(receiveCompletion: { completion in
-                    print("🪼🪼🪼🪼🪼🪼🪼---completion---", completion)
-//                    switch completion {
-//                    case .finished:
-//                        break
-//                    case .failure(let error):
-//                        return promise(.failure(ImageLoadError.failSynchronizeWithServer))
-//
-//                    }
-                }, receiveValue: { value in
-                    print("🪼🪼🪼🪼🪼🪼🪼---value---", value)
-                    return promise(.success(value))
-                })
-                .store(in: &cancellables)
-
-//            promise(.success((cachedEtag, cachedImageData)))
-
+            if let cachedImage = self.cache.object(forKey: urlString as NSString){
+                print("📍📍📍📍📍메모리에 저장된 이미지가 있음", cachedImage.etag)
+                return promise(.success(cachedImage))
+            }
+            return promise(.failure(.noMemoryCache))
         }
+        .eraseToAnyPublisher()
+    }
+    
+    //디스크 hit
+    private func hitDiskCache(urlString: String) -> AnyPublisher<CacheImage?, ImageLoadError> {
+        print("💕💕💕💕💕hitDiskCache💕💕💕💕💕")
+        
+        return Future<CacheImage?, ImageLoadError> {[weak self] promise in
+            guard let self else{return }
+            let fileName = self.makeFileNameForSaving(urlString: urlString)
+            let fileURL = self.cacheDirectory.appendingPathComponent(fileName)
 
-//        .flatMap{ [weak self] cachedEtag, cachedImageData in
-//            guard let self else {return }
-//            return self.synchronizeWithServer(etag: cachedEtag, cachedImageData : cachedImageData)
-//        }
+            print("💕💕💕💕💕hitDiskCache - data💕💕💕💕💕", try? Data(contentsOf: fileURL))
+            print("💕💕💕💕💕hitDiskCache - etag💕💕💕💕💕", self.etagStorage[fileName])
+            
+            if let data = try? Data(contentsOf: fileURL), let etag = self.etagStorage[fileName]  {
+                print("📍📍📍📍📍디스크에 저장된 이미지가 있음", etag)
+                //디스크 캐싱되어 있는 경우 & userDefault에 etag도 저장되어 있을 경우
+                let cachedImage = CacheImage(imageData: data, etag: etag)
+                return promise(.success(cachedImage))
+            }
+            return promise(.failure(.noDiskCache))
+        }
         .eraseToAnyPublisher()
 
-
+    }
+    
+    //메모리에 캐싱
+    private func saveToMemory(urlString : String, imageData : Data, etag : String)  {
+        let cacheImage = CacheImage(imageData: imageData, etag: etag)
+        self.cache.setObject(cacheImage, forKey: urlString as NSString)
+    }
+    
+    //디스크에 캐싱
+    private func saveToDisk(urlString : String, imageData : Data, etag : String) {
+        print("💕💕💕💕💕saveToDisk💕💕💕💕💕")
+        
+        let fileName = self.makeFileNameForSaving(urlString: urlString)
+        let fileURL = self.cacheDirectory.appendingPathComponent(makeFileNameForSaving(urlString: urlString))
+        
+        do {
+            try imageData.write(to: fileURL)
+            etagStorage[fileName] = etag
+            print("디스크에 저장 완료")
+        } catch {
+            print("file save error", error)
+        }
     }
 
-
-
-    //1 메모리 캐시 확인
-//    private func returnCachedImageData(forKey key: String, etag : String) -> Data? {
-//        // 메모리에서 로드
-//        //1) 이미지를 네트워크에서 다운로드하기 전에 캐시된 이미지가 있는지 검색
-//        //캐시된 이미지가 있고 etag가 같다면
-//        if let cachedImage = cache.object(forKey: key as NSString), etag == cachedImage.etag {
-//            //2) 메모리에 캐시된 이미지가 있다면 -> 캐시된 이미지를 가져와서 imag 리턴
-//            return cachedImage.imageData
-//        }
-//
-//
-//        // 디스크에서 로드
-//        //3) 메모리에 캐시된 이미지가 없다면 -> filemanager에 저장된 이미지 있는지 검색
-//        let fileName = makeFileNameForSaving(urlString: key)
-//        let fileURL = cacheDirectory.appendingPathComponent(fileName)
-//
-//        //✅✅✅✅ etag도 같은지 검증해야함
-//        if let data = try? Data(contentsOf: fileURL), etag == etagStorage[fileName]  {
-//            //4) 디스크 캐싱이 되어 있다면 -> 앱이 꺼지기 전까지 메모리에 캐싱해둘 수 있도록
-//            // 메모리에 캐싱
-//            //✅✅✅✅ 메모리에 etag도 같이 저장
-//            cache.setObject(CacheImage(imageData: data, etag: etag), forKey: key as NSString)
-//            return data
-//        }
-//
-//        //5) 메모리와 디스크 모두 캐싱되어 있지 않다면 nil 반환
-//        return nil
-//    }
 }
+
