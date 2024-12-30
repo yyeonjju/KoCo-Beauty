@@ -64,7 +64,7 @@ final class ImageCacheManager {
         // 캐시 디렉토리 설정
         let urls = fileManager.urls(for: .cachesDirectory, in: .allDomainsMask)
         cacheDirectory = urls.first!.appendingPathComponent("ImageDiskCache")
-        print("cacheDirectory", cacheDirectory)
+//        print("cacheDirectory", cacheDirectory)
         // 캐시 디렉토리가 없다면 생성
         if !fileManager.fileExists(atPath: cacheDirectory.path) {
             try? fileManager.createDirectory(at: cacheDirectory, withIntermediateDirectories: true, attributes: nil)
@@ -83,7 +83,7 @@ final class ImageCacheManager {
         
         switch policy {
         case .both:
-            print("both")
+//            print("both")
             hitMemoryCache(urlString: urlString)
                 .catch { [weak self] imageLoadError  in //메모리에 캐싱되어 있지 않을 때
                     print("⭐️⭐️⭐️hitMemoryCache -> 메모리에 저장 안되있음 -> catch⭐️⭐️⭐️")
@@ -99,13 +99,13 @@ final class ImageCacheManager {
                 .store(in: &cancellables)
             
         case .memoryOnly:
-            print("menoryOnly")
+//            print("menoryOnly")
             hitMemoryCache(urlString: urlString)
                 .subscribe(subject)
                 .store(in: &cancellables)
  
         case .diskOnly:
-            print("diskOnly")
+//            print("diskOnly")
             hitDiskCache(urlString: urlString)
                 .subscribe(subject)
                 .store(in: &cancellables)
@@ -140,7 +140,7 @@ final class ImageCacheManager {
     
     //캐싱 작업
     private func cacheImage(urlString : String, imageData : Data, etag : String, policy : ImageCachPolicy) {
-        print("🐸🐸🐸 etag 있는 이미지데이터 캐싱 하자!!🐸🐸🐸")
+//        print(" etag 있는 이미지데이터 캐싱 하자!!")
         
         switch policy {
         case .both :
@@ -160,10 +160,10 @@ final class ImageCacheManager {
 
             //1) 메모리에 캐시된 이미지가 있는지 검색
             if let cachedImage = self.cache.object(forKey: urlString as NSString){
-                print("📍📍📍📍📍메모리에 저장된 이미지가 있음", cachedImage.etag)
+//                print("📍📍📍📍📍메모리에 저장된 이미지가 있음", cachedImage.etag)
                 return promise(.success(cachedImage))
             }
-            print("📍📍📍📍📍메모리에 저장된 이미지가 없음")
+//            print("📍📍📍📍📍메모리에 저장된 이미지가 없음")
             return promise(.failure(.noMemoryCache))
         }
         .eraseToAnyPublisher()
@@ -178,12 +178,12 @@ final class ImageCacheManager {
             let fileURL = self.cacheDirectory.appendingPathComponent(fileName)
             
             if let data = try? Data(contentsOf: fileURL), let etag = self.etagStorage[fileName]  {
-                print("📍📍📍📍📍디스크에 저장된 이미지가 있음", etag)
+//                print("📍📍📍📍📍디스크에 저장된 이미지가 있음", etag)
                 //디스크 캐싱되어 있는 경우 & userDefault에 etag도 저장되어 있을 경우
                 let cachedImage = CacheImage(imageData: data, etag: etag)
                 return promise(.success(cachedImage))
             }
-            print("📍📍📍📍📍디스크에 저장된 이미지가 없음")
+//            print("📍📍📍📍📍디스크에 저장된 이미지가 없음")
             return promise(.failure(.noDiskCache))
         }
         .eraseToAnyPublisher()
@@ -192,21 +192,21 @@ final class ImageCacheManager {
     
     //메모리에 캐싱
     private func saveToMemory(urlString : String, imageData : Data, etag : String)  {
-        print("🐸🐸🐸메모리에 저장🐸🐸🐸")
+//        print("메모리에 저장")
         let cacheImage = CacheImage(imageData: imageData, etag: etag)
         self.cache.setObject(cacheImage, forKey: urlString as NSString)
     }
     
     //디스크에 캐싱
     private func saveToDisk(urlString : String, imageData : Data, etag : String) {
-        print("🐸🐸🐸디스크에 저장🐸🐸🐸")
+//        print("디스크에 저장")
         let fileName = self.makeFileNameForSaving(urlString: urlString)
         let fileURL = self.cacheDirectory.appendingPathComponent(makeFileNameForSaving(urlString: urlString))
         
         do {
             try imageData.write(to: fileURL)
             etagStorage[fileName] = etag
-            print("디스크에 저장 완료")
+//            print("디스크에 저장 완료")
         } catch {
             print("file save error", error)
         }
@@ -227,7 +227,7 @@ extension ImageCacheManager {
         request.httpMethod = "GET"
         request.addValue(etag, forHTTPHeaderField: "If-None-Match")
 
-        print("🪼allHTTPHeaderFields🪼", request.allHTTPHeaderFields)
+//        print("🪼allHTTPHeaderFields🪼", request.allHTTPHeaderFields)
 
 
 //        guard let request = try? ImageRouter.loadImage.asURLRequest() else{

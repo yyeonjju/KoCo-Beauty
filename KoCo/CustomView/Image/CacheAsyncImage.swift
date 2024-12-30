@@ -20,8 +20,6 @@ struct CacheAsyncImage: View {
     @StateObject var vm = CacheAsyncImageViewModel()
     
     var body: some View {
-        let _ = Self._printChanges()
-        let _ =  print("❤️❤️❤️❤️imageData❤️❤️❤️❤️", vm.imageData)
         
         VStack {
 
@@ -44,9 +42,7 @@ struct CacheAsyncImage: View {
         .cornerRadius(radius)
         .scaledToFit()
         .onChange(of: url) { url in
-            print("❤️❤️❤️❤️onAppear❤️❤️❤️❤️")
             guard let url else{return }
-            print("❤️❤️❤️❤️url❤️❤️❤️❤️", url)
             vm.loadImage(url: url)
         }
 
@@ -69,13 +65,10 @@ final class CacheAsyncImageViewModel : ObservableObject {
     @Published var imageData : Data?
     
     func loadImage (url : String) {
-        print("💕💕이미지 url💕💕", url)
         
         ImageCacheManager.shared.getImageData(urlString: url)
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] completion in
-                print("📍📍📍📍📍---completion---", completion)
-                
                 guard let self else { return }
                 switch completion {
                 case .failure:
@@ -86,7 +79,6 @@ final class CacheAsyncImageViewModel : ObservableObject {
 
             }, receiveValue: { [weak self]value in
                 guard let self ,let value else {return }
-                print("📍📍📍📍📍---value---", value)
                 self.imageData = value
             })
             .store(in: &cancellables)

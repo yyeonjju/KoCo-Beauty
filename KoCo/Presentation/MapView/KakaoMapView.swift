@@ -37,7 +37,7 @@ struct KakaoMapView: UIViewRepresentable {
     
     
     func makeUIView(context: Self.Context) -> KMViewContainer {
-        print("🧡makeUIView")
+//        print("makeUIView")
         let view: KMViewContainer = KMViewContainer()
         view.sizeToFit()
         context.coordinator.createController(view)
@@ -47,9 +47,9 @@ struct KakaoMapView: UIViewRepresentable {
     
 
     func updateUIView(_ uiView: KMViewContainer, context: Self.Context) {
-        print("🧡updateUIView")
-        print("🧡updateUIView - isCameraMoving🧡", isCameraMoving)
-        print("🧡updateUIView - isPoisAdding🧡", isPoisAdding)
+//        print("updateUIView")
+//        print("updateUIView - isCameraMoving", isCameraMoving)
+//        print("updateUIView - isPoisAdding", isPoisAdding)
         
         if isCameraMoving, let cameraMoveTo {
             let mapPoint = MapPoint(longitude: cameraMoveTo.longitude, latitude: cameraMoveTo.latitude)
@@ -93,12 +93,12 @@ struct KakaoMapView: UIViewRepresentable {
     }
     
     func makeCoordinator() -> KakaoMapCoordinator {
-        print("🧡makeCoordinator")
+//        print("makeCoordinator")
         return KakaoMapCoordinator(self)
     }
 
     static func dismantleUIView(_ uiView: KMViewContainer, coordinator: KakaoMapCoordinator) {
-        print("🧡dismantleUIView")
+//        print("dismantleUIView")
         
     }
     

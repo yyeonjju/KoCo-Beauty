@@ -52,7 +52,7 @@ struct MapView: View {
 //            vm.output.reviewValidationErrorOccur = nil
 //        }
         .onChange(of: locationManager.lastKnownLocation) { newValue in
-            print("🎀🎀내 위치 감지해서 or 디폴트 위치 설정으로 lastKnownLocation 바뀌었다🎀🎀 -> ", newValue)
+//            print("내 위치 감지해서 or 디폴트 위치 설정으로 lastKnownLocation 바뀌었다 -> ", newValue)
             
             //일시적 fix
             // viewInit 되기 전에 현재 위치로 카메라 이동 함수가 실행되면 작동하지 않으므로 타이밍 미루기
@@ -89,7 +89,7 @@ struct MapView: View {
         
         .onChange(of: vm.lastTappedStoreData) { storeData in
             //매장 이름을 네이버 이미지 검색 api 로 검색해서 bottomSheet에 이미지 로드
-            print("✅✅✅✅✅lastTappedStoreID - 이미지 검색 시점??✅✅✅✅✅")
+//            print("lastTappedStoreID - 이미지 검색 시점??")
             guard let storeData else{return }
             vm.action(.searchStoreImage(query: storeData.placeName))
         }

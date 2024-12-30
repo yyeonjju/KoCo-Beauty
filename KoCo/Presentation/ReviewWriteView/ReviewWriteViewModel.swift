@@ -61,13 +61,13 @@ final class ReviewWriteViewModel : ViewModelType {
     private func getReviewFromRealm(storeID : String) {
         guard let myStore = defaultMyStoreRepository.getMyStoreInfo(id: storeID) else {
             output.repositoryErrorOccur = .noStore
-            print("🚨🚨🚨noStore🚨🚨🚨")
+//            print("🚨🚨🚨noStore🚨🚨🚨")
             return
         }
         
         guard let reviewContent = myStore.reviewContent else {
             output.repositoryErrorOccur = .noReviewContent
-            print("🚨🚨🚨noReviewContent🚨🚨🚨")
+//            print("🚨🚨🚨noReviewContent🚨🚨🚨")
             return
         }
         

@@ -36,13 +36,13 @@ final class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObje
         
         DispatchQueue.global().async {[weak self] in
             if CLLocationManager.locationServicesEnabled() {
-                print("ios위치 서비스 사용할 수 있음! -> 디바이스의 위치 권한 체크")
+//                print("ios위치 서비스 사용할 수 있음! -> 디바이스의 위치 권한 체크")
                 DispatchQueue.main.async {
                     self?.checkCurrentLocationAuthorization()
                 }
             }else {
                 
-                print("ios위치 서비스 사용할 수 없음 -> 얼럿 띄워 iOS 설정으로 가도록")
+//                print("ios위치 서비스 사용할 수 없음 -> 얼럿 띄워 iOS 설정으로 가도록")
                 DispatchQueue.main.async {
 //                    self?.outputIOSLocationServicesDisabled.value = ()
                 }
@@ -99,9 +99,9 @@ final class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObje
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 //        lastKnownLocation = locations.first?.coordinate
         
-        print("사용자 위치를 성공적으로 가지고 온 경우",#function)
+//        print("사용자 위치를 성공적으로 가지고 온 경우",#function)
         if let coordinate = locations.last?.coordinate {
-            print("🧡coordinate", coordinate)
+//            print("🧡coordinate", coordinate)
             
             //CLGeocoder 사용해서 감지된 사용자의 위치가 한국인지 검증
             let geocoder = CLGeocoder()
@@ -126,7 +126,7 @@ final class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObje
     
     ///4-2 : 사용자의 위치를 가지고 오지 못했을 때
     func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
-        print("사용자의 위치를 가지고 오지 못했을 경우",#function)
+//        print("사용자의 위치를 가지고 오지 못했을 경우",#function)
 //        view.makeToast("사용자의 위치를 가져올 수 없습니다.")
         //임의 지역 띄워주기
         lastKnownLocation = LocationCoordinate(longitude: 126.9769, latitude: 37.5759)

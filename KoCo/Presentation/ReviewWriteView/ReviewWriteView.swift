@@ -103,7 +103,6 @@ struct ReviewWriteView: View {
                 
                 if operationState != .read{
                     Button{
-                        print("리뷰 등록버튼 눌림", vm.starRate)
                         
                         vm.action(.saveReview(storeInfo: storeInfo))
                     } label : {
@@ -240,7 +239,6 @@ extension ReviewWriteView {
         }
         .padding([.leading,.bottom])
         .onChange(of: vm.selectedPhotos) { newValue in
-            print("💕", Thread.isMainThread)
             convertSelectedPhotosToImages(newValue)
         }
     }

@@ -137,7 +137,7 @@ final class MapViewModel : ObservableObject, ViewModelType {
     // "현재 지도에서 다시 검색" 버튼 눌렀을 때
     // & 위치 권한 확인하고 처음 현재 위치 파악했을 때
     private func getStoreData(location : LocationCoordinate) {
-        print("⭐️ 스토어 검색해야해", location)
+//        print("⭐️ 스토어 검색해야해", location)
         
         let keywords = ["화장품", "드럭스토어"]
         
@@ -168,7 +168,7 @@ final class MapViewModel : ObservableObject, ViewModelType {
                     
                     //중복제거
                     let uniqueArray = Array(Set(result))
-                    print("🤡🤡🤡🤡", uniqueArray.count)
+//                    print(uniqueArray.count)
                     self.output.searchLocations = uniqueArray
 
                 }

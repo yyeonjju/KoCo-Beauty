@@ -42,7 +42,6 @@ struct HStackMultipleLinesMultipleSelectButtonView: View {
                         clickedIndexs.append(offset)
                     }
                     
-                    print("🌸🌸🌸🌸clickedIndexs", clickedIndexs)
                 } label : {
                     Text(tag)
                         .font(.system(size: 13))

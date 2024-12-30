@@ -35,13 +35,13 @@ final class KakaoMapCoordinator: NSObject, MapControllerDelegate {
         container = view
         controller = KMController(viewContainer: view)
         controller?.delegate = self
-        print("🧡🧡🧡createController")
+//        print("createController")
     }
     
     
     //addViewSucceeded ( 뷰가 성공적으로 추가 되었을 때 )
     func viewInit(viewName: String) {
-        print("🧡🧡🧡viewInit")
+//        print("viewInit")
         let view = controller?.getView(MapInfo.viewName) as! KakaoMap
         view.eventDelegate = self
         kakaoMap = view
@@ -54,8 +54,8 @@ final class KakaoMapCoordinator: NSObject, MapControllerDelegate {
     //현재 위치 감지한 시점에 그 위치로 카메라 이동
     func moveCameraTo(_ mapPoint : MapPoint, completion : @escaping () -> Void) {
         // KakaoMap SDK의 MapPoint로 변환
-        print("❤️❤️❤️카메라 이동❤️❤️❤️", mapPoint)
-        print("❤️❤️❤️isMainThread❤️❤️❤️", Thread.isMainThread)
+//        print("카메라 이동", mapPoint)
+//        print("isMainThread", Thread.isMainThread)
         
         // KakaoMap뷰를 가져와서 타입 캐스팅으로 KakaoMap 타입으로 변환
         if let mapView = controller?.getView(MapInfo.viewName) as? KakaoMap {
@@ -74,7 +74,7 @@ final class KakaoMapCoordinator: NSObject, MapControllerDelegate {
 
     //📍 1️⃣ Engine을 start 하고 뷰를 드로잉 하기 시작
     func addViews() {
-        print("🧡🧡🧡addViews")
+//        print("addViews")
         let defaultPosition: MapPoint = firstPosition
         let mapviewInfo: MapviewInfo = MapviewInfo(viewName: MapInfo.viewName, viewInfoName: MapInfo.viewInfoName, defaultPosition: defaultPosition)
         
@@ -83,14 +83,14 @@ final class KakaoMapCoordinator: NSObject, MapControllerDelegate {
     
     //📍 2️⃣ addViews 성공했을 때
     func addViewSucceeded(_ viewName: String, viewInfoName: String) {
-        print("💚addViewSucceeded")
+//        print("addViewSucceeded")
         let view = controller?.getView(MapInfo.viewName)
         view?.viewRect = container!.bounds
         
         viewInit(viewName: viewName)
     }
     func addViewFailed(_ viewName: String, viewInfoName: String) {
-        print("💚addViewSucceeded")
+//        print("addViewSucceeded")
     }
     
     //Container 뷰가 리사이즈 되었을때 호출된다. 변경된 크기에 맞게 ViewBase들의 크기를 조절할 필요가 있는 경우 여기에서 수행한다.
@@ -107,12 +107,12 @@ final class KakaoMapCoordinator: NSObject, MapControllerDelegate {
 //    }
     
     func authenticationSucceeded() {
-        print("💚authenticationSucceeded")
+//        print("authenticationSucceeded")
         auth = true
     }
     
     func authenticationFailed(_ errorCode: Int, desc: String) {
-        print("💚authenticationFailed")
+//        print("authenticationFailed")
         auth = false
         
         switch errorCode {
@@ -294,7 +294,7 @@ extension KakaoMapCoordinator {
     }
     
     func createPois(currentPoint : LocationCoordinate?, locations :  [LocationDocument]) {
-        print("❤️createPois❤️")
+//        print("createPois")
         let view = controller?.getView(MapInfo.viewName) as! KakaoMap
         let manager = view.getLabelManager()
         let storelayer = manager.getLabelLayer(layerID: MapInfo.Poi.storeLayerID)
@@ -358,10 +358,10 @@ extension KakaoMapCoordinator : KakaoMapEventDelegate{
         let layer = manager.getLabelLayer(layerID: layerID)
         let poi = layer?.getPoi(poiID: poiID)
         
-        print("❤️❤️❤️ poiDidTapped ❤️❤️❤️", Thread.isMainThread)
-        print("❤️❤️❤️ layerID ❤️❤️❤️", layerID)
-        print("❤️❤️❤️ tappedPoi ❤️❤️❤️", tappedPoi?.itemID)
-        print("❤️❤️❤️ poi ❤️❤️❤️", poi?.itemID)
+//        print(" poiDidTapped ", Thread.isMainThread)
+//        print(" layerID ", layerID)
+//        print(" tappedPoi ", tappedPoi?.itemID)
+//        print(" poi ", poi?.itemID)
         
  
         
@@ -402,7 +402,7 @@ extension KakaoMapCoordinator : KakaoMapEventDelegate{
     ///KakaoMap의 영역이 탭되었을 때 호출.
     ///-> tapped 되었던 스타일 basic으로 & bottom Sheet 내리기
     func kakaoMapDidTapped(kakaoMap: KakaoMap, point: CGPoint) {
-        print("✅✅✅kakaoMapDidTapped✅✅✅")
+//        print("✅✅✅kakaoMapDidTapped✅✅✅")
     }
     
     
@@ -417,7 +417,7 @@ extension KakaoMapCoordinator : KakaoMapEventDelegate{
     ///
 
     func cameraDidStopped(kakaoMap: KakaoMap, by: MoveBy) {
-        print("✅✅✅지도 이동 멈췄음,cameraDidStopped✅✅✅", kakaoMap.zoomLevel )
+//        print("✅✅✅지도 이동 멈췄음,cameraDidStopped✅✅✅", kakaoMap.zoomLevel )
         // '이 위치에서 다시 검색' 버튼 보여주기 showReloadStoreDataButton
         parent.showReloadStoreDataButton = true
 
