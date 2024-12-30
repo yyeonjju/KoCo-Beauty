@@ -244,6 +244,9 @@ extension MapView {
                         
                         CacheAsyncImage(url: link, width: 100)
                             .padding(2)
+//                        BaisicAsyncImage(url: link, width: 100)
+//                            .padding(2)
+                        
                         
                     }
                 }
