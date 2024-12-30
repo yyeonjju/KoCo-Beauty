@@ -1,7 +1,7 @@
 
 # KoCo | 한국 코스메틱 앱
 
-![KoCo_En_1](https://github.com/user-attachments/assets/047f3499-acdd-4531-a31c-788d92a963b5) |![KoCo_En_2](https://github.com/user-attachments/assets/f951741e-b962-4a99-95f8-626e404af11d) |![KoCo_En_3](https://github.com/user-attachments/assets/9c651a41-5739-4a03-acd8-1dd645b5ece1) |![KoCo_En_4](https://github.com/user-attachments/assets/6966f161-a1a1-4d61-9ada-300d1083afb5)
+![KoCo_En_1](https://github.com/user-attachments/assets/0a1f5473-9fd5-498f-9dc6-7cce7d4ebf9f) |![KoCo_En_2](https://github.com/user-attachments/assets/4ea1a0bd-d490-4dbb-8025-e5d9ea6e85f5) |![KoCo_En_3](https://github.com/user-attachments/assets/f04a665d-f289-4bb1-936a-2ca2926f355f) |![KoCo_En_4](https://github.com/user-attachments/assets/e5b688ae-4fb8-43fa-baaf-2258e7add4f8)
 --- | --- | --- | --- |
 
 
