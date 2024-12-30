@@ -19,6 +19,9 @@ struct MapView: View {
     var cancellables = Set<AnyCancellable>()
     
     var body: some View {
+        let _ = print("💕MapView - body")
+        let _ = Self._printChanges()
+        
         ZStack {
             kakaoMap
             
@@ -31,8 +34,8 @@ struct MapView: View {
             bottomSheet
         }
         .fullScreenCover(isPresented: $reviewWritePageShown){
-            if let tappedStoreData = vm.lastTappedStoreData {
-                let operation : Operation = vm.isTappeStoreReviewed ? .read : .create
+            if let tappedStoreData = vm.output.lastTappedStoreData {
+                let operation : Operation = vm.output.isTappeStoreReviewed ? .read : .create
                 ReviewWriteView(isPresented: $reviewWritePageShown, operation : operation, storeInfo: tappedStoreData)
             }
         }
@@ -67,27 +70,14 @@ struct MapView: View {
                 vm.action(.fetchStoreData(location: newValue))
             }
         }
-        .onChange(of: vm.output.searchLocations) { locations in
-            
-            //카카오 맵에 locations에 대한 poi 핀 띄우기
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                vm.isPoisAdding = true
-                vm.LocationsToAddPois = locations
-            }
-        }
-        .onChange(of: vm.selectedMyStore) { myStore in
-            //플래그, 리뷰한 리스트 화면에서 탭한 매장, dismiss되면서 binding된 데이터
-            vm.isBottomSheetOpen = true
-            vm.selectedMyStoreAddingOnMap = true
-        }
         .onChange(of: reviewWritePageShown) { isPresented in
             //리뷰 작성하고 map으로 돌아왔을 때 리뷰 작성여부 업데이트 위해
             if !isPresented {
-                vm.action(.setupTappedStoreData(id: vm.lastTappedStoreID))
+                vm.action(.tappedStoreUpdated(store: vm.output.lastTappedStoreData))
             }
         }
         
-        .onChange(of: vm.lastTappedStoreData) { storeData in
+        .onChange(of: vm.output.lastTappedStoreData) { storeData in
             //매장 이름을 네이버 이미지 검색 api 로 검색해서 bottomSheet에 이미지 로드
 //            print("lastTappedStoreID - 이미지 검색 시점??")
             guard let storeData else{return }
@@ -105,13 +95,13 @@ extension MapView {
             showReloadStoreDataButton : $vm.showReloadStoreDataButton,
             isCameraMoving : $vm.isCameraMoving ,
             cameraMoveTo : $vm.cameraMoveTo,
-            isPoisAdding : $vm.isPoisAdding,
-            LocationsToAddPois : $vm.LocationsToAddPois,
+            isPoisAdding : $vm.output.isPoisAdding,
+            LocationsToAddPois : $vm.output.LocationsToAddPois,
             currentCameraCenterCoordinate : $vm.currentCameraCenterCoordinate,
             lastTappedStoreID : $vm.lastTappedStoreID,
-            selectedMyStoreAddingOnMap : $vm.selectedMyStoreAddingOnMap,
-            lastTappedStoreData : vm.lastTappedStoreData,
-            selectedMyStoreID : vm.selectedMyStoreID
+            selectedMyStoreAddingOnMap : $vm.output.selectedMyStoreAddingOnMap,
+            lastTappedStoreData : vm.output.lastTappedStoreData,
+            selectedMyStoreID : vm.output.selectedMyStoreID
         )
         .onAppear{
             vm.draw = true
@@ -213,7 +203,7 @@ extension MapView {
     var bottomSheetContent : some View {
         
         return VStack {
-            if let tappedStoreData = vm.lastTappedStoreData {
+            if let tappedStoreData = vm.output.lastTappedStoreData {
 //                let categories = tappedStoreData.categoryName.components(separatedBy: ">")
 //                let categoryText = categories.count>1 ? categories[categories.count-1] : "-"
                 
@@ -278,17 +268,17 @@ extension MapView {
                     Button {
                         reviewWritePageShown = true
                     }label : {
-                        Text(vm.isTappeStoreReviewed ? "작성한 리뷰 보기" : "리뷰 기록")
+                        Text(vm.output.isTappeStoreReviewed ? "작성한 리뷰 보기" : "리뷰 기록")
                             .asNormalOutlineText(isFilled : true)
                     }
                     
                     Spacer()
                     
                     Button {
-                        vm.action(.toggleIsFlagedStatus(id : tappedStoreData.id,to: !vm.isTappeStoreFlaged))
+                        vm.action(.toggleIsFlagedStatus(id : tappedStoreData.id,to: !vm.output.isTappeStoreFlaged))
                     } label : {
                         
-                        let flag = vm.isTappeStoreFlaged 
+                        let flag = vm.output.isTappeStoreFlaged
                         ? Assets.SystemImage.flagFill
                         : Assets.SystemImage.flag
                         
