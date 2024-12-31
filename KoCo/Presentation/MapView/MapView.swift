@@ -76,13 +76,6 @@ struct MapView: View {
                 vm.action(.tappedStoreUpdated(store: vm.output.lastTappedStoreData))
             }
         }
-        
-        .onChange(of: vm.output.lastTappedStoreData) { storeData in
-            //매장 이름을 네이버 이미지 검색 api 로 검색해서 bottomSheet에 이미지 로드
-//            print("lastTappedStoreID - 이미지 검색 시점??")
-            guard let storeData else{return }
-            vm.action(.searchStoreImage(query: storeData.placeName))
-        }
     }
 }
 

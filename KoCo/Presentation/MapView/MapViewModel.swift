@@ -112,6 +112,9 @@ final class MapViewModel : ObservableObject, ViewModelType {
                 guard let self, let storeData else{return}
                 output.lastTappedStoreData = storeData
                 setupCurrentStoreStatus(id: storeData.id)
+                
+                //선택된 매장에 대한 이미지 검색
+                action(.searchStoreImage(query: storeData.placeName))
             }
             .store(in: &cancellables)
     }
