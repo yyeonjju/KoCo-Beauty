@@ -41,13 +41,18 @@
 
 
 ## ✅ 핵심 기술 구현 사항
+- ETag(Entity tag) 기반 이미지 캐싱 도입으로 서버와 이미지 리소스 버전 동기화 및 이미지 로드 시간/서버 부하 감축
+- 데이터 소스에 대한 의존성을 줄이기 위해 Repository Pattern을 사용하여 데이터 접근 로직을 추상화
 - UI에 관한 input을 viewModel에 명시적으로 전달하기 위해 viewModel 내 열거형으로 Action 정의
 - 이벤트에 따라 ViewModel의 action메서드에 Action열거형을 인자로 전달하여 단뱡향 데이터 바인딩 지향적인 구조 설계
-- 데이터 소스에 대한 의존성을 줄이기 위해 Repository Pattern을 사용하여 데이터 접근 로직을 추상화
 - 매장 리뷰에 업로드한 사진을 영구적으로 저장하고 조회하기 위해 FileManager 사용하여 저장/조회 로직 구현
 - UIKit 기반 코드를 SwiftUI 프로젝트에 사용하기 위해 UIViewRepresentable, Coordinator을 기반으로 래핑
 - CoreLocation을 사용해 위치 권한 및 사용자의 위치 정보 획득
 - String Catalog와 LocalizedStringKey를 통한 다국어 지원
+
+
+<img width="800" alt="Architecture(KoCo)" src="https://github.com/user-attachments/assets/33b06824-205d-4752-8dc0-ea7275171e3e" />
+<img width="1127" alt="imageCache(etag)" src="https://github.com/user-attachments/assets/45f59867-69e2-4b00-845a-2b799591f64b" />
 
 
 <br/><br/>
