@@ -41,7 +41,6 @@
 		7D9B54852D043FBF00253A5F /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9B54842D043FBF00253A5F /* Toast.swift */; };
 		7D9B54892D047EC300253A5F /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 7D9B54882D047EC300253A5F /* README.md */; };
 		7DB3628F2D11B2A300112E9E /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB3628E2D11B2A300112E9E /* ImageCacheManager.swift */; };
-		7DB362912D12C98400112E9E /* ImageCacheManager2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB362902D12C98400112E9E /* ImageCacheManager2.swift */; };
 		7DB362942D1702A900112E9E /* CacheAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB362932D1702A900112E9E /* CacheAsyncImage.swift */; };
 		7DB362962D17039B00112E9E /* BasicAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB362952D17039B00112E9E /* BasicAsyncImage.swift */; };
 		7DB362992D18451300112E9E /* UserDefaultsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB362982D18451300112E9E /* UserDefaultsWrapper.swift */; };
@@ -124,7 +123,6 @@
 		7D9B54842D043FBF00253A5F /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		7D9B54882D047EC300253A5F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7DB3628E2D11B2A300112E9E /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
-		7DB362902D12C98400112E9E /* ImageCacheManager2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager2.swift; sourceTree = "<group>"; };
 		7DB362932D1702A900112E9E /* CacheAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheAsyncImage.swift; sourceTree = "<group>"; };
 		7DB362952D17039B00112E9E /* BasicAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicAsyncImage.swift; sourceTree = "<group>"; };
 		7DB362982D18451300112E9E /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
@@ -334,7 +332,6 @@
 			isa = PBXGroup;
 			children = (
 				7DB3628E2D11B2A300112E9E /* ImageCacheManager.swift */,
-				7DB362902D12C98400112E9E /* ImageCacheManager2.swift */,
 			);
 			path = ImageCacheManager;
 			sourceTree = "<group>";
@@ -641,7 +638,6 @@
 				7D50ECDE2CB2F02C00B34B91 /* ViewModifier.swift in Sources */,
 				7DF1CC932D0C07260066C4ED /* SearchStoreImageResponseDTO+Mapping.swift in Sources */,
 				7DF1CCA02D0ECCAA0066C4ED /* DIContainer.swift in Sources */,
-				7DB362912D12C98400112E9E /* ImageCacheManager2.swift in Sources */,
 				7D9B54852D043FBF00253A5F /* Toast.swift in Sources */,
 				7DB362992D18451300112E9E /* UserDefaultsWrapper.swift in Sources */,
 				7DBBAAA62CACCAB7009171D2 /* APIKey.swift in Sources */,

@@ -8,9 +8,6 @@
 import Foundation
 import Combine
 
-//비효율적? -> etag 확인하기 위한 네트워킹 매번.. , 끝나고 저장하기 매번... ( etag가 같으면 안해줘도 되지 않나..?)
-
-
 
 final class CacheImage {
     let imageData : Data
@@ -35,9 +32,6 @@ enum ImageLoadError : Error{
     case noData
     case undefinedStatusCode
     case unknownError
-
-    //    case noRequest
-    //    case failSynchronizeWithServer
 
 }
 
@@ -229,14 +223,6 @@ extension ImageCacheManager {
 
 //        print("🪼allHTTPHeaderFields🪼", request.allHTTPHeaderFields)
 
-
-//        guard let request = try? ImageRouter.loadImage.asURLRequest() else{
-//            return Future<Data?, ImageLoadError> { promise in
-//                promise(.failure(.noRequest))
-//            }
-//            .eraseToAnyPublisher()
-//        }
-
         return URLSession.shared.dataTaskPublisher(for: request)
 //            .print("🪼debug1🪼")
             .tryMap { [weak self] result -> (Data, String?) in
@@ -286,134 +272,3 @@ extension ImageCacheManager {
     
 
 }
-
-
-/*
- 
- 
- func synchronizeWithServer(urlString: String, etag : String, cachedImageData : Data, policy : ImageCachPolicy) -> AnyPublisher<(Data, String?), ImageLoadError> {
-
-     checkEtag(urlString: urlString, etag: etag)
-         .flatMap { _ in
-             // checkEtag가 200으로 성공했을 경우 (etag가 일치하지 않음)
-             // -> fetchImageData 실행
-             print("🐸🐸 checkEtag 200으로 성공했을 경우 (etag가 일치하지 않음) => fetchImageData 실행 🐸🐸")
-             return self.fetchImageData(urlString: urlString, policy : policy)
-         }
-         .catch { error -> AnyPublisher<(Data, String?), ImageLoadError> in
-             if error == .etagNotModified {
-                 // checkEtag에서 .etagNotModified 에러를 방출했을 경우
-                 // 이미 캐싱되어 있던 데이터 반환
-                 print("🐸🐸 checkEtag에서 .etagNotModified 에러를 방출했을 경우 -> 이미 캐싱되어 있던 데이터 반환 🐸🐸")
-                 return Just((cachedImageData, etag))
-                     .setFailureType(to: ImageLoadError.self)
-                     .eraseToAnyPublisher()
-             } else {
-                 // 다른 에러는 그대로 방출
-                 return Fail(error: error).eraseToAnyPublisher()
-             }
-         }
-         .eraseToAnyPublisher()
-
- }
-
- private func fetchImageData(urlString: String, policy : ImageCachPolicy) -> AnyPublisher<(Data, String?), ImageLoadError>  {
-
-     guard let url = URL(string: urlString) else {
-         return Fail<(Data, String?), ImageLoadError>(error: ImageLoadError.invalidUrlString).eraseToAnyPublisher()
-     }
-
-     var request = URLRequest(url: url)
-     request.httpMethod = "GET"
-
-
-//        guard let request = try? ImageRouter.loadImage.asURLRequest() else{
-//            return Future<Data?, ImageLoadError> { promise in
-//                promise(.failure(.noRequest))
-//            }
-//            .eraseToAnyPublisher()
-//        }
-
-     return URLSession.shared.dataTaskPublisher(for: request)
-//            .print("🪼debug1🪼")
-         .tryMap { [weak self] result -> (Data, String?) in
-             guard let self, let httpResponse = result.response as? HTTPURLResponse else {
-                 throw ImageLoadError.noResponse
-             }
-
-//                print("🪼statusCode🪼", httpResponse.statusCode)
-
-             guard let newETag = httpResponse.allHeaderFields["Etag"] as? String else {
-                 print("🪼etag 가 없다!!! ->  newETag가 없으면 (이미지데이터, nil)로 리턴🪼")
-
-
-                 //🌸 etag가 없는 이미지는 캐싱해놓지 않음 - 어차피 etag 검증을 거쳐야하기 때문에
-                 // newETag가 없으면 (이미지데이터, nil)로 리턴
-                 return (result.data, nil)
-             }
-             print("🪼etag 가 있다!!!🪼")
-
-             //🌸 캐시 policy대로 캐싱해놓기
-             self.cacheImage(urlString: urlString, imageData: result.data, etag: newETag, policy: policy)
-             return (result.data, newETag)
-
-         }
-         .mapError { error -> ImageLoadError in
-             if let error = error as? ImageLoadError {
-                 return error
-             } else {
-                 return ImageLoadError.unknownError
-             }
-         }
-//            .print("🪼debug2🪼")
-         .eraseToAnyPublisher()
-
-
- }
-
-
-
- private func checkEtag(urlString: String, etag : String) -> AnyPublisher<Void, ImageLoadError>  {
-
-     guard let url = URL(string: urlString) else {
-         return Fail<(), ImageLoadError>(error: ImageLoadError.invalidUrlString).eraseToAnyPublisher()
-     }
-
-     var request = URLRequest(url: url)
-     request.httpMethod = "GET"
-     request.addValue(etag, forHTTPHeaderField: "If-None-Match")
-
-     print("🪼allHTTPHeaderFields🪼", request.allHTTPHeaderFields)
-
-
-//        guard let request = try? ImageRouter.loadImage.asURLRequest() else{
-//            return Future<Data?, ImageLoadError> { promise in
-//                promise(.failure(.noRequest))
-//            }
-//            .eraseToAnyPublisher()
-//        }
-
-     return URLSession.shared.dataTaskPublisher(for: request)
-         .tryMap {result -> () in
-             guard let httpResponse = result.response as? HTTPURLResponse else {
-                 throw ImageLoadError.noResponse
-             }
-             if httpResponse.statusCode == 304 {
-                 throw ImageLoadError.etagNotModified
-             }
-
-         }
-         .mapError { error -> ImageLoadError in
-             if let error = error as? ImageLoadError {
-                 return error
-             } else {
-                 return ImageLoadError.unknownError
-             }
-         }
-         .eraseToAnyPublisher()
-
-
- }
-
- 
- */
