@@ -1,0 +1,3 @@
+[submodule "LocalizationSubmodule"]
+	path = LocalizationSubmodule
+	url = https://github.com/yyeonjju/KoCo-Localize.git
