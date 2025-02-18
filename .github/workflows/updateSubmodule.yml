@@ -30,6 +30,19 @@ jobs:
             
       # 변경사항 메인레포에 커밋,푸시
       - name: Commit & push
+        id: commit
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "[Success] complete update submodule"
+
+      # 성공 시 Slack에 알림
+      - name: Notify Slack on Submodule Update Success
+        if: steps.commit.outcome == 'success'
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: webhook-trigger
+          payload: |
+            {
+            "text": "💎 SubModule Update Success\n\nCommit: ${{ steps.commit.outputs.message }}"
+            }
