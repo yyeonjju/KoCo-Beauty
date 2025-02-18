@@ -44,5 +44,5 @@ jobs:
           webhook-type: webhook-trigger
           payload: |
             {
-            "text": "💎 SubModule Update Success\n\nCommit: ${{ steps.commit.outputs.message }}"
+            "text": "💎 SubModule Update Success"
             }
