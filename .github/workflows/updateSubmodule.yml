@@ -2,6 +2,11 @@
 # 서브모듈에서 워크플로우 디스패치 되도록 했을 때 (서브모듈에서 createWorkflowDispatch 호출했을 때)
 on:
   workflow_dispatch:
+    inputs:
+      name:
+        description: 'Input name'
+        required: true
+        type: string
   
   
 # 실행중인 레포지토리에 쓰기 권한 부여 (서브모듈을 최신으로 업데이트 후 commit, push 하기위해 필요)
