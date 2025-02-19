@@ -214,17 +214,17 @@ final class ImageCacheManager {
 <img width="450" alt="after_imageCache" src="https://github.com/user-attachments/assets/0d91ff16-3e88-46c9-b904-a65c43673a33" />
 
 
-<br/><br/>
+<br/><br/><br/>
 
 ### 2. Github Actions를 통해 프로젝트의 다국어 리소스를 자동화된 파이프라인으로 관리
 
-#### 자동화를 위해 활용한 도구
+#### 📍 자동화를 위해 활용한 도구
 - Github Actions
 - Github Submodule
 - SwiftGen
 - Lokalise
 
-#### 다국어 리소스 관리 단계
+#### 📍 다국어 리소스 관리 단계
 1. 클라우드 기반 다국어 관리 시스템인 Lokalise를 사용해서 다국어 리소스 작업
 2. Lokalise를 통해 Github Submodule에 PR 생성
 3. PR 생성을 감지해 Submodule의 Workflow(localization.yml) 실행 
@@ -238,7 +238,7 @@ final class ImageCacheManager {
 <img width="800" alt="githubActions" src="https://github.com/user-attachments/assets/f11f888b-f372-43ec-bf31-f25e9f6c5eb2" />
 
 
-> Submodule Reposiitory의 Workflow (localization.yml)
+#### 📍 Submodule Reposiitory의 Workflow (localization.yml)
 
 ```yaml
 
@@ -369,7 +369,7 @@ jobs:
 
 ```
 
-> Project Repository의 Workflow (updateSubmodule.yml)
+#### 📍 Project Repository의 Workflow (updateSubmodule.yml)
 
 
 ```yaml
