@@ -23,7 +23,7 @@
 - Network : URLSession
 - Architecture : MVVM
 - Local DB : Realm
-- ETC. : KakaoMapSDK, CoreLocation, GitHub Actions
+- ETC. : KakaoMapSDK, CoreLocation, GitHub Actions, Github Submodule, SwiftGen
 
 
 <br/><br/>
@@ -59,24 +59,24 @@
 
 
 ## 💎 주요 구현 내용
-### 1. ETag 기반 Image Cache 전략 수립 및 이미지 로딩 성능 4배 향상
+### 1. ETag 기반 Image Cache 전략 수립으로 이미지 로딩 성능 4배 향상
 
-#### ETag(Entity tag)기반 이미지 캐시 도입 이유
+#### 📍 ETag(Entity tag)기반 이미지 캐시 도입 이유
 1. 네트워크 부하 감소 : remoteDB에 저장된 이미지 데이터를 불러오는 네트워킹에 대한 리소스 사용을 최소화
 2. 로드 시간 단축 : 이미지 로드 시간을 단축으로 사용자 경험 개선
-3. 리소스 변경 여부 서버와 동기화 : ETag 기반의 이미지 캐싱 으로 이미지 리소스 변경에 대해 서버와 동기화
+3. 서버와 리소스 동기화 : ETag 기반의 이미지 캐싱 으로 이미지 리소스 변경에 대해 서버와 동기화
 
-#### 이미지 캐싱 플로우
+#### 📍 이미지 캐싱 플로우
 - 메모리 캐시 Hit -> 디스크 캐시 Hit
-- -> 메모리 혹은 디스크에 저장해 놓은 데이터(etag, 이미지 url 등)가 있다면 헤더에 'If-None-Match'를 넣어서 서버에 요청
-- -> 304(Not Modified)에러의 경우 기존에 캐싱해 둔 데이터 리턴 / 상태코드가 200일 경우에는 새로 받은 데이터 리턴
+- -> 메모리 혹은 디스크에 저장해 놓은 데이터(etag, 이미지 url 등)가 있다면 헤더에 'If-None-Match'를 포함하여 서버에 요청
+- -> 304(Not Modified)에러의 경우 기존에 캐싱해 둔 데이터 반환 / 상태코드가 200일 경우에는 새로 받은 데이터 반환
 
 <img width="1127" alt="imageCache(etag)" src="https://github.com/user-attachments/assets/45f59867-69e2-4b00-845a-2b799591f64b" />
 
 
-#### 이미지 캐시 매니저
-- Combine Operator를 활용한 Stream 관리
-- ImageCachPolicy Enum을 통해 캐싱 정책 관리
+#### 📍 이미지 캐시 매니저
+- Combine Operator를 활용하여 Stream 관리
+- ImageCachPolicy Enum을 통해 캐싱 정책 관리 및 각 캐싱 로직에서 ImageCachPolicy 열거형을 기준으로 분기처리
 
 ```swift 
 
@@ -147,8 +147,8 @@ final class ImageCacheManager {
 
 ```
 
-#### 서버 데이터 일치 여부 확인 및 304(Not Modified)에러 분기처리
-- If-None-Match 헤더를 추가한 http 요청으로 리소스 일치 여부 확인
+#### 📍 서버와 리소스 일치 여부 확인 및 304(Not Modified)에러 분기처리
+- If-None-Match 헤더를 추가한 HTTP 요청으로 리소스 일치 여부 확인
 - 응답의 statusCode를 통해 304에러 분기 처리
 
 
@@ -200,17 +200,18 @@ final class ImageCacheManager {
 
 ```
 
-#### OSLog와 instrument를 사용한 이미지 로드 속도 분석
+#### 📍 OSLog와 instrument를 사용한 이미지 로드 속도 분석
 - OSLog의 os_signpost 메서드를 사용하여 캐싱 전후의 이미지 로드 속도 기록
 - instrument의 System Trace를 활용해 로드 속도 분석
 
-📍 이미지 로드 시간 75% 단축
+📍📍 이미지 로드 시간 75% 단축 📍📍
 
-> Before : 캐싱 적용 전 이미지 로드 속도 
-<img width="450" alt="before_imageCache" src="https://github.com/user-attachments/assets/0d91ff16-3e88-46c9-b904-a65c43673a33" />
+> ⬇️ Before : 캐싱 적용 전 이미지 로드 속도 (평균 800 ms)
+<img width="450" alt="before_imageCache" src="https://github.com/user-attachments/assets/1975089d-ea8b-4f7a-b020-705111152646" />
 
-> After : 캐싱 적용 후 이미지 로드 속도
-<img width="450" alt="after_imageCache" src="https://github.com/user-attachments/assets/1975089d-ea8b-4f7a-b020-705111152646" />
+
+> ⬇️ After : 캐싱 적용 후 이미지 로드 속도 (평균 200 ms)
+<img width="450" alt="after_imageCache" src="https://github.com/user-attachments/assets/0d91ff16-3e88-46c9-b904-a65c43673a33" />
 
 
 <br/><br/>
@@ -220,18 +221,21 @@ final class ImageCacheManager {
 #### 자동화를 위해 활용한 도구
 - Github Actions
 - Github Submodule
+- SwiftGen
 - Lokalise
 
 #### 다국어 리소스 관리 단계
 1. 클라우드 기반 다국어 관리 시스템인 Lokalise를 사용해서 다국어 리소스 작업
 2. Lokalise를 통해 Github Submodule에 PR 생성
 3. PR 생성을 감지해 Submodule의 Workflow(localization.yml) 실행 
-4. SwiftGen을 통해 다국어 리소스를 선언적으로 사용가능한 코드로 변환 → 작업 commit & merge → 슬랙 Webhook을 통해 완료 메시지 전달 → 프로젝트 메인 레포지토리에서 Submodule 최신화를 위해 워크플로우 실행할 수 있도록 트리거 발동
-5. Submodule이 실행한 트리거 감지해서 프로젝트 메인 레포지토리의 Workflow(updateSubmodule.yml) 실행 
-6. Submodule을 최신상태로 업데이트 후 슬랙 Webhook을 통해 완료 메시지 전달
+    - SwiftGen을 통해 다국어 리소스를 선언적으로 사용가능한 코드로 변환
+    - → 작업 commit & merge 및 슬랙 Webhook을 통해 완료 메시지 전달 
+    - → Submodule 최신화를 위해 프로젝트 메인 레포지토리에서 Workflow 실행할 수 있도록 트리거 발동
+5. 프로젝트 메인 레포지토리에서 Submodule이 실행한 트리거를 감지해 Workflow(updateSubmodule.yml) 실행 
+    - Submodule을 최신상태로 업데이트 후 슬랙 Webhook을 통해 완료 메시지 전달
 
 
-<img width="800" alt="githubActions" src="https://github.com/user-attachments/assets/ccf64235-8b64-430c-8dfe-d6e148ca7744" />
+<img width="800" alt="githubActions" src="https://github.com/user-attachments/assets/f11f888b-f372-43ec-bf31-f25e9f6c5eb2" />
 
 
 > Submodule Reposiitory의 Workflow (localization.yml)
