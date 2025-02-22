@@ -63,7 +63,7 @@
 
 #### 📍 ETag(Entity tag)기반 이미지 캐시 도입 이유
 1. 네트워크 부하 감소 : remoteDB에 저장된 이미지 데이터를 불러오는 네트워킹에 대한 리소스 사용을 최소화
-2. 로드 시간 단축 : 이미지 로드 시간을 단축으로 사용자 경험 개선
+2. 로드 시간 단축 : 이미지 로드 시간 단축으로 사용자 경험 개선
 3. 서버와 리소스 동기화 : ETag 기반의 이미지 캐싱 으로 이미지 리소스 변경에 대해 서버와 동기화
 
 #### 📍 이미지 캐싱 플로우
@@ -147,9 +147,9 @@ final class ImageCacheManager {
 
 ```
 
-#### 📍 서버와 리소스 일치 여부 확인 및 304(Not Modified)에러 분기처리
-- If-None-Match 헤더를 추가한 HTTP 요청으로 리소스 일치 여부 확인
-- 응답의 statusCode를 통해 304에러 분기 처리
+#### 📍 서버와 리소스 일치 여부 확인 및 304(Not Modified) 에러 분기처리
+- If-None-Match 헤더를 포함시킨 HTTP 조건부 요청으로 로컬에 캐싱된 ETag 값과 서버의 리소스를 비교 검증
+- HTTPURLResponse의 statusCode가 304 Not Modified일 경우 로컬 캐시를 재사용하는 로직을 구현하여 불필요한 네트워크 트래픽을 최소화
 
 
 ```swift 
@@ -200,9 +200,10 @@ final class ImageCacheManager {
 
 ```
 
-#### 📍 OSLog와 instrument를 사용한 이미지 로드 속도 분석
-- OSLog의 os_signpost 메서드를 사용하여 캐싱 전후의 이미지 로드 속도 기록
-- instrument의 System Trace를 활용해 로드 속도 분석
+#### 📍 OSLog와 XCode Instruments를 사용한 이미지 로드 속도 분석
+- ETag 기반 이미지 캐싱 구현의 성능 개선을 정량적으로 측정하기 위해 os_signpost API를 활용한 정밀한 성능 프로파일링을 수행
+- XCode Instruments의 System Trace를 통해 캐싱 기능 적용 여부 시나리오별 이미지 로딩 타임라인을 시각화
+- 그 결과 ETag 기반 이미지 캐싱 적용 후의 평균 이미지 로드 시간이 약 75% 감축(이미지 로드 성능 약 4배 향상)되는 효과를 확인
 
 📍📍 이미지 로드 시간 75% 단축 📍📍
 
@@ -218,22 +219,38 @@ final class ImageCacheManager {
 
 ### 2. Github Actions를 통해 프로젝트의 다국어 리소스를 자동화된 파이프라인으로 관리
 
-#### 📍 자동화를 위해 활용한 도구
-- Github Actions
-- Github Submodule
-- SwiftGen
-- Lokalise
+
+#### 📍 다국어 관리 방법 보수 및 개선
+
+변경 및 개선 전
+- String Catalog와 LocalizedStringKey를 활용한 다국어 처리
+
+<br/>
+
+변경 및 개선 후
+- GitHub Submodule, Lokalise, GitHub Actions, SwiftGen를 통합 활용하여 자동화된 파이프라인 구축
+- 각 도구의 세부 역할
+  - GitHub Submodule : GitHub Submodule를 도입하여 다국어 리소스를 모듈화하고 독립적인 버전 관리
+  - Lokalise : 클라우드 기반 Localization 플랫폼 Lokalise를 도입하여 안정적이고 효율적인 다국어 리소스 관리
+  - GitHub Actions : Github Actions를 사용해 다국어 리소스 업데이트 시, Submodule 및 프로젝트 최신화까지 전 과정을 자동화
+  - SwiftGen : SwiftGen을 통해 다국어 리소스를 Type-safe 한 Swift 코드로 생성하여 런타임 에러 방지 및 안정성 확보 
+
+  
+#### 📍 다국어 관리 방법 개선 후 이점
+- 다국어 리소스의 독립적 관리로 버전 관리가 명확하고 변경 이력 추적이 용이
+- 실시간 협업과 진행 상황 추적이 용이 
+- 수동 작업 최소화로 Human error 감소
+
 
 #### 📍 다국어 리소스 관리 단계
-1. 클라우드 기반 다국어 관리 시스템인 Lokalise를 사용해서 다국어 리소스 작업
-2. Lokalise를 통해 Github Submodule에 PR 생성
-3. PR 생성을 감지해 Submodule의 Workflow(localization.yml) 실행 
-    - SwiftGen을 통해 다국어 리소스를 선언적으로 사용가능한 코드로 변환
-    - → 작업 commit & merge 및 슬랙 Webhook을 통해 완료 메시지 전달 
-    - → Submodule 최신화를 위해 프로젝트 메인 레포지토리에서 Workflow 실행할 수 있도록 트리거 발동
-5. 프로젝트 메인 레포지토리에서 Submodule이 실행한 트리거를 감지해 Workflow(updateSubmodule.yml) 실행 
-    - Submodule을 최신상태로 업데이트 후 슬랙 Webhook을 통해 완료 메시지 전달
-
+1. Lokalise 플랫폼에서 다국어 리소스 생성 및 관리 수행
+2. Lokalise 파이프라인을 통한 GitHub Submodule Pull Request 자동 생성
+3. PR 이벤트 트리거로 Submodule의 Workflow(localization.yml) 실행 
+  - SwiftGen을 통해 다국어 리소스의 Type-safe 코드 생성
+  - 변경사항 commit & merge 후, Slack Webhook을 통한 작업 완료 알림 전송
+  - Submodule 동기화를 위한 메인 레포지토리 Workflow 트리거 발생
+4. 메인 레포지토리에서 트리거를 감지 후, Workflow(updateSubmodule.yml) 실행 
+- Submodule 최신 상태 동기화 완료 후, Slack Webhook을 통한 알림 전송
 
 <img width="800" alt="githubActions" src="https://github.com/user-attachments/assets/f11f888b-f372-43ec-bf31-f25e9f6c5eb2" />
 
