@@ -13,7 +13,7 @@ import PhotosUI
 import RealmSwift
 
 final class ReviewWriteViewModel : ViewModelType {
-    private var defaultMyStoreRepository : MyStoreRepository
+    @Dependency(MyStoreRepository.self) private var defaultMyStoreRepository
     
     var cancellables = Set<AnyCancellable>()
     var input = Input()
@@ -33,9 +33,7 @@ final class ReviewWriteViewModel : ViewModelType {
     @Published var starRate : Int = 0
 
     
-    init(defaultMyStoreRepository : MyStoreRepository) {
-        self.defaultMyStoreRepository = defaultMyStoreRepository
-        
+    init() {
         transform()
     }
     

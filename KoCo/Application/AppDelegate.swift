@@ -12,6 +12,7 @@ import RealmSwift
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
         //바뀔 스키마 버전 넣어주기
         // version 2 : ReviewContent에 tags 추가
         // version 3 : ReviewContent에 photoFileNames 추가
@@ -26,6 +27,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         Realm.Configuration.defaultConfiguration = config
         
         SDKInitializer.InitSDK(appKey: APIKey.kakaoNativeAppKey)
+        
+        registerDependencies()
+        
         return true
     }
 }

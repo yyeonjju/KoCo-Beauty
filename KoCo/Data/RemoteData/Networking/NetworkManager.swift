@@ -74,7 +74,7 @@ final class NetworkManager {
     
 }
 
-extension NetworkManager {
+extension NetworkManager : NetworkManagerProtocol {
     func searchStoreData (query : String, location : LocationCoordinate, size : Int) -> AnyPublisher<SearchLocationResponseDTO, Error> {
         let router = Router.searchStore(baseURL : APIURL.kakaoBaseURL,query: query, longitude : String(location.longitude), latitude : String(location.latitude), size : size)
         return fetch(model: SearchLocationResponseDTO.self, fetchRouter: router)
@@ -85,4 +85,9 @@ extension NetworkManager {
         return fetch(model: SearchStoreImageResponseDTO.self, fetchRouter: router)
     }
     
+}
+
+protocol NetworkManagerProtocol {
+    func searchStoreData (query : String, location : LocationCoordinate, size : Int) -> AnyPublisher<SearchLocationResponseDTO, Error>
+    func searchStoreImage (query : String) -> AnyPublisher<SearchStoreImageResponseDTO, Error>
 }

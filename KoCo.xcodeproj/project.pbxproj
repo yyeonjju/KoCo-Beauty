@@ -12,6 +12,8 @@
 		7D1AEFCC2C9F146000DD05FC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1AEFCB2C9F146000DD05FC /* ContentView.swift */; };
 		7D1AEFCE2C9F146200DD05FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D1AEFCD2C9F146200DD05FC /* Assets.xcassets */; };
 		7D1AEFD12C9F146200DD05FC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D1AEFD02C9F146200DD05FC /* Preview Assets.xcassets */; };
+		7D3E0B892D6D7D460059AE5D /* AppDelegate+Register.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E0B882D6D7D460059AE5D /* AppDelegate+Register.swift */; };
+		7D3E0B8B2D6D82D90059AE5D /* Dependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E0B8A2D6D82D90059AE5D /* Dependency.swift */; };
 		7D50ECCE2CB285B200B34B91 /* StoreWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D50ECCD2CB285B200B34B91 /* StoreWebView.swift */; };
 		7D50ECD22CB28D7500B34B91 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D50ECD12CB28D7500B34B91 /* WebView.swift */; };
 		7D50ECD62CB2BEF200B34B91 /* TextModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D50ECD52CB2BEF200B34B91 /* TextModifier.swift */; };
@@ -95,6 +97,8 @@
 		7D1AEFCB2C9F146000DD05FC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7D1AEFCD2C9F146200DD05FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7D1AEFD02C9F146200DD05FC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		7D3E0B882D6D7D460059AE5D /* AppDelegate+Register.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Register.swift"; sourceTree = "<group>"; };
+		7D3E0B8A2D6D82D90059AE5D /* Dependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependency.swift; sourceTree = "<group>"; };
 		7D50ECCD2CB285B200B34B91 /* StoreWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreWebView.swift; sourceTree = "<group>"; };
 		7D50ECD12CB28D7500B34B91 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		7D50ECD32CB29B8200B34B91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -457,6 +461,8 @@
 			children = (
 				7DBBAAC02CAD63F6009171D2 /* AppDelegate.swift */,
 				7DF1CC9F2D0ECCA90066C4ED /* DIContainer.swift */,
+				7D3E0B882D6D7D460059AE5D /* AppDelegate+Register.swift */,
+				7D3E0B8A2D6D82D90059AE5D /* Dependency.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -621,6 +627,7 @@
 				7DB362942D1702A900112E9E /* CacheAsyncImage.swift in Sources */,
 				7DB362962D17039B00112E9E /* BasicAsyncImage.swift in Sources */,
 				7DF1CC9C2D0EC8040066C4ED /* DefaultLocationDataRepository.swift in Sources */,
+				7D3E0B892D6D7D460059AE5D /* AppDelegate+Register.swift in Sources */,
 				7D9A86E42CE9951700E0E415 /* MyStoreListViewModel.swift in Sources */,
 				7D9A86C62CE1D3EB00E0E415 /* MyStoreRealmManager.swift in Sources */,
 				7DF1CCC62D116F370066C4ED /* DefaultMyStoreRepository.swift in Sources */,
@@ -632,6 +639,7 @@
 				7DBBAAAA2CAD364B009171D2 /* SearchLocation.swift in Sources */,
 				7D50ECDC2CB2C92C00B34B91 /* ReviewWriteView.swift in Sources */,
 				7DF1CCC42D116F0E0066C4ED /* MyStoreRepository.swift in Sources */,
+				7D3E0B8B2D6D82D90059AE5D /* Dependency.swift in Sources */,
 				7D50ECD92CB2C19800B34B91 /* View++.swift in Sources */,
 				7D9A86BD2CCD23F000E0E415 /* BaseRealmManager.swift in Sources */,
 				7DBBAA942CAC0FDE009171D2 /* LocationManager.swift in Sources */,

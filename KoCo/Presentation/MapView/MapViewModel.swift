@@ -9,10 +9,10 @@ import Foundation
 import Combine
 
 final class MapViewModel : ObservableObject, ViewModelType {
-    private var defaultMyStoreRepository : MyStoreRepository
-    private var defaultLocationImageRepository : LocationImageRepository
-    private var defaultLocationDataRepository : LocationDataRepository
-    
+    @Dependency(MyStoreRepository.self) private var defaultMyStoreRepository
+    @Dependency(LocationImageRepository.self) private var defaultLocationImageRepository
+    @Dependency(LocationDataRepository.self) private var defaultLocationDataRepository
+
     var cancellables = Set<AnyCancellable>()
     var input = Input()
     @Published var output = Output()
@@ -47,13 +47,7 @@ final class MapViewModel : ObservableObject, ViewModelType {
         }
     }
     
-    
-    init(defaultMyStoreRepository : MyStoreRepository, defaultLocationImageRepository : LocationImageRepository,
-         defaultLocationDataRepository : LocationDataRepository) {
-        self.defaultMyStoreRepository = defaultMyStoreRepository
-        self.defaultLocationImageRepository = defaultLocationImageRepository
-        self.defaultLocationDataRepository = defaultLocationDataRepository
-        
+    init() {
         transform()
     }
     
